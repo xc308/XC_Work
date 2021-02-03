@@ -147,7 +147,7 @@ R_all
 # Rasterize 
 #------------#
 #a <- assign(R_all[[1]][1], raster(xmx = 180.375, xmn = -179.625, 
-                       ymx = 90.375, ymn = -90.375, res = 0.75))
+#                       ymx = 90.375, ymn = -90.375, res = 0.75))
 
 #a
 
