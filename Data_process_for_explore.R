@@ -295,9 +295,9 @@ R_mask_all[[1]]
 
 
 
-#=================================#
+#==================================#
 # Code Chunk 5: Stack Raster Layers
-#=================================#
+#==================================#
 # by year
 
 stack_i <- function(i = i) {
@@ -314,4 +314,103 @@ stk_lst <- list(stk_2016 = stack_i(1), stk_2015 = stack_i(2),
      stk_2014 = stack_i(3), stk_2013 = stack_i(4),
      stk_2012 = stack_i(5))
 stk_lst
+
+
+
+#=====================================#
+# Code Chunk 6: Dataframe Stack Layers
+#=====================================#
+
+df_16 <- as.data.frame(stk_lst[[1]], xy = TRUE)
+head(df_16)
+
+df_16_2 <- as.data.frame(stk_lst[[1]], xy = TRUE, na.rm = TRUE)
+# 27384
+head(df_16_2)
+
+
+df_lst <- vector("list", length = 5)
+for (i in 1:5) {
+  df_lst[[i]] <- as.data.frame(stk_lst[[i]], xy = TRUE, na.rm = TRUE)
+}
+
+head(df_lst[[1]])
+head(df_lst[[2]])
+
+str(df_lst[[1]])
+# 'data.frame':	27384 obs. of  8 variables:
+
+
+
+#=====================================#
+# Code Chunk 7: Re-arrange data frame
+#=====================================#
+
+#--------------#
+# Add Year col
+#--------------#
+
+# yr_16 <- rep(2016, 27384)
+
+yr <- c(2016, 2015, 2014, 2013, 2012)
+
+yr_lst <- vector("list", length = 5)
+for (i in seq_along(yr)) {
+  yr_lst[[i]] <- rep(yr[i], each = 27384)
+}
+str(yr_lst)
+
+
+# add Year col to each df
+for (i in seq_along(yr_lst)) {
+  df_lst[[i]]$Year <- yr_lst[[i]]
+}
+
+str(df_lst)
+
+
+#-------------------#
+# Add station ID col
+#-------------------#
+
+head(seq(27384))
+ID <- seq(27384)
+ID_lst <- list(ID, ID, ID, ID, ID)
+str(ID_lst)
+
+for (i in seq_along(ID_lst)) {
+  df_lst[[i]]$ID <- ID_lst[[i]]
+}
+
+str(df_lst)
+head(df_lst[[1]])
+
+
+#----------------#
+# Unify Col Names
+#----------------#
+
+Names_lst <- list(c("Lon", "Lat", "BC", "DU", "OM", "SS", "SU", "PM25", "Year", "ID"),
+        c("Lon", "Lat", "BC", "DU", "OM", "SS", "SU", "PM25", "Year", "ID"),
+        c("Lon", "Lat", "BC", "DU", "OM", "SS", "SU", "PM25", "Year", "ID"),
+        c("Lon", "Lat", "BC", "DU", "OM", "SS", "SU", "PM25", "Year", "ID"),
+        c("Lon", "Lat", "BC", "DU", "OM", "SS", "SU", "PM25", "Year", "ID"))
+
+for (i in seq_along(Names_lst)) {
+  names(df_lst[[i]])  <- Names_lst[[i]]
+}
+
+str(df_lst)
+
+
+#-------------------#
+# Rowbind list of df
+#-------------------#
+
+df_all <- do.call(rbind, df_lst)
+# 136920  *10
+
+head(df_all)
+tail(df_all)
+
 
