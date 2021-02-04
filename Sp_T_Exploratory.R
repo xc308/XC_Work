@@ -160,18 +160,16 @@ head(emp_mu_lst[[2]])
 
 names(emp_mu_lst[[1]]) <- c("Lat", "Lon", "emp_mu", "Label") 
 
-name_lst <- list(c("Lat", "Lon", "emp_mu", "Label"),
-     c("Lat", "Lon", "emp_mu", "Label"),
-     c("Lat", "Lon", "emp_mu", "Label"),
-     c("Lat", "Lon", "emp_mu", "Label"),
-     c("Lat", "Lon", "emp_mu", "Label"),
-     c("Lat", "Lon", "emp_mu", "Label"))
+name_lst <- list(c("Lat", "Lon", "emp_mu", "Label"))
 
-for(i in seq_along(name_lst)) {
+for(i in seq(1:6))) {
   names(emp_mu_lst[[i]]) <- name_lst[[1]]
 }
 
 head(emp_mu_lst[[1]])
+#     Lat   Lon  emp_mu Label
+#    <dbl> <dbl>   <dbl> <chr>
+#  1 -55.5 -68.2 0.00321 BC   
 
 
 #-----------------------#
@@ -191,7 +189,7 @@ tail(emp_mu_df_lng)
 
 
 #======#
-# Plot Latitude wise
+# Plot 
 #======#
 
 # to see how empirical mean varies according to the lon, lat
@@ -228,7 +226,7 @@ for (i in unique(emp_mu_df_lng$Label)) {
     theme_light()
 } 
 
-do.call(grid.arrange, P_lat)
+do.call(grid.arrange, P_lat) # plot
 
 
 #--------------#
@@ -270,14 +268,150 @@ print(P_lat_2)
 
 
 
+#========================#
+# Empirical Temporal Mean 
+# (Not very informative)
+#========================#
+
+head(df_all)
+
+emp_tp_mu_BC <- df_all %>% select(Lon, Lat, BC, Year, ID) %>%
+  group_by(Year) %>% summarise(emp_temp_mean = mean(BC))
+
+emp_tp_mu_BC
+
+
+#-------------------#
+# Select on the fly
+#-------------------#
+
+comps <-  c("BC", "DU", "OM", "SS", "SU", "PM25")
+
+df_comps_lst <- vector("list", length = length(comps))
+df_yr_lst <- vector("list", length = length(comps))
+for (i in seq_along(comps)) {
+  df_comps_lst[[i]] <-  df_all[c("Lon", "Lat", comps[i], "Year", "ID")]
+  
+  df_yr_lst[[i]] <- df_comps_lst[[i]] %>% group_by(Year) 
+  
+}
+
+df_yr_lst[[6]]
+
+
+#------------------------#
+# Calculate Temporal Mean
+#------------------------#
+
+emp_tp_mu_BC <- df_yr_lst[[1]] %>% summarise(emp_tp_mu_BC = mean(BC))
+head(emp_tp_mu_BC) # 27384 *3
+
+emp_tp_mu_DU <- df_yr_lst[[2]] %>% summarise(emp_tp_mu_DU = mean(DU))
+head(emp_tp_mu_DU)
+
+emp_tp_mu_OM <- df_yr_lst[[3]] %>% summarise(emp_tp_mu_OM = mean(OM))
+head(emp_tp_mu_OM)
+
+emp_tp_mu_SS <- df_yr_lst[[4]] %>% summarise(emp_tp_mu_SS = mean(SS))
+head(emp_tp_mu_SS)
+
+emp_tp_mu_SU <- df_yr_lst[[5]] %>% summarise(emp_tp_mu_SU = mean(SU))
+head(emp_tp_mu_SU)
+
+emp_tp_mu_PM25 <- df_yr_lst[[6]] %>% summarise(emp_tp_mu_PM25 = mean(PM25))
+head(emp_tp_mu_PM25)
+
+
+#------------#
+# Add Labels
+#------------#
+
+Lab_bc <- rep("BC", nrow(emp_mu_BC))
+emp_mu_BC$Label <- rep("BC", nrow(emp_mu_BC))
+
+
+Labs <- list("BC", "DU", "OM", "SS", "SU", "PM25")
+emp_tp_mu_lst <- list(emp_tp_mu_BC, emp_tp_mu_DU, emp_tp_mu_OM,
+                   emp_tp_mu_SS, emp_tp_mu_SU, emp_tp_mu_PM25)
+
+for (i in seq_along(Labs)) {
+  emp_tp_mu_lst[[i]]$Label <- rep(Labs[[i]], nrow(emp_tp_mu_lst[[i]]))
+}
+
+head(emp_tp_mu_lst[[1]])
 
 
 
+#==================#
+# Add Label columns 
+#==================#
+# prepare for ggplot facet_wrap
+
+nrow(emp_tp_mu_BC) # [1] 5
+
+Lab_bc <- rep("BC", nrow(emp_tp_mu_BC))
+emp_tp_mu_BC$Label <- rep("BC", nrow(emp_tp_mu_BC))
+
+
+Labs <- list("BC", "DU", "OM", "SS", "SU", "PM25")
+emp_tp_mu_lst <- list(emp_tp_mu_BC, emp_tp_mu_DU, emp_tp_mu_OM,
+                   emp_tp_mu_SS, emp_tp_mu_SU, emp_tp_mu_PM25)
+
+for (i in seq_along(Labs)) {
+  emp_tp_mu_lst[[i]]$Label <- rep(Labs[[i]], nrow(emp_tp_mu_lst[[i]]))
+}
+
+head(emp_tp_mu_lst[[1]])
+head(emp_tp_mu_lst[[2]])
+
+
+#------------#
+# Rename df
+#-----------#
+
+names(emp_tp_mu_lst[[1]]) <- c("Year", "emp_tp_mu", "Label") 
+
+name_lst <- list(c("Year", "emp_tp_mu", "Label"))
+
+for(i in seq(1:6)) {
+  names(emp_tp_mu_lst[[i]]) <- name_lst[[1]]
+}
+head(emp_tp_mu_lst[[2]])
+
+
+#-----------------------#
+# Row bind different df 
+#-----------------------#
+
+# to make long format
+
+emp_tp_mu_df_lng <- bind_rows(emp_tp_mu_lst[[1]], emp_tp_mu_lst[[2]],
+                           emp_tp_mu_lst[[3]], emp_tp_mu_lst[[4]],
+                           emp_tp_mu_lst[[5]], emp_tp_mu_lst[[6]])
+
+
+head(emp_tp_mu_df_lng)
+tail(emp_tp_mu_df_lng)
 
 
 
+#======#
+# Plot
+#======#
 
+head(df_all)
 
+plt_emp_tp_mu_BC <- df_all %>% select(Lon, Lat, BC, Year, ID) %>%
+  ggplot() + 
+  geom_line(aes(x = Year, y = BC, group = ID),
+            colour = "blue", alpha = 0.04) +
+  geom_line(data = emp_tp_mu_lst[[1]],
+            aes(x = Year, y = emp_tp_mu)) + 
+  xlab("Year") + 
+  ylab("Empirical Temporal Mean") + 
+  theme_bw()
+
+print(plt_emp_tp_mu_BC)
 
 
 
