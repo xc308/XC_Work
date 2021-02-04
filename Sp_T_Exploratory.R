@@ -162,7 +162,7 @@ names(emp_mu_lst[[1]]) <- c("Lat", "Lon", "emp_mu", "Label")
 
 name_lst <- list(c("Lat", "Lon", "emp_mu", "Label"))
 
-for(i in seq(1:6))) {
+for(i in seq(1:6)) {
   names(emp_mu_lst[[i]]) <- name_lst[[1]]
 }
 
@@ -401,6 +401,10 @@ tail(emp_tp_mu_df_lng)
 
 head(df_all)
 
+#---------------------------------------------#
+# emp_tp_mu_BC together with all stations (ref)
+#---------------------------------------------#
+
 plt_emp_tp_mu_BC <- df_all %>% select(Lon, Lat, BC, Year, ID) %>%
   ggplot() + 
   geom_line(aes(x = Year, y = BC, group = ID),
@@ -413,6 +417,27 @@ plt_emp_tp_mu_BC <- df_all %>% select(Lon, Lat, BC, Year, ID) %>%
 
 print(plt_emp_tp_mu_BC)
 
+
+#-------------------#
+# emp_tp_mu_6_comps
+#-------------------#
+
+
+P_tp <- list()
+plot_tp_df <- list()
+for (i in unique(emp_tp_mu_df_lng$Label)) {
+  plot_tp_df[[i]] <- filter(emp_tp_mu_df_lng, Label == i)
+  
+  P_tp[[i]] <- ggplot(plot_tp_df[[i]]) + 
+    geom_line(aes(x = Year, y = emp_tp_mu),
+               colour = "LightSkyBlue") +
+    xlab("Year") + 
+    ylab("Temporal Mean") + 
+    facet_wrap(~Label) +
+    theme_light()
+} 
+
+do.call(grid.arrange, P_tp)
 
 
 
