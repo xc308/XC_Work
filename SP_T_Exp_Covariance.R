@@ -78,9 +78,9 @@ head(Comps_lst[[1]], 2)
 # 4504 -42.00 83.25 0.006894099 2016  2 0.3848602
 
 
-#-------------------------------------#
-# Range of residuals (Component-wise)
-#-------------------------------------#
+#------------------------------------------#
+# Range/Median of residuals (Component-wise)
+#------------------------------------------#
 
 range(res_lst[[1]])
 
@@ -120,7 +120,7 @@ sp_loca_df <- Comps_lst[[1]] %>%
   select(Lon, Lat) %>% 
   arrange(Lon, Lat)
 
-head(sp_loca_df) # each location 5 repetitions (yrs)
+head(sp_loca_df) #
 str(sp_loca_df)  # 'data.frame':	27384 obs. of  2 variables:
 
 
@@ -171,6 +171,15 @@ str(X_bc) # num [1:5, 1:27384]:
 # each col: Residuals at each pair of (lon, lat)
 
 
+# filter only 2016 
+
+X_bc_16 <- select(Comps_lst[[1]], Lon, Lat, Year, Residuals) %>%
+  filter(Year == 2016) %>%
+  spread(key = Year, value = Residuals) %>%
+  select(-Lon, -Lat) %>%
+  t()
+
+
 ## all components
 X_lst <- list()
 for (i in seq_along(Comps_lst)) {
@@ -185,15 +194,160 @@ str(X_lst)
 # $ : num [1:5, 1:27384]
 
 
+## 2016
+X_lst_16 <- list()
+for (i in seq_along(Comps_lst)) {
+  X_lst_16[[i]] <- select(Comps_lst[[i]], Lon, Lat, Year, Residuals) %>%
+    filter(Year == 2016) %>%
+    spread(key = Year, value = Residuals) %>%
+    select(-Lon, -Lat) %>%
+    t()
+}
+str(X_lst_16) # List of 6
+# $ : num [1, 1:27384]
+
+
 
 #============================#
 # Covariance (Component-wise)
 #============================#
 
+#load("~/OneDrive - University of Exeter/XC_PhD/Data/Processed/XC_WORK/Data_for_Sp_T_Exp_Covariance.RData")
+
 
 #------------------#
 # Lag-0 covariance
 #------------------#
+
+Lag_0_cov_BC <- cov(X_lst[[1]], use = "complete.obs")
+Lag_0_cov_DU <- cov(X_lst[[2]], use = "complete.obs")
+Lag_0_cov_OM <- cov(X_lst[[3]], use = "complete.obs")
+Lag_0_cov_SS <- cov(X_lst[[4]], use = "complete.obs")
+Lag_0_cov_SU <- cov(X_lst[[5]], use = "complete.obs")
+Lag_0_cov_PM25 <- cov(X_lst[[6]], use = "complete.obs")
+
+
+
+#~~~~~~~~~~~~~~~~~~~~#
+# Understand results
+#~~~~~~~~~~~~~~~~~~~~#
+
+## BC
+range(Lag_0_cov_BC) # [1] -60.96732 565.41161
+#(c(-60.96732, 565.41161)) ^ (1/3)
+#-(60) ^ (1/3)
+
+median(Lag_0_cov_BC) # 4.841124e-05
+str(Lag_0_cov_BC) # num [1:27384, 1:27384]
+
+a <- which(Lag_0_cov_BC > 0)
+length(a) # 391061578
+
+a1 <- which(Lag_0_cov_BC > 1)
+length(a1) # 525748
+
+a2 <- which(Lag_0_cov_BC > 2)
+length(a2) # 183123
+
+a3 <- which(Lag_0_cov_BC > 3) # 95767
+a50 <- which(Lag_0_cov_BC > 50) # 319
+
+
+range(Lag_0_cov_DU) # [1] -2576.171 15125.574
+
+range(Lag_0_cov_PM25) # [1] -6077.674 15113.980
+
+
+#-----------------------------#
+# Lag-0 Cross-Covariance (2016)
+#------------------------------#
+
+cov
+
+## BC vs PM25
+Lag_0_cov_BP_16 <- cov(X_lst_16[[1]], X_lst_16[[6]], use = "complete.obs")
+
+range(Lag_0_cov_BP_16)
+str(Lag_0_cov_BP_16)
+
+#------------------#
+# Lag-1 covariance
+#------------------#
+
+nrow(X_lst[[1]]) # 5
+
+Lag_1_cov_BC <- cov(X_lst[[1]][-1, ], X_lst[[1]][-5, ], use = "complete.obs")
+Lag_1_cov_DU <- cov(X_lst[[2]][-1, ], X_lst[[2]][-5, ], use = "complete.obs")
+Lag_1_cov_OM <- cov(X_lst[[3]][-1, ], X_lst[[3]][-5, ], use = "complete.obs")
+
+
+
+#======#
+# Plot
+#======#
+
+#----------------------------#
+# Divid the Lon into 4 strips
+#----------------------------#
+
+sp_loca_df$n <- 1:nrow(sp_loca_df) # index each loaction
+lim_lon <- range(sp_loca_df$Lon)
+lon_strips <- seq(lim_lon[1], lim_lon[2], length.out = 5)
+
+sp_loca_df$lon_strip <- cut(sp_loca_df$Lon, lon_strips, labels = FALSE, include.lowest = TRUE)
+
+head(sp_loca_df)
+tail(sp_loca_df)
+
+
+#-----------------#
+# Plot Covariance
+#-----------------#
+
+# Need a Math.cbrt function to enable the calculation of cbrt of negative number
+Math.cbrt <- function(x) {
+  sign(x) * abs(x) ^ (1/3)
+}
+
+
+emp_cov_lat_plt <- function(C, sp_loca_df) {
+  require(fields)
+  
+  for (i in seq_along(unique(sp_loca_df$lon_strip))) {
+    sp_strip <-  filter(sp_loca_df,  lon_strip  == i) %>% 
+      arrange (Lat)
+    
+    idx <- sp_strip$n
+    jitter <- seq(0, 1e-4, length = length(idx))
+    
+    image.plot(x = sp_strip$Lat + jitter, 
+               y = sp_strip$Lat + jitter,
+               z = C[idx, idx],
+               #zlim = c(0, 3),
+               xlab = "Latitude", ylab = "Latitude",
+               col = tim.colors(10))
+  }
+}
+
+
+emp_cov_lat_plt(Lag_0_cov_BC, sp_loca_df = sp_loca_df)
+
+emp_cov_lat_plt(Lag_0_cov_PM25, sp_loca_df = sp_loca_df)
+
+
+########
+image.plot(x = order(sp_loca_df$Lat), y = order(sp_loca_df$Lon),
+           z = (Lag_0_cov_BC) ^ (1/3),
+           xlab = "Latitude", ylab = "Longitutde",
+           col = tim.colors(10))
+
+head(sp_loca_df$Lat)
+
+range(sp_loca_df$Lat)
+range(sp_loca_df$Lon)
+#-----------------------#
+# Too large, reach limit
+#-----------------------#
 
 library(parallel)
 Lag_0_cov_lst<- mclapply(X_lst, cov, use = "complete.obs", mc.cores = 6)
@@ -203,6 +357,11 @@ for(i in seq_along(X_lst)) {
   Lag_0_cov_lst[[i]] <- cov(X_lst[[i]], use = "complete.obs")
 }
 
+#-------#
+# Error
+#-------#
+# Error: vector memory exhausted (limit reached?) 
+# ref: https://stackoverflow.com/questions/51248293/error-vector-memory-exhausted-limit-reached-r-3-5-0-macos
 
 
-cov(X_lst, use = "complete.obs")
+
