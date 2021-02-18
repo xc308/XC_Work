@@ -2,6 +2,7 @@
 # Sp_T_Exploratory:
 # Empirical Covariance Matrix
 #*****************************#
+rm(list = ls())
 
 load("~/OneDrive - University of Exeter/XC_PhD/Data/Processed/XC_WORK/Data_for_Sp_T_Exploratory.RData")
 
@@ -30,10 +31,17 @@ for (i in seq_along(comps)) {
 head(Comps_lst[[1]])
 str(Comps_lst)
 
+
+
 head(Comps_lst[[1]][3])
 #             BC
 #4503 0.007900851
 #4504 0.006894099
+
+
+
+
+
 
 
 #------------------#
@@ -59,7 +67,14 @@ lm_PM25 <- lm(PM25 ~ Lon + I(Lon ^ 2) + Lat + I(Lat ^ 2) +
                 Year + I(Year) ^ 2, data = Comps_lst[[6]])
 
 
+lm_PM25_try <- lm(PM25 ~  Year , data = Comps_lst[[6]])
+
+
 lm_lst <- list(lm_BC, lm_DU, lm_OM, lm_SS, lm_SU, lm_PM25)
+
+
+
+all(lm_BC$residuals - residuals(lm_BC) == 0) # [1] TRUE
 
 
 #-------------------#
@@ -78,6 +93,10 @@ head(Comps_lst[[1]], 2)
 # 4504 -42.00 83.25 0.006894099 2016  2 0.3848602
 
 
+Comps_lst[[6]]$Residuals_try <- lm_PM25_try$residuals
+
+
+
 #------------------------------------------#
 # Range/Median of residuals (Component-wise)
 #------------------------------------------#
@@ -86,9 +105,11 @@ range(res_lst[[1]])
 
 Range_lst <- list()
 Med_lst <- list()
+Q_lst <- list()
 for (i in seq_along(res_lst)) {
   Range_lst[[i]] <- range(res_lst[[i]])
   Med_lst[[i]] <- median(res_lst[[i]])
+  Q_lst[[i]] <- quantile(res_lst[[i]])
 }
 
 
@@ -107,6 +128,14 @@ lapply(Med_lst, print)
 # [1] -0.2750538
 # [1] -0.328552
 # [1] -5.849559
+
+print(Q_lst)
+
+quantile(res_pm25)
+#         0%        25%        50% 
+# -20.522429 -15.726288 -10.378623 
+# 75%       100% 
+#  2.798213 952.304762
 
 
 
@@ -160,7 +189,10 @@ head(Comps_lst[[1]])
 # Put df into space-wide
 #----------------------#
 
-## single ref
+#~~~~~~~~~~~#
+# single ref
+#~~~~~~~~~~~#
+
 X_bc <- select(Comps_lst[[1]], Lon, Lat, Year, Residuals) %>%
   spread(key = Year, value = Residuals) %>%
   select(-Lon, -Lat) %>%
@@ -171,7 +203,22 @@ str(X_bc) # num [1:5, 1:27384]:
 # each col: Residuals at each pair of (lon, lat)
 
 
+#~~~~~~~~~~#
+# PM25 try
+#~~~~~~~~~~#
+head(Comps_lst[[6]], 2)
+
+X_pm25 <- select(Comps_lst[[6]], Lon, Lat, Year, Residuals_try) %>%
+  spread(key = Year, value = Residuals_try) %>%
+  select(-Lon, -Lat) %>%
+  t()
+
+str(X_pm25) # num [1:5, 1:27384]
+
+
+#~~~~~~~~~~~~~~~~~#
 # filter only 2016 
+#~~~~~~~~~~~~~~~~~#
 
 X_bc_16 <- select(Comps_lst[[1]], Lon, Lat, Year, Residuals) %>%
   filter(Year == 2016) %>%
@@ -226,6 +273,17 @@ Lag_0_cov_SS <- cov(X_lst[[4]], use = "complete.obs")
 Lag_0_cov_SU <- cov(X_lst[[5]], use = "complete.obs")
 Lag_0_cov_PM25 <- cov(X_lst[[6]], use = "complete.obs")
 
+rm(Lag_0_cov_BC)
+
+
+
+#~~~~~~~~#
+# PM25 try
+#~~~~~~~~#
+
+Lag_0_cov_PM25_try <- cov(X_pm25, use = "complete.obs")
+
+quantile(Lag_0_cov_PM25_try)
 
 
 #~~~~~~~~~~~~~~~~~~~~#
@@ -310,7 +368,7 @@ Math.cbrt <- function(x) {
 }
 
 
-emp_cov_lat_plt <- function(C, sp_loca_df) {
+EMP_cov_lat_plt <- function(C, sp_loca_df) {
   require(fields)
   
   for (i in seq_along(unique(sp_loca_df$lon_strip))) {
@@ -322,17 +380,24 @@ emp_cov_lat_plt <- function(C, sp_loca_df) {
     
     image.plot(x = sp_strip$Lat + jitter, 
                y = sp_strip$Lat + jitter,
-               z = C[idx, idx],
-               #zlim = c(0, 3),
+               z = Math.cbrt(C[idx, idx]),
+               zlim = c(-1, 25),
                xlab = "Latitude", ylab = "Latitude",
-               col = tim.colors(10))
+               col = tim.colors(10), cex = 200)
   }
 }
 
 
-emp_cov_lat_plt(Lag_0_cov_BC, sp_loca_df = sp_loca_df)
+pt <- plot_cov_strips(C = Lag_0_cov_PM25, spat_df = sp_loca_df)
 
-emp_cov_lat_plt(Lag_0_cov_PM25, sp_loca_df = sp_loca_df)
+str(Lag_0_cov_BC)
+
+
+pt <- EMP_cov_lat_plt(Lag_0_cov_PM25, sp_loca_df = sp_loca_df)
+
+
+EMP_cov_lat_plt(Lag_0_cov_PM25_try, sp_loca_df)
+
 
 
 ########
@@ -362,6 +427,9 @@ for(i in seq_along(X_lst)) {
 #-------#
 # Error: vector memory exhausted (limit reached?) 
 # ref: https://stackoverflow.com/questions/51248293/error-vector-memory-exhausted-limit-reached-r-3-5-0-macos
+
+
+
 
 
 
