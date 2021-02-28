@@ -8,9 +8,9 @@ load("~/OneDrive - University of Exeter/XC_PhD/Data/Processed/XC_WORK/Data_for_S
 
 
 
-#==================#
-# Remove all trends
-#==================#
+#=====================#
+# Separate comoponents
+#=====================#
 
 head(df_all)
 tail(df_all)
@@ -137,21 +137,19 @@ str(X_lst)
 # Lag-0 covariance
 #------------------#
 
-Lag_0_cov_BC <- cov(X_bc, use = "complete.obs")
-
+Lag_0_cov_BC <- cov(X_lst[[1]], use = "complete.obs")
 Lag_0_cov_DU <- cov(X_lst[[2]], use = "complete.obs")
 Lag_0_cov_OM <- cov(X_lst[[3]], use = "complete.obs")
 Lag_0_cov_SS <- cov(X_lst[[4]], use = "complete.obs")
 Lag_0_cov_SU <- cov(X_lst[[5]], use = "complete.obs")
 Lag_0_cov_PM25 <- cov(X_lst[[6]], use = "complete.obs")
 
-Math.cbrt(quantile(Lag_0_cov_BC))
-quantile(Lag_0_cov_PM25)
+#Math.cbrt(quantile(Lag_0_cov_BC))
+#quantile(Lag_0_cov_PM25)
 
-
-cor_PM25 <- cov2cor(Lag_0_cov_PM25)
-quantile(cor_PM25)
-hist(cor_PM25)
+Lag_0_corr_PM25 <- cov2cor(Lag_0_cov_PM25)
+quantile(Lag_0_corr_PM25)
+hist(Lag_0_corr_PM25)
 
 
 #------------------#
@@ -165,7 +163,28 @@ nrow(X_lst[[1]]) # 5
 #Lag_1_cov_OM <- cov(X_lst[[3]][-1, ], X_lst[[3]][-5, ], use = "complete.obs")
 
 Lag_1_cov_PM25 <- cov(X_lst[[6]][-1, ], X_lst[[6]][-5, ], use = "complete.obs")
+#Lag1_corr_PM25<- cov2cor(Lag_1_cov_PM25)
+#Warning messages:
+#  1: In sqrt(1/diag(V)) : NaNs produced
+#  2: In cov2cor(Lag_1_cov_PM25) :
+#  diag(.) had 0 or NA entries; non-finite result is doubtful
 
+quantile(Lag_1_cov_PM25)
+
+length(as.vector(Lag_1_cov_PM25)) # [1] 749883456
+
+jitter_cov <- seq(0, 1e-4, length = 27384)
+a <- matrix(jitter_cov, nrow = 27384, ncol = 27384)
+
+str(Lag_1_cov_PM25)
+str(a)
+
+Lag_cov_PM25_jit <- Lag_1_cov_PM25 + a
+
+quantile(Lag_1_cov_PM25)
+
+#Lag_1_corr_PM25 <- cov2cor(Lag_1_cov_PM25)
+mean(Lag_1_cov_PM25) # -0.1022033
 
 
 #======#
@@ -187,15 +206,9 @@ tail(sp_loca_df)
 nrow(sp_loca_df) # 27384
 
 
-#-----------------#
-# Plot Covariance
-#-----------------#
-
-# Need a Math.cbrt function to enable the calculation of cbrt of negative number
-Math.cbrt <- function(x) {
-  sign(x) * abs(x) ^ (1/3)
-}
-
+#-----------------------------#
+# Plot Covariance/ Correlation
+#-----------------------------#
 
 EMP_cor_lat_plt <- function(C, sp_loca_df) {
   require(fields)
@@ -220,6 +233,7 @@ EMP_cor_lat_plt <- function(C, sp_loca_df) {
 
 EMP_cor_lat_plt(cor_PM25, sp_loca_df)
 
+EMP_cor_lat_plt(Lag_1_cov_PM25, sp_loca_df)
 
 
 #-----------------------#
