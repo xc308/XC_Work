@@ -15,6 +15,8 @@ load("~/OneDrive - University of Exeter/XC_PhD/Data/Processed/XC_WORK/Data_for_S
 head(df_all)
 tail(df_all)
 
+range(df_all[, "PM25"]) # [1]   0.0974795 972.9597204
+
 
 #------------------------------------#
 # Separate df_all into component wise
@@ -43,8 +45,14 @@ head(Comps_lst[[1]][3])
 #===========================#
 # Get the spatial locations
 #===========================#
+install.packages("dplyr")
+install.packages("tidyr")
+library(dplyr)
+library(tidyr)
+
 
 str(Comps_lst[[1]])
+
 sp_loca_df <- Comps_lst[[1]] %>% 
   filter(Year == 2016) %>%
   select(Lon, Lat) %>% 
@@ -52,7 +60,7 @@ sp_loca_df <- Comps_lst[[1]] %>%
 
 head(sp_loca_df) #
 str(sp_loca_df)  # 'data.frame':	27384 obs. of  2 variables:
-
+tail(sp_loca_df)
 
 
 #----------------#
@@ -103,26 +111,48 @@ X_bc <- select(Comps_lst[[1]], Lon, Lat, Year, BC) %>%
 str(X_bc) # num [1:5, 1:27384]: 
 
 
+
+#------------------------------------------
+X_BC_2 <- select(Comps_lst[[1]], Lon, Lat, Year, BC) %>%
+  arrange(Lon, Lat) %>%
+  spread(key = Year, value = BC) %>%
+  select(-Lon, -Lat) %>%
+  t()
+
+
+str(X_BC_2)
+all(X_BC_2[1, ] == X_bc[1, ])
+
+head(X_BC_2[1, ])
+head(X_bc[1, ])
+
+#-------------------------------------------
+
+
+
+
 #~~~~~~~~~~~~~~~#
 #all components
 #~~~~~~~~~~~~~~~#
 
-head(Comps_lst[[i]])
+head(Comps_lst[[1]])
+
 
 X_lst <- list()
 for (i in seq_along(Comps_lst)) {
-  X_lst[[i]] <- dplyr::select(Comps_lst[[i]], Lon, Lat, Year, names(Comps_lst[[i]][3])) %>%
+  X_lst[[i]] <- select(Comps_lst[[i]], Lon, Lat, Year, names(Comps_lst[[i]][3])) %>%
     spread(key = Year, value = names(Comps_lst[[i]][3])) %>%
-    dplyr::select(-Lon, -Lat) %>%
+    select(-Lon, -Lat) %>%
     t()
 }
-
-
 
 
 str(X_lst)
 # List of 6
 # $ : num [1:5, 1:27384]
+
+range(X_lst[[6]]) # [1]   0.0974795 972.9597204
+str(X_lst[[6]]) # num [1:5, 1:27384]
 
 
 
@@ -130,31 +160,58 @@ str(X_lst)
 # Covariance (Component-wise)
 #============================#
 
-#load("~/OneDrive - University of Exeter/XC_PhD/Data/Processed/XC_WORK/Data_for_Sp_T_Exp_Covariance.RData")
+load("~/OneDrive - University of Exeter/XC_PhD/Data/Processed/XC_WORK/Data_for_Sp_T_Exp_Covariance.RData")
 
 
 #------------------#
 # Lag-0 covariance
 #------------------#
 
-Lag_0_cov_BC <- cov(X_lst[[1]], use = "complete.obs")
-Lag_0_cov_DU <- cov(X_lst[[2]], use = "complete.obs")
-Lag_0_cov_OM <- cov(X_lst[[3]], use = "complete.obs")
-Lag_0_cov_SS <- cov(X_lst[[4]], use = "complete.obs")
-Lag_0_cov_SU <- cov(X_lst[[5]], use = "complete.obs")
-Lag_0_cov_PM25 <- cov(X_lst[[6]], use = "complete.obs")
+## To examine for component-wise non-stationarity
 
-#Math.cbrt(quantile(Lag_0_cov_BC))
-#quantile(Lag_0_cov_PM25)
+#Lag_0_cov_BC <- cov(X_lst[[1]], use = "complete.obs")
+#Lag_0_cov_DU <- cov(X_lst[[2]], use = "complete.obs")
+#Lag_0_cov_OM <- cov(X_lst[[3]], use = "complete.obs")
+#Lag_0_cov_SS <- cov(X_lst[[4]], use = "complete.obs")
+#Lag_0_cov_SU <- cov(X_lst[[5]], use = "complete.obs")
+Lag_0_cov_PM25 <- cov(X_lst[[6]], use = "complete.obs")
+str(Lag_0_cov_PM25)
+# num [1:27384, 1:27384] 0.04884 0.0439 0.035 0.00913 0.0
+
+
+#~~~~~~~~~~~~~~~~~~~~~~~~#
+# Examine Lag_0_cov_PM25
+#~~~~~~~~~~~~~~~~~~~~~~~~#
+
+quantile(Lag_0_cov_PM25)
+all(diag(Lag_0_cov_PM25) > 0) # [1] TRUE
+
+# all(diag(Lag_0_cov_BC) > 0)  [1] TRUE
 
 Lag_0_corr_PM25 <- cov2cor(Lag_0_cov_PM25)
 quantile(Lag_0_corr_PM25)
 hist(Lag_0_corr_PM25)
 
 
+#~~~~~~~~~~~~~~~~#
+# on log scale ##
+#~~~~~~~~~~~~~~~~#
+
+Lag_0_cov_PM25_log <- cov(log(X_lst[[6]]), use = "complete.obs")
+hist(Lag_0_cov_PM25_log)
+quantile(Lag_0_cov_PM25_log)
+
+all(diag(Lag_0_cov_PM25_log) > 0) # [1] TRUE
+
+Lag_0_corr_PM25_log <- cov2cor(Lag_0_cov_PM25_log)
+# aborted
+
+
 #------------------#
 # Lag-1 covariance
 #------------------#
+
+# To examine if space and time are separable
 
 nrow(X_lst[[1]]) # 5
 
@@ -163,28 +220,95 @@ nrow(X_lst[[1]]) # 5
 #Lag_1_cov_OM <- cov(X_lst[[3]][-1, ], X_lst[[3]][-5, ], use = "complete.obs")
 
 Lag_1_cov_PM25 <- cov(X_lst[[6]][-1, ], X_lst[[6]][-5, ], use = "complete.obs")
+all(diag(Lag_1_cov_PM25) > 0)
+range(Lag_1_cov_PM25)
+quantile(Lag_1_cov_PM25)
+#            0%           25%           50% 
+#-1.333169e+04 -6.250759e-01 -8.498783e-03 
+#75%          100% 
+#  5.121568e-01  1.354595e+04 
+
+hist(Lag_1_cov_PM25)
+median(Lag_1_cov_PM25) # [1] -0.008498783
+
+
 #Lag1_corr_PM25<- cov2cor(Lag_1_cov_PM25)
 #Warning messages:
 #  1: In sqrt(1/diag(V)) : NaNs produced
 #  2: In cov2cor(Lag_1_cov_PM25) :
 #  diag(.) had 0 or NA entries; non-finite result is doubtful
 
-quantile(Lag_1_cov_PM25)
 
-length(as.vector(Lag_1_cov_PM25)) # [1] 749883456
 
-jitter_cov <- seq(0, 1e-4, length = 27384)
-a <- matrix(jitter_cov, nrow = 27384, ncol = 27384)
+#-------------------------------#
+# cross-covariance/correlation
+#-------------------------------#
 
-str(Lag_1_cov_PM25)
-str(a)
+# To examine the stationarity of cross-covariance btw components
 
-Lag_cov_PM25_jit <- Lag_1_cov_PM25 + a
+str(X_lst)
 
-quantile(Lag_1_cov_PM25)
+#~~~~~~~~~~~#
+# PM25 & DU
+#~~~~~~~~~~~#
 
-#Lag_1_corr_PM25 <- cov2cor(Lag_1_cov_PM25)
-mean(Lag_1_cov_PM25) # -0.1022033
+cross_cov_PM25_DU <- cov(X_lst[[6]], X_lst[[2]], use = "complete.obs")
+#cross_corr_PM25_BC <- cov2cor(cross_cov_PM25_BC)
+range(cross_cov_PM25_DU)
+
+all(diag(cross_cov_PM25_DU) > 0) # [1] FALSE
+
+range(diag(cross_cov_PM25_DU)) # [1]   -14.19178 15118.69358
+hist(cross_cov_PM25_DU)
+quantile(cross_cov_PM25_DU)
+
+
+## on log scale
+cross_cov_PM25_DU_log <- cov(log(X_lst[[6]]), log(X_lst[[2]]), use = "complete.obs")
+range(cross_cov_PM25_DU_log)  # [1] -1.814203  1.782933
+quantile(cross_cov_PM25_DU_log)
+range(diag(cross_cov_PM25_DU_log))
+
+hist(cross_cov_PM25_DU_log)
+
+
+#~~~~~~~~~~#
+# PM25 & OM
+#~~~~~~~~~~#
+
+cross_cov_PM25_OM_log <- cov(log(X_lst[[6]]), log(X_lst[[3]]), use = "complete.obs")
+range(cross_cov_PM25_OM_log) # [1] -2.132976  3.475127
+quantile(cross_cov_PM25_OM_log)
+hist(cross_cov_PM25_OM_log)
+
+
+#~~~~~~~~~~#
+# PM25 & BC
+#~~~~~~~~~~#
+
+cross_cov_PM25_BC_log <- cov(log(X_lst[[6]]), log(X_lst[[1]]), use = "complete.obs")
+range(cross_cov_PM25_BC_log) # [1] -2.363203  3.830183
+quantile(cross_cov_PM25_BC_log)
+hist(cross_cov_PM25_BC_log)
+
+
+#~~~~~~~~~~#
+# PM25 & SU
+#~~~~~~~~~~#
+
+cross_cov_PM25_SU_log <- cov(log(X_lst[[6]]), log(X_lst[[5]]), use = "complete.obs")
+range(cross_cov_PM25_SU_log) # [1] -0.5525769  0.7456199
+hist(cross_cov_PM25_SU_log)
+
+
+#~~~~~~~~~~#
+# PM25 & SS
+#~~~~~~~~~~#
+
+cross_cov_PM25_SS_log <- cov(log(X_lst[[6]]), log(X_lst[[4]]), use = "complete.obs")
+range(cross_cov_PM25_SS_log) # [1] -0.6979235  1.3595946
+quantile(cross_cov_PM25_SS_log)
+
 
 
 #======#
@@ -196,10 +320,11 @@ mean(Lag_1_cov_PM25) # -0.1022033
 #----------------------------#
 
 sp_loca_df$n <- 1:nrow(sp_loca_df) # index each loaction
-lim_lon <- range(sp_loca_df$Lon)
+lim_lon <- range(sp_loca_df$Lon)  # -179.25  180.00
 lon_strips <- seq(lim_lon[1], lim_lon[2], length.out = 5)
 
-sp_loca_df$lon_strip <- cut(sp_loca_df$Lon, lon_strips, labels = FALSE, include.lowest = TRUE)
+sp_loca_df$lon_strip <- cut(sp_loca_df$Lon, lon_strips, 
+                            labels = FALSE, include.lowest = TRUE)
 
 head(sp_loca_df)
 tail(sp_loca_df)
@@ -209,6 +334,26 @@ nrow(sp_loca_df) # 27384
 #-----------------------------#
 # Plot Covariance/ Correlation
 #-----------------------------#
+install.packages("fields")
+install.packages("sp")
+library(fields)
+library(sp)
+
+
+#~~~~~~~~~~~~~#
+# Choose color
+#~~~~~~~~~~~~~#
+
+install.packages("RColorBrewer")
+library(RColorBrewer)
+
+cols_Ac <- brewer.pal(8, name = "Accent")
+brewer_AC.div <- colorRampPalette(cols_Ac, interpolate = "spline")
+
+
+#~~~~~~~~~~~~~~#
+# Plot function
+#~~~~~~~~~~~~~~#
 
 EMP_cor_lat_plt <- function(C, sp_loca_df) {
   require(fields)
@@ -223,17 +368,72 @@ EMP_cor_lat_plt <- function(C, sp_loca_df) {
     image.plot(x = sp_strip$Lat + jitter, 
                y = sp_strip$Lat + jitter,
                z = C[idx, idx],
-               #zlim = c(-1, 1),
+               zlim = c(-1, 1),
+               #zlim = c(-0.1, 0.1),
                xlab = "Latitude", ylab = "Latitude",
-               col = tim.colors(500), cex = 800)
+               #col = tim.colors(500), 
+               col = brewer_AC.div(500),
+               cex = 800)
   }
 }
 
 
+## Lag_0_corr_PM25 for single component stationarity
+EMP_cor_lat_plt(Lag_0_corr_PM25, sp_loca_df)
 
-EMP_cor_lat_plt(cor_PM25, sp_loca_df)
 
-EMP_cor_lat_plt(Lag_1_cov_PM25, sp_loca_df)
+## Lag_0_corr_PM25_log for single component stationarity
+EMP_cor_lat_plt(Lag_0_cov_PM25_log, sp_loca_df)
+
+
+## cross-covariance of PM25 and DU log
+EMP_cor_lat_plt(cross_cov_PM25_DU_log, sp_loca_df)
+
+## cross-covariance of PM25 and OM log
+EMP_cor_lat_plt(cross_cov_PM25_OM_log, sp_loca_df)
+
+
+## cross-covariance of PM25 and BC log
+EMP_cor_lat_plt(cross_cov_PM25_BC_log, sp_loca_df)
+
+
+## cross-covariance of PM25 and SU log
+EMP_cor_lat_plt(cross_cov_PM25_SU_log, sp_loca_df)
+
+
+## cross-covariance of PM25 and SS log
+EMP_cor_lat_plt(cross_cov_PM25_SS_log, sp_loca_df)
+
+
+
+#-------------------#
+# Examine one strip
+#------------------#
+
+sp_strip <- filter(sp_loca_df,  lon_strip  == 1) %>% 
+      arrange (Lat) # 3793
+    
+    idx <- sp_strip$n # 42, 34, 3610, 3611, 3671,....
+    jitter <- seq(0, 1e-4, length = length(idx))
+    
+    image.plot(x = sp_strip$Lat + jitter, # ensure 3793 different Lat locations
+               y = sp_strip$Lat + jitter, 
+               z = C[idx, idx],
+               zlim = c(-1, 1),
+               #zlim = c(-0.1, 0.1),
+               xlab = "Latitude", ylab = "Latitude",
+               #col = tim.colors(500), 
+               col = brewer_AC.div(500),
+               cex = 800)
+
+
+head(sp_strip$Lat, 50)
+Lag_0_cov_PM25[42, 42] #  0.1065634
+
+filter(sp_strip, n == 42)
+#          Lon    Lat  n lon_strip
+# 66734 -169.5 -14.25 42         1
+
 
 
 #-----------------------#
