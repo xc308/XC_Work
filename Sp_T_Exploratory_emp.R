@@ -278,7 +278,7 @@ head(df_all)
 emp_tp_mu_BC <- df_all %>% select(Lon, Lat, BC, Year, ID) %>%
   group_by(Year) %>% summarise(emp_temp_mean = mean(BC))
 
-emp_tp_mu_BC
+str(emp_tp_mu_BC) # num [1:5] 0.649 0.583 0.604 0.606 0.583
 
 
 #-------------------#
@@ -399,6 +399,9 @@ tail(emp_tp_mu_df_lng)
 # Plot
 #======#
 
+install.packages("gridExtra")
+library(gridExtra)
+
 head(df_all)
 
 #---------------------------------------------#
@@ -418,10 +421,23 @@ plt_emp_tp_mu_BC <- df_all %>% select(Lon, Lat, BC, Year, ID) %>%
 print(plt_emp_tp_mu_BC)
 
 
+plt_emp_tp_mu_DU <- df_all %>% select(Lon, Lat, DU, Year, ID) %>%
+  ggplot +
+  geom_line(aes(x = Year, y = DU, group = ID),
+            colour = "blue", alpha = 0.04) + 
+  geom_line(data = emp_tp_mu_lst[[2]],
+            aes(x = Year, y = emp_tp_mu)) + 
+  xlab("Year") + 
+  ylab("Empirical Temporal Mean") + 
+  theme_bw()
+
+print(plt_emp_tp_mu_DU)
+
+
+
 #-------------------#
 # emp_tp_mu_6_comps
 #-------------------#
-
 
 P_tp <- list()
 plot_tp_df <- list()
@@ -440,7 +456,80 @@ for (i in unique(emp_tp_mu_df_lng$Label)) {
 do.call(grid.arrange, P_tp)
 
 
+#-------------------#
+# emp_tp_mu_6_comps
+#-------------------#
 
+P_tp <- list()
+plot_tp_df <- list()
+for (i in unique(emp_tp_mu_df_lng$Label)) {
+  plot_tp_df[[i]] <- filter(emp_tp_mu_df_lng, Label == i)
+  
+  P_tp[[i]] <- ggplot(plot_tp_df[[i]]) + 
+    geom_line(aes(x = Year, y = emp_tp_mu),
+              colour = "LightSkyBlue") +
+    xlab("Year") + 
+    ylab("Temporal Mean") + 
+    facet_wrap(~Label) +
+    theme_light()
+} 
+
+do.call(grid.arrange, P_tp)
+
+
+#------------------------#
+# Each_station_tp_6_comps
+#------------------------#
+
+
+
+#------------------------#
+# 'Add lable col' to df_all
+#------------------------#
+
+head(df_all)
+
+df_all_long <- gather(df_all, key = Compnts, value = vals, -Lon, -Lat, -Year, -ID )
+
+head(df_all_long)
+tail(df_all_long)
+
+
+#----------------------#
+# cut Lon into 4 strips
+#----------------------#
+
+lim_lon <- range(df_all$Lon)
+lon_strips <- seq(lim_lon[1], lim_lon[2], length.out = 5)
+df_all_long$lon_strips <- cut(df_all_long$Lon, lon_strips, labels = FALSE, include.lowest = TRUE)
+
+
+head(df_all_long)
+tail(df_all_long)
+range(df_all_long$lon_strips)
+
+
+
+#------#
+# Plot
+#------#
+
+P_tp <- list()
+plot_tp_df <- list()
+for (i in unique(df_all_long$Compnts)) {
+  plot_tp_df[[i]] <- filter(df_all_long, Compnts == i)
+  
+  P_tp[[i]] <- ggplot(plot_tp_df[[i]]) + 
+    geom_line(aes(x = Year, y = vals, group = ID, color = lon_strips),
+              #colour = "LightSkyBlue", 
+              alpha = 0.4) +
+    xlab("Year") + 
+    ylab("Temp Mean per ID") + 
+    facet_wrap(~ Compnts) +
+    theme_light()
+} 
+
+do.call(grid.arrange, P_tp)
 
 
 
