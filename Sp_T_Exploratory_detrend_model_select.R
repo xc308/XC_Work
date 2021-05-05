@@ -4,6 +4,9 @@
 
 # prepare for the Lag-0, and lat-1 covariance or cross-cov
 
+# ref: https://bookdown.org/ronsarafian/IntrotoDS/lme.html
+
+
 df_all # 136920 = 27384 * 5
 df_all_long # 821520 = 136920 * 6 components
 
@@ -36,9 +39,9 @@ legend("top", inset = c(200, -0.3), xpd = T, horiz = T,
 
 
 
-#========#
-# Detrend
-#========#
+#========================#
+# Detrend Model seletion
+#=======================#
 
 #-------------------------#
 # Linear fix-effect model
@@ -49,9 +52,17 @@ mod_BC_1 <- lm(BC ~ Lon + Lat + I(Lat ^ 2) + Year + I(Year ^ 2),
    data = df_train)
 
 mod_BC_1_pred <- predict(mod_BC_1, newdata = df_test)
+str(mod_BC_1_pred) # 27385
 
 mean((df_test$BC - mod_BC_1_pred) ^ 2) # [1] 1.032977
 
+test.response <- eval(mod_BC_1, envir = df_test)
+str(test.response )
+
+mean((test.response - mod_BC_1_pred)^2)
+
+all(mod_BC_1[[2]] == mod_BC_1$residuals) # T
+mod_BC_1$residuals
 
 ## model 2
 mod_BC_2 <- lm(BC ~ Lon + Lat + I(Lat ^ 2) + cos(Year), 
@@ -95,8 +106,9 @@ mod_BC_4 <- lmer(BC ~ Lon + Lat + Year + ( 1 + Year | ID),
 
 
 
-
-
+#====================#
+# Plot of Lon_strips
+#====================#
 
 coords <- unique(df_all[, c("ID", "lon_strips", "Lon", "Lat")])
 head(coords)
