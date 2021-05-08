@@ -145,7 +145,7 @@ Sp_CV <- function(data, formulae.list, nfolds = 10, radius = 80000) {
 #==========#
 
 
-<<<<<<< HEAD
+
 formulae.list <- list(BC ~ Lon + Lat + I(Lat ^ 2))
 data <- df_all_16
 
@@ -193,7 +193,7 @@ function(data, formulae.list, nfolds = 10) {
 
 # > colMeans(MSE)
 # [1] 0.8980976
-=======
+
 test.dat$BC
 
 # tail(seq_along(test.dat[, "Lon"]))
@@ -201,7 +201,3 @@ str(circle)
 length(circle) # 2739
 
 
-
->>>>>>> 0071be030616bb590b0e63fe2ff72626c062c16e
-
-getwd()
