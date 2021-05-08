@@ -94,10 +94,6 @@ function(data, formulae.list, nfolds = 10, radius = 80000) {
   
 
 
-
-
-
-
 test.dat$BC
 
 # tail(seq_along(test.dat[, "Lon"]))
