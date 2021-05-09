@@ -66,6 +66,7 @@ Sp_CV <- function(data, formulae.list, nfolds = 10, radius = 80000) {
     test.dat <- data[test.rows, ]
     train.dat <- data[-test.rows, ] # 24645
     
+    drop_per_test <- vector()
     mse.per.test <- matrix(NA, nrow = nrow(test.dat), ncol = length(formulae))
     prediction <- list()
     current.mod <- list()
@@ -89,6 +90,9 @@ Sp_CV <- function(data, formulae.list, nfolds = 10, radius = 80000) {
       
       #length(circle) # [1] 2739 elements (df)
       #length(new.train.dat) # [1] 2739
+      
+      drop_per_test[i] <- length(circle[[i]]$ID)
+      print(paste0("On average", mean(drop_per_test), "of testing data being dropped in one fold"))
       
     
       for(j in seq_along(formulae)) {
