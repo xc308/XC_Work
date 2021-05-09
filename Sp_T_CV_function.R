@@ -39,7 +39,7 @@ set.seed(1)
 df_all_16$foldlabs <- sample(foldlabels)
 head(df_all_16, 10)
 
-
+nfolds <- 10
 
 #========#
 # Sp_CV
@@ -58,6 +58,7 @@ Sp_CV <- function(data, formulae.list, nfolds = 10, radius = 80000) {
   data$foldlabs <- sample(foldlabels)
   
   
+  Drop.all.folds <- matrix(NA, nrow = nfolds, ncol = 1)
   MSE.all.folds <- matrix(NA, nrow = nfolds, ncol = length(formulae))
   
   for(fold in 1:nfolds) {
@@ -66,7 +67,7 @@ Sp_CV <- function(data, formulae.list, nfolds = 10, radius = 80000) {
     test.dat <- data[test.rows, ]
     train.dat <- data[-test.rows, ] # 24645
     
-    drop_per_test <- vector()
+    drop.per.test <- vector()
     mse.per.test <- matrix(NA, nrow = nrow(test.dat), ncol = length(formulae))
     prediction <- list()
     current.mod <- list()
@@ -76,7 +77,7 @@ Sp_CV <- function(data, formulae.list, nfolds = 10, radius = 80000) {
       circle[[i]] <- points_in_circle(train.dat, lon_center = test.dat[, "Lon"][i],
                                       lat_center = test.dat[, "Lat"][i], 
                                       lon = Lon, lat = Lat,
-                                      radius = 4000000)
+                                      radius = 80000)
       
       if(length(circle[[i]]$ID) != 0) {
         
@@ -91,10 +92,9 @@ Sp_CV <- function(data, formulae.list, nfolds = 10, radius = 80000) {
       #length(circle) # [1] 2739 elements (df)
       #length(new.train.dat) # [1] 2739
       
-      drop_per_test[i] <- length(circle[[i]]$ID)
-      print(paste0("On average", mean(drop_per_test), "of testing data being dropped in one fold"))
+      drop.per.test[i] <- length(circle[[i]]$ID) # collect # of dropped data
       
-    
+      
       for(j in seq_along(formulae)) {
         
         current.mod[[i]] <- lm(formula = formulae[[j]], data = new.train.dat[[i]], na.action=na.exclude)
@@ -102,12 +102,14 @@ Sp_CV <- function(data, formulae.list, nfolds = 10, radius = 80000) {
         mse.per.test[i, j] <- mean((test.dat[i, ]$BC - prediction[[i]]) ^ 2) ## Modify BC
       }
       
-      MSE.all.folds[fold, ] <- colMeans(mse.per.test) # each row element in MSE.per.fold is the 
+      MSE.all.folds[fold, ] <- colMeans(mse.per.test) # each row element is MSE.per.fold averaging all test per fold 
+      
+      # within each fold, the percent of dropped data vs total train.dat
+      Drop.all.folds[fold, ] <- mean(drop.per.test[i] / nrow(train.dat) * 100)
+      
     }
-    
-    #return(list(MSE.all.folds, colMeans(MSE.all.folds)))
   }
-    return(list(MSE.all.folds, colMeans(MSE.all.folds)))
+    return(list(MSE.all.folds, colMeans(MSE.all.folds),Drop.all.folds))
 }
 
 # 80000
