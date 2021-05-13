@@ -156,8 +156,23 @@ EMP_cor_lat_plt <- function(C, sp_loc_df) {
 
 
 
+png("Lag0_corr_BC_DU-%02d.png")
+EMP_cor_lat_plt(Lag0_corr_BC_DU, sp_loc_df)
+dev.off()
 
+png("Lag0_corr_DU_SU-%02d.png")
+EMP_cor_lat_plt(Lag0_corr_DU_SU, sp_loc_df)
+dev.off()
 
+png("Lag0_corr_SU_PM25-%02d.png")
+EMP_cor_lat_plt(Lag0_corr_SU_PM25, sp_loc_df)
+dev.off()
 
+png("Lag0_corr_PM25_OM-%02d.png")
+EMP_cor_lat_plt(Lag0_corr_PM25_OM, sp_loc_df)
+dev.off()
 
+png("Lag0_corr_OM_SS-%02d.png")
+EMP_cor_lat_plt(Lag0_corr_OM_SS, sp_loc_df)
+dev.off()
 
