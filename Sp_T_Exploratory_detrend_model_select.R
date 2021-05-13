@@ -21,35 +21,13 @@ install.packages("sp")
 library(sp)
 
 
-#=====================#
-# construct some basis
-#=====================#
 
-G <- auto_basis(data = df_all[, c("Lon", "Lat")] %>% SpatialPoints(),
-           nres = 2, type = "Gaussian")
-
-show_basis(G)
-
-S <- eval_basis(basis = G, s = df_all[, c("Lon", "Lat")] %>% as.matrix()) %>%
-   as.matrix()
-
-colnames(S) <- paste0("B", 1:ncol(S))
-head(S) # B1: B24
-
-df_all_bas <- cbind(df_all, S)
-
-rm(df_all_bas)
-rm(S)
 
 
 #===================#
 # Stepwise selection
 #===================#
 
-
-
-
-# 
 BC_step_lm <- list()
 for(i in 0:5){
    BC_step_lm[[i + 1]] <- step(lm(BC ~ 1, data = df_all),
@@ -210,6 +188,80 @@ stargazer(PM25_step_lm[[5]], PM25_step_lm[[6]],
 
 
 
+#=========================#
+# 'Add lable col' to df_all
+#=========================#
+
+head(df_all)
+str(df_all) # 136920 = 27384 * 5
+
+df_all_long <- gather(df_all, key = Cmpts, value = Values, -Lon, -Lat, -Year, -ID )
+str(df_all_long) # 821520 = 136920 * 6 components
+head(df_all_long)
+tail(df_all_long)
+
+
+
+#=======================#
+# Fit 6 models in one go
+#=======================#
+
+form_cmpts <- list()
+lm_fit_cmpts <- list()
+df_Cmpts <-list()
+for(i in unique(df_all_long$Cmpts)) {
+   
+   df_Cmpts[[i]] <- filter(df_all_long, Cmpts == i)
+   form_cmpts[[i]] <- as.formula(paste0(i, "~", "Lon + Lat + I(Lat ^ 2)"))
+   lm_fit_cmpts[[i]] <- lm(form_cmpts[[i]], data = df_all)
+   df_Cmpts[[i]]$Residual <- lm_fit_cmpts[[i]]$residuals
+  
+}
+
+df_Cmpts_Res_long <- do.call("rbind", df_Cmpts) # 821520 * 7 = 136920 * 6 components * 7 var
+
+
+
+#=====================#
+# Save R obj as .RData
+#=====================#
+
+save(df_Cmpts_Res_long, file = "df_Cmpts_Res_long.RData")
+
+
+
+head(df_Cmpts_Res_long, 3)
+#        Lon   Lat Year ID Cmpts      Values  Residual
+#BC.1 -42.75 83.25 2016  1    BC 0.007900851 0.3067757
+#BC.2 -42.00 83.25 2016  2    BC 0.006894099 0.3046130
+#BC.3 -39.75 83.25 2016  3    BC 0.006666577 0.3009178
+
+tail(df_Cmpts_Res_long, 3)
+#                Lon    Lat Year    ID Cmpts   Values Residual
+#PM25.136918 -66.00 -54.75 2012 27382  PM25 5.111783 41.65979
+#PM25.136919 -65.25 -54.75 2012 27383  PM25 5.291296 41.79623
+#PM25.136920 -68.25 -55.50 2012 27384  PM25 5.179908 43.27677
+
+
+
+
+
+
+
+##----------------##
+str(df_Cmpts)
+str(df_Cmpts[["BC"]])
+str(form_cmpts)
+str(lm_fit_cmpts[["BC"]])
+
+df_Cmpts[["BC"]]
+form_cmpts[["BC"]]
+##----------------##
+
+
+
+##########################################################
+
 #========================#
 # To add more covariates
 #========================#
@@ -338,5 +390,27 @@ head(coords)
 
 ggplot(data = coords, aes(x = Lon, y = Lat, color = as.factor(lon_strips))) + 
   geom_point()
+
+
+
+#=====================#
+# construct some basis
+#=====================#
+
+G <- auto_basis(data = df_all[, c("Lon", "Lat")] %>% SpatialPoints(),
+                nres = 2, type = "Gaussian")
+
+show_basis(G)
+
+S <- eval_basis(basis = G, s = df_all[, c("Lon", "Lat")] %>% as.matrix()) %>%
+   as.matrix()
+
+colnames(S) <- paste0("B", 1:ncol(S))
+head(S) # B1: B24
+
+df_all_bas <- cbind(df_all, S)
+
+rm(df_all_bas)
+rm(S)
 
 
