@@ -155,7 +155,7 @@ EMP_cor_lat_plt <- function(C, sp_loc_df) {
 }
 
 
-
+#jpeg("Lag0_corr_BC_DU-%02d.jpeg")
 png("Lag0_corr_BC_DU-%02d.png")
 EMP_cor_lat_plt(Lag0_corr_BC_DU, sp_loc_df)
 dev.off()
