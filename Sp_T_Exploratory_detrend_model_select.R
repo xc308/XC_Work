@@ -9,6 +9,229 @@
 
 df_all # 136920 = 27384 * 5
 df_all_long # 821520 = 136920 * 6 components
+head(df_all)
+
+install.packages("stargazer")
+library(stargazer)
+
+install.packages("FRK")
+library(FRK)
+
+install.packages("sp")
+library(sp)
+
+
+#=====================#
+# construct some basis
+#=====================#
+
+G <- auto_basis(data = df_all[, c("Lon", "Lat")] %>% SpatialPoints(),
+           nres = 2, type = "Gaussian")
+
+show_basis(G)
+
+S <- eval_basis(basis = G, s = df_all[, c("Lon", "Lat")] %>% as.matrix()) %>%
+   as.matrix()
+
+colnames(S) <- paste0("B", 1:ncol(S))
+head(S) # B1: B24
+
+df_all_bas <- cbind(df_all, S)
+
+rm(df_all_bas)
+rm(S)
+
+
+#===================#
+# Stepwise selection
+#===================#
+
+
+
+
+# 
+BC_step_lm <- list()
+for(i in 0:5){
+   BC_step_lm[[i + 1]] <- step(lm(BC ~ 1, data = df_all),
+        scope = BC ~ (Lon + Lat + Year)^2 + I(Lon^2) + I(Lat^2) ,
+        direction = "forward",
+        steps = i)
+}
+
+str(BC_step_lm) # List of 5
+
+
+
+stargazer(BC_step_lm[[1]], BC_step_lm[[2]], 
+          BC_step_lm[[3]], BC_step_lm[[4]],
+          title = "Stepwise Selection Results (1-4)",
+          align = T,
+          omit.stat = c("LL", "ser", "f"),
+          no.space = T)
+
+          #covariate.labels = c("Lat", "Lon", "Year", "Lat:Lon", "Intercept"),
+          #order = c("Intercept"))
+
+stargazer(BC_step_lm[[5]], BC_step_lm[[6]], 
+          title = "Stepwise Selection Results (5-6)",
+          align = T,
+          omit.stat = c("LL", "ser", "f"),
+          no.space = T)
+
+
+
+
+DU_step_lm <- list()
+for(i in 0:5){
+   DU_step_lm[[i + 1]] <- step(lm(DU ~ 1, data = df_all),
+                               scope = DU ~ (Lon + Lat + Year)^2 + I(Lon^2) + I(Lat^2),
+                               direction = "forward",
+                               steps = i)
+}
+
+
+stargazer(DU_step_lm[[1]], DU_step_lm[[2]], 
+          DU_step_lm[[3]], DU_step_lm[[4]],
+          title = "Stepwise Selection Results (1-4)",
+          align = T,
+          omit.stat = c("LL", "ser", "f"),
+          no.space = T)
+
+
+stargazer(DU_step_lm[[5]], DU_step_lm[[6]], 
+          title = "Stepwise Selection Results (5-6)",
+          align = T,
+          omit.stat = c("LL", "ser", "f"),
+          no.space = T)
+
+
+
+
+OM_step_lm <- list()
+for(i in 0:5){
+   OM_step_lm[[i + 1]] <- step(lm(OM ~ 1, data = df_all),
+                               scope = OM ~ (Lon + Lat + Year)^2 + I(Lon^2) + I(Lat^2),
+                               direction = "forward",
+                               steps = i)
+}
+
+
+stargazer(OM_step_lm[[1]], OM_step_lm[[2]], 
+          OM_step_lm[[3]], OM_step_lm[[4]],
+          title = "Stepwise Selection Results",
+          align = T,
+          omit.stat = c("LL", "ser", "f"),
+          no.space = T)
+
+
+stargazer(OM_step_lm[[5]], OM_step_lm[[6]], 
+          title = "Stepwise Selection Results",
+          align = T,
+          omit.stat = c("LL", "ser", "f"),
+          no.space = T)
+
+
+
+
+
+SU_step_lm <- list()
+for(i in 0:5){
+   SU_step_lm[[i + 1]] <- step(lm(SU ~ 1, data = df_all),
+                               scope = SU ~ (Lon + Lat + Year)^2 + I(Lon^2) + I(Lat^2),
+                               direction = "forward",
+                               steps = i)
+}
+
+
+stargazer(SU_step_lm[[1]], SU_step_lm[[2]], 
+          SU_step_lm[[3]], SU_step_lm[[4]],
+          title = "Stepwise Selection Results (1-4)",
+          align = T,
+          omit.stat = c("LL", "ser", "f"),
+          no.space = T)
+
+
+stargazer(SU_step_lm[[5]], SU_step_lm[[6]],
+          title = "Stepwise Selection Results (5-6)",
+          align = T,
+          omit.stat = c("LL", "ser", "f"),
+          no.space = T)
+
+
+
+
+
+SS_step_lm <- list()
+for(i in 0:5){
+   SS_step_lm[[i + 1]] <- step(lm(SS ~ 1, data = df_all),
+                               scope = SS ~ (Lon + Lat + Year)^2 + I(Lon^2) + I(Lat^2),
+                               direction = "forward",
+                               steps = i)
+}
+
+
+stargazer(SS_step_lm[[1]], SS_step_lm[[2]], 
+          SS_step_lm[[3]], SS_step_lm[[4]],
+          title = "Stepwise Selection Results (1-4)",
+          align = T,
+          omit.stat = c("LL", "ser", "f"),
+          no.space = T)
+
+stargazer(SS_step_lm[[5]], SS_step_lm[[6]],
+          title = "Stepwise Selection Results (5-6)",
+          align = T,
+          omit.stat = c("LL", "ser", "f"),
+          no.space = T)
+
+
+
+PM25_step_lm <- list()
+for(i in 0:5){
+   PM25_step_lm[[i + 1]] <- step(lm(PM25 ~ 1, data = df_all),
+                               scope = PM25 ~ (Lon + Lat + Year)^2 + I(Lon^2) + I(Lat^2),
+                               direction = "forward",
+                               steps = i)
+}
+
+str(PM25_step_lm)
+
+stargazer(PM25_step_lm[[1]], PM25_step_lm[[2]], 
+          PM25_step_lm[[3]], PM25_step_lm[[4]],
+          title = "Stepwise Selection Results (1-4)",
+          align = T,
+          omit.stat = c("LL", "ser", "f"),
+          no.space = T)
+
+stargazer(PM25_step_lm[[5]], PM25_step_lm[[6]], 
+          title = "Stepwise Selection Results (5-6)",
+          align = T,
+          omit.stat = c("LL", "ser", "f"),
+          no.space = T)
+
+
+
+#========================#
+# To add more covariates
+#========================#
+
+getwd()
+load("GM_dat.RData")
+str(GM_dat)
+
+GM_dat_5yr <- GM_dat %>% filter(Year == c(2012, 2013, 2014, 2015, 2016))
+# 5143
+
+GM_dat_5yr_selt <- GM_dat_5yr %>% select(Year, Longitude, Latitude, MonitorType, POP, ELEVATION)
+str(GM_dat_5yr_selt)
+
+colnames(GM_dat_5yr_selt[2]) <- "Lon"
+colnames(GM_dat_5yr_selt[3]) <- "Lat"
+
+
+# head(GM_dat_5yr_selt)
+
+
+
 
 
 #===========#
