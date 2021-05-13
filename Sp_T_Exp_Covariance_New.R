@@ -83,8 +83,81 @@ Lag0_corr_PM25_OM <- cor(X[["PM25"]], X[["OM"]])
 ## OM VS SS
 Lag0_corr_OM_SS <- cor(X[["OM"]], X[["SS"]])
 
+
+save(Lag0_corr_BC_DU, file = "Lag0_corr_BC_DU.RData")
+save(Lag0_corr_DU_SU, file = "Lag0_corr_DU_SU.RData")
+
+Lag0_cor <- c(Lag0_corr_BC_DU, Lag0_corr_DU_SU, Lag0_corr_SU_PM25, Lag0_corr_PM25_OM, Lag0_corr_OM_SS)
+for(i in unique(Lag0_cor)) {
+  save(i, file = paste0(i, ".RData"))
+}
+
+
 save(Lag0_corr_BC_DU, Lag0_corr_DU_SU, Lag0_corr_SU_PM25, 
      Lag0_corr_PM25_OM, Lag0_corr_OM_SS, file = "Lag0_cross_corr.RData")
+
+
+
+#=========================#
+# Plot of cross-covariance
+#=========================#
+
+#======#
+# Plot
+#======#
+
+install.packages("fields")
+install.packages("sp")
+library(fields)
+library(sp)
+
+
+#----------------------------#
+# Divid the Lon into 4 strips
+#----------------------------#
+
+sp_loc_df$n <- 1:nrow(sp_loc_df) # index each loaction
+lim_lon <- range(sp_loc_df$Lon)  # -179.25  180.00
+lon_strips <- seq(lim_lon[1], lim_lon[2], length.out = 5)
+
+sp_loc_df$lon_strip <- cut(sp_loc_df$Lon, lon_strips, 
+                            labels = FALSE, include.lowest = TRUE)
+
+head(sp_loc_df)
+tail(sp_loc_df)
+nrow(sp_loc_df) # 27384
+
+
+#---------------#
+# Plot function
+#---------------#
+
+EMP_cor_lat_plt <- function(C, sp_loc_df) {
+  require(fields)
+  
+  for (i in seq_along(unique(sp_loc_df$lon_strip))) {
+    sp_strip <-  filter(sp_loc_df,  lon_strip  == i) %>% 
+      arrange (Lat)
+    
+    idx <- sp_strip$n
+    jitter <- seq(0, 1e-4, length = length(idx))
+    
+    image.plot(x = sp_strip$Lat + jitter, 
+               y = sp_strip$Lat + jitter,
+               z = C[idx, idx],
+               zlim = c(-1, 1),
+               #zlim = c(-0.1, 0.1),
+               xlab = "Latitude", ylab = "Latitude",
+               col = tim.colors(100), 
+               #col = brewer_AC.div(500),
+               cex = 200)
+  }
+}
+
+
+
+
+
 
 
 
