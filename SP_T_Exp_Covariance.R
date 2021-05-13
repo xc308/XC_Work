@@ -70,27 +70,26 @@ tail(sp_loca_df)
 nrow(emp_mu_bc) # 27384
 
 
-#~~~~~~~~~~~#
-# Question
-#~~~~~~~~~~~#
-## BC
-lm <- lm(Comps_lst[[1]][3] ~ Lon + I(Lon ^ 2) + Lat + I(Lat ^ 2) + 
-     Year + I(Year) ^ 2, data = Comps_lst[[1]])
-
-str(Comps_lst)
-
-
-lm_lst <- list()
-for (i in seq_along(Comps_lst)) {
-  lm_lst[[i]] <- lm(names(Comps_lst[[i]][3]) ~ 1, 
-                    data = Comps_lst[[i]])
-}
-#~~~~~~~~~~~~~~~~~~
-
 
 #------------------#
 # Detrend the data
 #------------------#
+
+comps <- c("BC", "DU", "OM", "SS", "SU", "PM25")
+
+for(i in comps) {
+  
+  as.formula(paste0(i, "~", "Lon + Lat + I(Lat ^ 2)"))
+  
+  
+}
+
+
+form_cmpts[[i]] <- as.formula(paste0(i, "~", "Lon + Lat + I(Lat ^ 2)"))
+lm_fit_cmpts[[i]] <- lm(form_cmpts[[i]], data = df_all)
+df_Cmpts[[i]]$Residual <- lm_fit_cmpts[[i]]$residuals
+
+
 
 lm_BC <- lm(BC ~ Lon + Lat + I(Lat ^ 2) + 
               Year + I(Year ^ 2) , data = Comps_lst[[1]])

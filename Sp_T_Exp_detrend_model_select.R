@@ -227,6 +227,11 @@ df_Cmpts_Res_long <- do.call("rbind", df_Cmpts) # 821520 * 7 = 136920 * 6 compon
 #=====================#
 
 save(df_Cmpts_Res_long, file = "df_Cmpts_Res_long.RData")
+load("df_Cmpts_Res_long.RData")
+
+
+saveRDS(df_Cmpts_Res_long, file = "df_Cmpts_Res_long.RDS")
+readRDS("df_Cmpts_Res_long.RDS")
 
 
 
