@@ -22,6 +22,45 @@ library(ape)
 install.packages("lmtest") # for DW test
 library(lmtest)
 
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(STRbook)
+
+
+#====================#
+# Plot of residuals
+#====================#
+
+Residual_all_Cmpts <- for (i in unique(df_Cmpts_Res_long$Cmpts)) {
+  df_Cmpts[[i]] <- filter(df_Cmpts_Res_long, Cmpts == i)
+  
+  ggplot(df_Cmpts[[i]]) + 
+    geom_point(aes(Lon, Lat, colour = Residual),
+               size = 0.1) + 
+    facet_wrap(~ Year, ncol = 3) +
+    col_scale(name = "ug/cm3",
+              limits = c(-1, 10)) + 
+    theme_bw()
+}
+
+
+#-----------#
+# single ref
+#-----------#
+
+range(df_Cmpts_Res_long$Residual)
+
+df_Cmpts_bc <- filter(df_Cmpts_Res_long, Cmpts == "BC")
+
+ggplot(df_Cmpts_bc) + 
+  geom_point(aes(Lon, Lat, colour = Residual),
+             size = 0.1) + 
+  facet_wrap(~ Year, ncol = 3) +
+  col_scale(name = "ug/cm3",
+            limits = c(-1, 10)) + 
+  theme_bw()
+
 
 
 #========================================#
@@ -93,8 +132,6 @@ mean(DW_Cmpts[["BC"]]$p.value < 0.05 / nrow(DW_Cmpts[["BC"]])) * 100
 
 mean(DW_Cmpts[["BC"]]$p.value < 0.05) * 100 
 mean(DW_Cmpts[["OM"]]$p.value < 0.05) * 100 
-
-
 
 
 
@@ -172,9 +209,9 @@ str(ts)
 unique(ts) # 2012 2013 2014 2015 2016
 
 
-var_one_yr <- function(data) {
+var_one_yr <- function(Data) {
   variogram(Residual ~ 1, 
-            data = data)
+            data = Data)
 }
 
 str(df_bc_yr_nest)
@@ -182,7 +219,19 @@ str(df_bc_yr_nest)
 df_bc_yr_nest <- group_by(df_Cmpts_bc, Year) %>% nest()
 head(df_bc_yr_nest)
 
+str(df_bc_yr_nest)
+df_bc_yr_nest$data[[1]] # 2016
+head(df_bc_yr_nest$data[[1]])
+tail(df_bc_yr_nest$data[[1]])
+  
+  
+var_one_yr(df_bc_yr_nest$data[[1]])
+
+
 df_bc_yr_nest %>%
-  map(var_one_yr)
+  mutate(variog = map(data, var_one_yr)) %>%
+  mutate(variog_df = map(variog, tidy)) %>%
+  unnest(variog_df)
+  
 
 
