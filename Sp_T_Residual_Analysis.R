@@ -74,16 +74,17 @@ for(i in unique(df_Cmpts_Res_long$Cmpts)) {
   DW_results_Cmpts[[i]] <- mean(DW_Cmpts[[i]]$p.value < (0.05 / nrow(DW_Cmpts[[i]]))) * 100
 }
 
+
 DW_results_Cmpts_2 <- list()
 for(i in unique(df_Cmpts_Res_long$Cmpts)) {
   DW_results_Cmpts_2[[i]] <- mean(DW_Cmpts[[i]]$p.value < 0.05 ) * 100
 }
 
 
-save(DW_results_Cmpts, file = "DW_test_results_Cmpts.RData")
+#save(DW_results_Cmpts, file = "DW_test_results_Cmpts.RData")
+#load("DW_test_results_Cmpts.RData")
 
 
-load(DW_test_results_Cmpts)
 
 head(DW_Cmpts[["BC"]]$p.value < 0.05 / nrow(DW_Cmpts[["BC"]]))
 # [1] FALSE FALSE FALSE FALSE FALSE FALSE
@@ -93,8 +94,9 @@ mean(DW_Cmpts[["BC"]]$p.value < 0.05 / nrow(DW_Cmpts[["BC"]])) * 100
 mean(DW_Cmpts[["BC"]]$p.value < 0.05) * 100 
 mean(DW_Cmpts[["OM"]]$p.value < 0.05) * 100 
 
-head(DW_Cmpts[["BC"]]$p.value)
-hist(DW_Cmpts[["BC"]]$p.value)
+
+
+
 
 #=====================#
 # SP-T semivariogram
