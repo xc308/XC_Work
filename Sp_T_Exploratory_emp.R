@@ -115,19 +115,6 @@ sp_av_lst <- for (i in seq_along(Comps)) {
   sp_av_comp(comp = Comps[[i]])
 }
 
-#-------------------#
-# Wrong number why?
-#-------------------#
-Comps <- list(df_all$BC, df_all$DU, df_all$OM, df_all$SS,
-              df_all$SU, df_all$PM25)
-
-emp_mu_lst <- vector("list", length = length(Comps))
-for (i in seq_along(Comps)) {
-  emp_mu_lst[[i]] <- df_gp_lst[[i]] %>% summarise(mu_emp = mean(Comps[[i]]))
-}
-
-head(emp_mu_lst[[1]])
-
 
 
 #==================#
@@ -275,10 +262,18 @@ print(P_lat_2)
 
 head(df_all)
 
+#--------------#
+# single BC ref
+#--------------#
+
 emp_tp_mu_BC <- df_all %>% select(Lon, Lat, BC, Year, ID) %>%
-  group_by(Year) %>% summarise(emp_temp_mean = mean(BC))
+  group_by(Year) %>% summarise(emp_temp_mean = mean(BC)) %>%
+  ungroup()
 
 str(emp_tp_mu_BC) # num [1:5] 0.649 0.583 0.604 0.606 0.583
+
+acf(emp_tp_mu_BC$emp_temp_mean, main = "ACF of Emprical Temporal Mean\n BC")
+
 
 
 #-------------------#
@@ -478,12 +473,6 @@ do.call(grid.arrange, P_tp)
 
 
 #------------------------#
-# Each_station_tp_6_comps
-#------------------------#
-
-
-
-#------------------------#
 # 'Add lable col' to df_all
 #------------------------#
 
@@ -510,9 +499,9 @@ range(df_all_long$lon_strips)
 
 
 
-#------#
-# Plot
-#------#
+#----------------------#
+# Plot Temp Mean per ID
+#----------------------#
 
 P_tp <- list()
 plot_tp_df <- list()
