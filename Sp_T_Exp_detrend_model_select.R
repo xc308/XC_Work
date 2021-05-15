@@ -84,23 +84,30 @@ grd_resd$Year <- Year
 head(grd_resd)
 
 head(grd_resd %>% ungroup())
+# ref:https://stackoverflow.com/questions/38511743/adding-missing-grouping-variables-message-in-dplyr-in-r
 
 
-#-----------------#
+
+#=================#
 # Space-wide resd
-#-----------------#
+#=================#
 
 X_bc <- grd_resd %>% ungroup() %>%
    spread(key = Year, value = resd_tmp_bc) %>%
    select(-Lon, -Lat) %>%
    t()
 
-save(X_bc, file = "Resd_after_grdwise_tmp_detrend")
+save(X_bc, file = "Resd_after_grdwise_tmp_detrend.RData")
 
 dim(X_bc) # 5 * 27384
 
 
+#============#
+# Lag0_corr_bc
+#============#
 
+Lag0_cor_tp_detrend_bc <- cor(X_bc)
+save(Lag0_cor_tp_detrend_bc, file = "Lag0_cor_tp_detrend_bc.RData")
 
 
 #=============#
