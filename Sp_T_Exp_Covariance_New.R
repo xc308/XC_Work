@@ -3,7 +3,8 @@
 #**********************#
 
 
-str(df_Cmpts_Res_long)
+str(df_Cmpts_Res_long) 
+# Res get from stepwise selection ~ Lon + Lat + Lat^2
 
 # 'data.frame':	821520 obs. of  7 variables:
 #$ Lon     : num  -42.8 -42 -39.8 -38.2 -37.5 ...
@@ -40,7 +41,6 @@ tail(sp_loc_df)
 # Put df into space-wide
 #=======================#
 
-
 X <- list()
 df_Cmpts <- list()
 for(i in unique(df_Cmpts_Res_long$Cmpts)) {
@@ -56,6 +56,22 @@ for(i in unique(df_Cmpts_Res_long$Cmpts)) {
 str(X)
 
 save(X, file = "5yr_Residual_matrix_all_Cmpts")
+
+
+
+#=======================#
+# Univariate correlation
+#=======================#
+
+# Uni-var
+# Lag0 only
+
+Lag0_corr_BC <- cor(X[["BC"]])
+Lag0_corr_DU <- cor(X[["DU"]])
+Lag0_corr_OM <- cor(X[["OM"]])
+Lag0_corr_SU <- cor(X[["SU"]])
+Lag0_corr_SS <- cor(X[["SS"]])
+Lag0_corr_PM25 <- cor(X[["PM25"]])
 
 
 
@@ -154,6 +170,35 @@ EMP_cor_lat_plt <- function(C, sp_loc_df) {
   }
 }
 
+
+
+#========================#
+# Plot of uni-correlation
+#========================#
+
+png("Lag0_corr_BC-%02d.png")
+EMP_cor_lat_plt(Lag0_corr_BC, sp_loc_df)
+
+png("Lag0_corr_DU-%02d.png")
+EMP_cor_lat_plt(Lag0_corr_DU, sp_loc_df)
+
+png("Lag0_corr_OM-%02d.png")
+EMP_cor_lat_plt(Lag0_corr_OM, sp_loc_df)
+
+png("Lag0_corr_SU-%02d.png")
+EMP_cor_lat_plt(Lag0_corr_SU, sp_loc_df)
+
+png("Lag0_corr_SS-%02d.png")
+EMP_cor_lat_plt(Lag0_corr_SS, sp_loc_df)
+
+png("Lag0_corr_PM25-%02d.png")
+EMP_cor_lat_plt(Lag0_corr_PM25, sp_loc_df)
+
+
+
+#==========================#
+# Plot of cross-correlation
+#==========================#
 
 #jpeg("Lag0_corr_BC_DU-%02d.jpeg")
 png("Lag0_corr_BC_DU-%02d.png")
