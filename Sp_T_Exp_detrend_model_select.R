@@ -35,8 +35,7 @@ library(STRbook)
 
 head(df_all)
 
-
-
+## BC 
 Tmpmod_one_grid <- function(data) {
    mod_bc <- lm(BC ~ 1 + Year, data = data)
 }
@@ -110,17 +109,6 @@ Lag0_cor_tp_detrend_bc <- cor(X_bc)
 save(Lag0_cor_tp_detrend_bc, file = "Lag0_cor_tp_detrend_bc.RData")
 
 
-#=============#
-# Plot Gd_Tp_R
-#=============#
-
-g_bc_res <- ggplot(grid_tmp_mean) +
-   geom_tile(aes(Lon, Lat, fill = mean_resd)) + 
-   fill_scale() + 
-   theme_bw() + 
-   coord_fixed()
-
-plot(g_bc_res)
 
 
 #=========================#
