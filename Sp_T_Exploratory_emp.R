@@ -35,6 +35,108 @@ library(STRbook)
 
 
 
+#===============#
+# Empirical ACF
+#===============#
+
+head(df_all)
+
+#--------------#
+# single BC ref
+#--------------#
+
+emp_tp_mu_BC <- df_all %>% select(Lon, Lat, BC, Year, ID) %>%
+  group_by(Year) %>% summarise(emp_temp_mean = mean(BC)) %>%
+  ungroup()
+
+str(emp_tp_mu_BC) # num [1:5] 0.649 0.583 0.604 0.606 0.583
+
+acf(emp_tp_mu_BC$emp_temp_mean, main = "ACF of Emprical Temporal Mean\n BC")
+
+
+a <- df_all %>% select(BC, Year) %>%
+  group_by(Year) %>% nest() %>% 
+  mutate(YrM = map(data, colMeans)) %>%
+  ungroup()
+
+head(a)
+colMeans()
+
+
+#---------#
+# 6 Cmpts
+#---------#
+
+df_all_long <- gather(df_all, key = Cmpts, value = Values, -Lon, -Lat, -Year, -ID)
+str(df_all_long) # 'data.frame':	821520 obs. of  6 variables:
+
+df_Cmpts <- list()
+year_mean_Cmpt <- list()
+for(i in unique(df_all_long$Cmpts)) {
+  df_Cmpts[[i]] <- filter(df_all_long, Cmpts == i)
+  
+  year_mean_Cmpt[[i]] <- df_Cmpts[[i]] %>% 
+    select(Year, Values) %>%
+    group_by(Year) %>%
+    nest() %>%
+    mutate(YrMean = map(data, colMeans)) %>%
+    ungroup()
+  
+}
+
+
+YrMean_Cmpts <- list()
+for(i in seq_along(year_mean_Cmpt)) {
+  YrMean_Cmpts[[i]] <- do.call("rbind", year_mean_Cmpt[[i]]$YrMean)
+}
+
+
+save(YrMean_Cmpts, file = "YrMean_avg_all_grids_Cmpts.RData")
+
+
+## add labels
+Labs <-  c("BC", "DU", "OM", "SS", "SU", "PM25")
+
+Labels <- rep(Labs, each = 5)
+str(Labels)
+
+
+str(YrMean_Cmpts)
+YrMean_Cmpts_long <- do.call("rbind", YrMean_Cmpts)
+str(YrMean_Cmpts_long) # num [1:30, 1] 0.583 0.606 0.604 0.583 0
+head(YrMean_Cmpts_long)
+
+TS_Cmpts <- data.frame(YrMean_Cmpts_long, Labels, stringsAsFactors = F)
+str(TS_Cmpts)
+
+
+#-----------------#
+# Plot ACF 6 Cmpts
+#-----------------#
+
+install.packages("ggfortify")
+library(ggfortify)
+library(ggplot2)
+
+install.packages("gridExtra")
+library(gridExtra)
+
+
+autoplot(acf(YrMean_Cmpts[[1]], plot = F))
+
+
+Plt_ts <- list()
+TS <- list()
+for(i in unique(TS_Cmpts[,2])) {
+  TS[[i]] <- filter(TS_Cmpts, Labels == i)
+  Plt_ts[[i]] <- autoplot(acf(TS[[i]]$Values, plot = F), main = i)
+  
+}
+
+do.call(grid.arrange, Plt_ts)
+
+
+
 #=======================#
 # Empirical Spatial Mean
 #=======================#
@@ -255,25 +357,12 @@ print(P_lat_2)
 
 
 
+
+
 #========================#
 # Empirical Temporal Mean 
 # (Not very informative)
 #========================#
-
-head(df_all)
-
-#--------------#
-# single BC ref
-#--------------#
-
-emp_tp_mu_BC <- df_all %>% select(Lon, Lat, BC, Year, ID) %>%
-  group_by(Year) %>% summarise(emp_temp_mean = mean(BC)) %>%
-  ungroup()
-
-str(emp_tp_mu_BC) # num [1:5] 0.649 0.583 0.604 0.606 0.583
-
-acf(emp_tp_mu_BC$emp_temp_mean, main = "ACF of Emprical Temporal Mean\n BC")
-
 
 
 #-------------------#
