@@ -73,6 +73,10 @@ Lag0_corr_SU <- cor(X[["SU"]])
 Lag0_corr_SS <- cor(X[["SS"]])
 Lag0_corr_PM25 <- cor(X[["PM25"]])
 
+save(Lag0_corr_BC, Lag0_corr_DU, Lag0_corr_OM,
+     Lag0_corr_SU, Lag0_corr_SS, Lag0_corr_PM25, 
+     file = "Lag0_corr_uni.RData")
+
 
 
 #==============================#
@@ -151,8 +155,8 @@ nrow(sp_loc_df) # 27384
 EMP_cor_lat_plt <- function(C, sp_loc_df) {
   require(fields)
   
-  for (i in seq_along(unique(sp_loc_df$lon_strip))) {
-    sp_strip <-  filter(sp_loc_df,  lon_strip  == i) %>% 
+  #for (i in seq_along(unique(sp_loc_df$lon_strip))) {
+    sp_strip <-  filter(sp_loc_df,  lon_strip  == 4) %>% 
       arrange (Lat)
     
     idx <- sp_strip$n
@@ -167,7 +171,7 @@ EMP_cor_lat_plt <- function(C, sp_loc_df) {
                col = tim.colors(100), 
                #col = brewer_AC.div(500),
                cex = 200)
-  }
+  #}
 }
 
 
@@ -177,12 +181,15 @@ EMP_cor_lat_plt <- function(C, sp_loc_df) {
 #========================#
 
 png("Lag0_corr_BC-%02d.png")
+png("Lag0_corr_BC-04.png")
 EMP_cor_lat_plt(Lag0_corr_BC, sp_loc_df)
 
 png("Lag0_corr_DU-%02d.png")
+png("Lag0_corr_DU-04.png")
 EMP_cor_lat_plt(Lag0_corr_DU, sp_loc_df)
 
 png("Lag0_corr_OM-%02d.png")
+png("Lag0_corr_OM-04.png")
 EMP_cor_lat_plt(Lag0_corr_OM, sp_loc_df)
 
 png("Lag0_corr_SU-%02d.png")
