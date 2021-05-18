@@ -1,6 +1,6 @@
-#*********#
-# Detrend
-#*********#
+#***************#
+# Global Detrend
+#***************#
 
 # prepare for the Lag-0, and lat-1 covariance or cross-cov
 
@@ -28,92 +28,11 @@ library(ggplot2)
 library(STRbook)
 
 
+#===============#
+# df_all_long
+#===============#
 
-#=============================#
-# Fit Temp Model at each grid
-#=============================#
-
-head(df_all)
-
-## BC 
-Tmpmod_one_grid <- function(data) {
-   mod_bc <- lm(BC ~ 1 + Year, data = data)
-}
-
-res_one_grid <- function(mod) {
-   resd <- residuals(mod)
-}
-
-a <- df_all %>% group_by(Lon, Lat) %>% nest()
-length(a$Lon) # 27384
-
-grid_tmp_lm <- df_all %>% group_by(Lon, Lat) %>% nest() %>%
-   mutate(model_tmp_bc = map(data, Tmpmod_one_grid)) %>%
-   mutate(resd_tmp_bc = map(model_tmp_bc, res_one_grid)) %>%
-   mutate(mod_tmp_bc_df = map(model_tmp_bc, tidy))
-
-
-grid_tmp_lm %>% head(3)
-# # A tibble: 3 x 6
-# Groups:   Lon, Lat [3]
-#  Lon   Lat data                 model_tmp_bc resd_tmp_bc mod_tmp_bc_df       
-# <dbl> <dbl> <list>               <list>       <list>      <list>              
-#   1 -42.8  83.2 <tibble[,8] [5 × 8]> <lm>         <dbl [5]>   <tibble[,5] [2 × 5]>
-#   2 -42    83.2 <tibble[,8] [5 × 8]> <lm>         <dbl [5]>   <tibble[,5] [2 × 5]>
-
-length(grid_tmp_lm$Lon) #  27384
-
-
-#=======================#
-# Gridwise Tmp Residuals 
-#=======================#
-
-grd_resd <- grid_tmp_lm %>% select(Lon, Lat, resd_tmp_bc) %>%
-   unnest(resd_tmp_bc)
-
-length(grd_resd$Lon) # 136920 =  27384 * 5
-
-
-head(grd_resd) # each coords, 5 year residual
-
-Year <- rep(seq(2016, 2012), length(grid_tmp_lm$Lon))
-length(Year) # 136920
-
-grd_resd$Year <- Year
-head(grd_resd)
-
-head(grd_resd %>% ungroup())
-# ref:https://stackoverflow.com/questions/38511743/adding-missing-grouping-variables-message-in-dplyr-in-r
-
-
-
-#=================#
-# Space-wide resd
-#=================#
-
-X_bc <- grd_resd %>% ungroup() %>%
-   spread(key = Year, value = resd_tmp_bc) %>%
-   select(-Lon, -Lat) %>%
-   t()
-
-save(X_bc, file = "Resd_after_grdwise_tmp_detrend.RData")
-
-dim(X_bc) # 5 * 27384
-
-
-#============#
-# Lag0_corr_bc
-#============#
-
-Lag0_cor_tp_detrend_bc <- cor(X_bc)
-save(Lag0_cor_tp_detrend_bc, file = "Lag0_cor_tp_detrend_bc.RData")
-
-
-
-
-#=========================#
 # 'Add lable col' to df_all
-#=========================#
 
 head(df_all)
 str(df_all) # 136920 = 27384 * 5
@@ -125,9 +44,11 @@ tail(df_all_long)
 
 
 
-#=======================#
-# Fit 6 models in one go
-#=======================#
+#=============================#
+# Fit 6 globle models in one go
+#=============================#
+
+# global model fitted using step-wise selection, see below section
 
 form_cmpts <- list()
 lm_fit_cmpts <- list()
@@ -172,49 +93,9 @@ tail(df_Cmpts_Res_long, 3)
 
 
 
-
-
-
-
-##----------------##
-str(df_Cmpts)
-str(df_Cmpts[["BC"]])
-str(form_cmpts)
-str(lm_fit_cmpts[["BC"]])
-
-df_Cmpts[["BC"]]
-form_cmpts[["BC"]]
-##----------------##
-
-
-
-##########################################################
-
-#========================#
-# To add more covariates
-#========================#
-
-getwd()
-load("GM_dat.RData")
-str(GM_dat)
-
-GM_dat_5yr <- GM_dat %>% filter(Year == c(2012, 2013, 2014, 2015, 2016))
-# 5143
-
-GM_dat_5yr_selt <- GM_dat_5yr %>% select(Year, Longitude, Latitude, MonitorType, POP, ELEVATION)
-str(GM_dat_5yr_selt)
-
-colnames(GM_dat_5yr_selt[2]) <- "Lon"
-colnames(GM_dat_5yr_selt[3]) <- "Lat"
-
-
-# head(GM_dat_5yr_selt)
-
-
-
-#===================#
-# Stepwise selection
-#===================#
+#=========================================#
+# Stepwise selection model on global level
+#=========================================#
 
 BC_step_lm <- list()
 for(i in 0:5){
@@ -374,41 +255,34 @@ stargazer(PM25_step_lm[[5]], PM25_step_lm[[6]],
           no.space = T)
 
 
-#------------------------#
-# Temporal model selection
-#------------------------#
-
-BC_step_lm_tp <- list()
-for(i in 0:5){
-   BC_step_lm_tp[[i + 1]] <- step(lm(BC ~ 1, data = df_all),
-                                  scope = BC ~ Year + I(Year^2) + I(Year^3) ,
-                                  direction = "forward",
-                                  steps = i)
-}
-
-
-stargazer(BC_step_lm_tp[[1]], BC_step_lm_tp[[2]], 
-          BC_step_lm_tp[[3]], BC_step_lm_tp[[4]],
-          title = "Stepwise Selection Results (1-4)",
-          align = T,
-          omit.stat = c("LL", "ser", "f"),
-          no.space = T)
-
-
-stargazer(BC_step_lm_tp[[5]], BC_step_lm_tp[[6]], 
-          title = "Stepwise Selection Results (1-4)",
-          align = T,
-          omit.stat = c("LL", "ser", "f"),
-          no.space = T)
 
 
 
+#========================#
+# To add more covariates (waite for covariates)
+#========================#
+
+getwd()
+load("GM_dat.RData")
+str(GM_dat)
+
+GM_dat_5yr <- GM_dat %>% filter(Year == c(2012, 2013, 2014, 2015, 2016))
+# 5143
+
+GM_dat_5yr_selt <- GM_dat_5yr %>% select(Year, Longitude, Latitude, MonitorType, POP, ELEVATION)
+str(GM_dat_5yr_selt)
+
+colnames(GM_dat_5yr_selt[2]) <- "Lon"
+colnames(GM_dat_5yr_selt[3]) <- "Lat"
+
+
+# head(GM_dat_5yr_selt)
 
 
 
 
 #===========#
-# Split data
+# Split data for CV
 #===========#
 
 df_train_idx <- sample(unique(df_all$ID), length(unique(df_all$ID)) * 0.8)
