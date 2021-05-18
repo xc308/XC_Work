@@ -82,9 +82,96 @@ head(grd_Tmp_fit[["BC"]])
           
 
 
-#------#
+#=======================#
+# Gridwise Tmp Residuals 
+#=======================#
+
+
+# a function to get Lon_Lat_Res
+Lon_lat_res <- function(Cmpt) {
+  grd_Tmp_fit[[Cmpt]] %>% select(Lon, Lat, Res) %>% unnest(Res)
+}
+
+res_df_lst <- list()
+for(Cmpt in Cmpts) {
+  res_df_lst[[Cmpt]] <- Lon_lat_res(Cmpt)
+}
+
+length(res_df_lst[[1]]$Lon) # 136920 = 27384 * 5
+length(grd_Tmp_fit[["BC"]]$Lon) # 27384
+
+
+
+Year <- rep(seq(2016, 2012), length(grd_Tmp_fit[["BC"]]$Lon))
+length(Year) # 136920
+
+for(Cmpt in Cmpts){
+  res_df_lst[[Cmpt]]$Year <- Year
+}
+
+
+res_df_lst[["BC"]]
+# # A tibble: 136,920 x 4
+# Groups:   Lon, Lat [27,384]
+#     Lon   Lat      Res  Year
+#<dbl> <dbl>    <dbl> <int>
+#1 -42.8  83.2 -0.00626  2016
+#2 -42.8  83.2  0.00260  2015
+#3 -42.8  83.2  0.0106   2014
+#4 -42.8  83.2 -0.00400  2013
+#5 -42.8  83.2 -0.00296  2012
+
+
+Lon_Lat_res_yr_lst <-list()
+for(Cmpt in Cmpts){
+  Lon_Lat_res_yr_lst[[Cmpt]] <- res_df_lst[[Cmpt]] %>% ungroup()
+}
+
+head(Lon_Lat_res_yr_lst[["BC"]])
+## A tibble: 6 x 4
+#    Lon   Lat      Res  Year
+#   <dbl> <dbl>    <dbl> <int>
+#1 -42.8  83.2 -0.00626  2016
+#2 -42.8  83.2  0.00260  2015
+#3 -42.8  83.2  0.0106   2014
+
+#head(grd_resd %>% ungroup())
+# ref:https://stackoverflow.com/questions/38511743/adding-missing-grouping-variables-message-in-dplyr-in-r
+
+
+save(Lon_Lat_res_yr_lst, file = "gd_ws_tmp_fit_res_yr.RData")
+
+
+
+#=================#
+# Space-wide resd
+#=================#
+
+Lon_Lat_res_yr_lst[["BC"]]
+
+X_lst <- list()
+for(Cmpt in Cmpts) {
+  X_lst[[Cmpt]] <- Lon_Lat_res_yr_lst[[Cmpt]] %>% 
+    spread(key = Year, value = Res) %>%
+    select(-Lon, -Lat) %>%
+    t()
+}
+
+dim(X_lst[["BC"]]) #  5 * 27384
+
+save(X_lst, file = "Sp_wd_res_lst_grd_wise.RData")
+
+## X_lst:
+  # is grid-wise tmp detrended res in space-wide format 5 * 27384
+  # can be used to calculate cov in file "Sp_T_Exp_Covariance_New"
+
+
+
+
+
+#=======#
 # ref
-#------#
+#=======#
 
 a <- dplyr::select(df_all, Lon, Lat, "BC", Year) %>% group_by(Lon, Lat) %>% nest() %>%
   mutate(Model = map(data, Tmpmod_one_grid_lst[["BC"]], form = mod[["BC"]])) 
