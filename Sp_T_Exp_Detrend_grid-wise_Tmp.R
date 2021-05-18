@@ -167,6 +167,33 @@ save(X_lst, file = "Sp_wd_res_lst_grd_wise.RData")
 
 
 
+##### can be done further in ACF, lag-tau cov######
+           ## but just tried on BC #####
+#============================================#
+# ACF of grid-wise temporal detrended residual 
+#============================================#
+
+# group by year
+# averaging over space grids 
+
+TS_bc <- rowMeans(X_bc)
+str(TS_bc)
+acf(TS_bc)
+
+# no auto-correlation left in the residuals of grid-wise temporally detrend
+
+
+
+#============#
+# Lag0_corr_bc
+#============#
+
+Lag0_cor_tp_detrend_bc <- cor(X_bc)
+save(Lag0_cor_tp_detrend_bc, file = "Lag0_cor_tp_detrend_bc.RData")
+
+
+
+
 
 
 #=======#
