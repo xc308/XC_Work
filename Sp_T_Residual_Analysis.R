@@ -28,40 +28,6 @@ library(ggplot2)
 library(STRbook)
 
 
-#====================#
-# Plot of residuals
-#====================#
-
-Residual_all_Cmpts <- for (i in unique(df_Cmpts_Res_long$Cmpts)) {
-  df_Cmpts[[i]] <- filter(df_Cmpts_Res_long, Cmpts == i)
-  
-  ggplot(df_Cmpts[[i]]) + 
-    geom_point(aes(Lon, Lat, colour = Residual),
-               size = 0.1) + 
-    facet_wrap(~ Year, ncol = 3) +
-    col_scale(name = "ug/cm3",
-              limits = c(-1, 10)) + 
-    theme_bw()
-}
-
-
-#-----------#
-# single ref
-#-----------#
-
-range(df_Cmpts_Res_long$Residual)
-
-df_Cmpts_bc <- filter(df_Cmpts_Res_long, Cmpts == "BC")
-
-ggplot(df_Cmpts_bc) + 
-  geom_point(aes(Lon, Lat, colour = Residual),
-             size = 0.1) + 
-  facet_wrap(~ Year, ncol = 3) +
-  col_scale(name = "ug/cm3",
-            limits = c(-1, 10)) + 
-  theme_bw()
-
-
 
 #========================================#
 # Temporal dependence: Durbin-Watson Test
@@ -79,6 +45,9 @@ install.packages("broom")
 library(broom)
 
 
+#-----------------------------------------#
+# Test on the residuals after global detrend
+#-------------------------------------------#
 
 dwtest_one_station <- function(data) {
   dwtest(Residual ~ 1, data = data)
@@ -108,6 +77,11 @@ DW_Cmpts[["BC"]]
 #  1 -42.8  83.2 <tibble[,5… <htes…      1.95   0.474 Durbin-Wa… true autocorrelatio…
 #  2 -42    83.2 <tibble[,5… <htes…      2.07   0.533 Durbin-Wa… true autocorrelatio…
 
+
+#~~~~~~~~~~#
+# P-values
+#~~~~~~~~~~#
+
 DW_results_Cmpts <- list()
 for(i in unique(df_Cmpts_Res_long$Cmpts)) {
   DW_results_Cmpts[[i]] <- mean(DW_Cmpts[[i]]$p.value < (0.05 / nrow(DW_Cmpts[[i]]))) * 100
@@ -119,10 +93,14 @@ for(i in unique(df_Cmpts_Res_long$Cmpts)) {
   DW_results_Cmpts_2[[i]] <- mean(DW_Cmpts[[i]]$p.value < 0.05 ) * 100
 }
 
+# 90% significant level
+DW_results_Cmpts_3 <- list()
+for(i in unique(df_Cmpts_Res_long$Cmpts)) {
+  DW_results_Cmpts_3[[i]] <- mean(DW_Cmpts[[i]]$p.value < 0.1 ) * 100
+}
 
 #save(DW_results_Cmpts, file = "DW_test_results_Cmpts.RData")
 #load("DW_test_results_Cmpts.RData")
-
 
 
 head(DW_Cmpts[["BC"]]$p.value < 0.05 / nrow(DW_Cmpts[["BC"]]))
@@ -132,6 +110,40 @@ mean(DW_Cmpts[["BC"]]$p.value < 0.05 / nrow(DW_Cmpts[["BC"]])) * 100
 
 mean(DW_Cmpts[["BC"]]$p.value < 0.05) * 100 
 mean(DW_Cmpts[["OM"]]$p.value < 0.05) * 100 
+
+
+#----------------------------#
+# Test on the original Values
+#----------------------------#
+
+# test on values after removing a constant temporal trend
+dwtest_one_station_2 <- function(data) {
+  dwtest(Values ~ 1, data = data)
+}
+
+
+DW_Cmpts_2 <- list()
+nested_df_Cmpts <- list()
+df_Cmpts<- list()
+for(i in unique(df_Cmpts_Res_long$Cmpts)) {
+  df_Cmpts[[i]] <- filter(df_Cmpts_Res_long, Cmpts == i)
+  
+  nested_df_Cmpts[[i]] <- group_by(df_Cmpts[[i]], Lon, Lat) %>% nest()
+  
+  DW_Cmpts_2[[i]] <- nested_df_Cmpts[[i]] %>% 
+    mutate(dwtest2 = purrr::map(data, dwtest_one_station_2)) %>%
+    mutate(test_df2 = purrr::map(dwtest2, tidy)) %>%
+    unnest(test_df2)
+  
+}
+
+
+DW_results_Cmpts_Val <- list() # test on original values 
+for(i in unique(df_Cmpts_Res_long$Cmpts)) {
+  DW_results_Cmpts_Val[[i]] <- mean(DW_Cmpts_2[[i]]$p.value < 0.05 ) * 100
+}
+
+save(DW_results_Cmpts_Val, file = "DW_test_on_values.RData")
 
 
 
@@ -233,5 +245,79 @@ df_bc_yr_nest %>%
   mutate(variog_df = map(variog, tidy)) %>%
   unnest(variog_df)
   
+
+
+
+#====================#
+# Plot of residuals (??)
+#====================#
+
+Residual_all_Cmpts <- list()
+for (i in unique(df_Cmpts_Res_long$Cmpts)) {
+  df_Cmpts[[i]] <- filter(df_Cmpts_Res_long, Cmpts == i)
+  
+  Residual_all_Cmpts[[i]] <- ggplot(df_Cmpts[[i]]) + 
+    geom_tile(aes(Lon, Lat, fill = Residual)) +
+    facet_wrap(~ Year, ncol = 3) +
+    fill_scale(name = "ug/cm3") + 
+    theme_bw()
+}
+
+
+png("Residual-%02d.png")
+for(i in 1:6) {
+  plot(Residual_all_Cmpts[[i]])
+}
+
+plot(Residual_all_Cmpts[[1]])
+
+#-----------#
+# single ref
+#-----------#
+
+range(df_Cmpts_Res_long$Residual)
+
+df_Cmpts_bc <- filter(df_Cmpts_Res_long, Cmpts == "BC")
+
+ggplot(df_Cmpts_bc) + 
+  geom_tile(aes(Lon, Lat, fill = Residual)) +
+  facet_wrap(~ Year, ncol = 3) +
+  fill_scale(name = "ug/cm3",
+             limits = c(-1, 10)) + 
+  theme_bw()
+
+ggsave("Residual_BC-%02d.png", device = png(),
+       width = 15, height = 10, units = "cm",
+       dpi = 320)
+
+
+
+#~~~~~~~~~~~~~~~~~~~~~~#
+# positive correlation
+#~~~~~~~~~~~~~~~~~~~~~~#
+
+DW_results_Cmpts_4 <- list() 
+for(i in unique(df_Cmpts_Res_long$Cmpts)) {
+  DW_results_Cmpts_4[[i]] <- mean(DW_Cmpts[[i]]$statistic < 2) * 100
+}
+
+DW_results_Cmpts_44 <- list() # for positive correlation d < 1
+for(i in unique(df_Cmpts_Res_long$Cmpts)) {
+  DW_results_Cmpts_44[[i]] <- mean(DW_Cmpts[[i]]$statistic < 1) * 100
+}
+
+save(DW_results_Cmpts_44, DW_results_Cmpts_4, file = "DWT_pos_corr.RData")
+
+#~~~~~~~~~~~~~~~~~~~~~~#
+# negative correlation
+#~~~~~~~~~~~~~~~~~~~~~~#
+
+DW_results_Cmpts_5 <- list() # for negtive correlation
+for(i in unique(df_Cmpts_Res_long$Cmpts)) {
+  DW_results_Cmpts_5[[i]] <- mean(DW_Cmpts[[i]]$statistic > 2) * 100
+}
+
+save(DW_results_Cmpts_5, file = "DWT_neg_corr.RData")
+
 
 
