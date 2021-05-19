@@ -112,6 +112,8 @@ str(BC_step_lm) # List of 5
 stargazer(BC_step_lm[[1]], BC_step_lm[[2]], 
           BC_step_lm[[3]], BC_step_lm[[4]],
           title = "Stepwise Selection Results (1-4)",
+          dep.var.labels=c("BC (on log scale)"),
+          order = c("Constant"),
           align = T,
           omit.stat = c("LL", "ser", "f"),
           no.space = T)
@@ -121,6 +123,8 @@ stargazer(BC_step_lm[[1]], BC_step_lm[[2]],
 
 stargazer(BC_step_lm[[5]], BC_step_lm[[6]], 
           title = "Stepwise Selection Results (5-6)",
+          dep.var.labels=c("BC (on log scale)"),
+          order = c("Constant"),
           align = T,
           omit.stat = c("LL", "ser", "f"),
           no.space = T)
