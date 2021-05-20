@@ -157,5 +157,106 @@ for(i in unique(df_Cmpts_Res_long_log$Cmpts)) {
 
 
 
+#=====================#
+# SP-T semivariogram
+#=====================#
+
+install.packages("sp")
+library(sp)
+
+install.packages("spacetime")
+library(spacetime)
+
+install.packages("gstat")
+library(gstat)
+
+library(dplyr)
+
+
+# ref: https://stackoverflow.com/questions/23224142/converting-data-frame-to-xts-order-by-requires-an-appropriate-time-based-object
+install.packages("xts")
+library(xts)
+
+
+#-------#
+# STFDF
+#-------#
+
+head(df_Cmpts_Res_long_log)
+
+STFDF_Cmpts <- list()
+df_Cmpts <- list()
+for(i in unique(df_Cmpts_Res_long_log$Cmpts)) {
+  df_Cmpts[[i]] <- filter(df_Cmpts_Res_long_log, Cmpts == i)
+  
+  STFDF_Cmpts[[i]] <- STFDF(sp = SpatialPoints(coords = unique(data.frame(df_Cmpts[[i]]$Lon, df_Cmpts[[i]]$Lat))),
+                            time = xts(unique(df_Cmpts[[i]]$Year), order.by = as.Date(as.character(unique(df_Cmpts[[i]]$Year)), format = "%Y")),
+                            data = select(df_Cmpts[[i]], -Lon, -Lat, -Year))
+  
+}
+
+rownames(df_Cmpts_Res_long_log) <- NULL
+
+head(df_Cmpts_Res_long_log)
+
+
+df_Cmpts_bc <- filter(df_Cmpts_Res_long_log, Cmpts == "BC")
+
+sp_part <- SpatialPoints(coords = unique(data.frame(df_Cmpts_bc$Lon, df_Cmpts_bc$Lat)))
+str(sp_part) # @ coords     : num [1:27384, 1:2]
+
+
+t_part <- xts(unique(df_Cmpts_bc$Year), order.by = as.Date(as.character(unique(df_Cmpts_bc$Year)), format = "%Y"))
+str(t_part)  # Data: num [1:5, 1] 2012 2013 2014 2015 2016
+
+STFDF_bc <- STFDF(sp = sp_part, 
+                  time = t_part, 
+                  data = select(df_Cmpts_bc, Residual))
+
+class(STFDF_bc)
+
+vv_bc <- variogram(object = Residual ~ 1,
+                   data = STFDF_bc,
+                   width = 80,
+                   cutoff = 1000,
+                   tlags = 0:4)
+
+plot(vv_bc)
+
+ts <- xts(df_Cmpts_bc$Year, order.by = as.Date(as.character(df_Cmpts_bc$Year), format = "%Y"))
+str(ts) 
+# An ‘xts’ object on 2012-05-13/2016-05-13 containing:
+# Data: num [1:136920, 1] 2012 2012 2012 2012 2012 ...
+# Indexed by objects of class: [Date] TZ: UTC
+unique(ts) # 2012 2013 2014 2015 2016
+
+
+var_one_yr <- function(Data) {
+  variogram(Residual ~ 1, 
+            data = Data)
+}
+
+str(df_bc_yr_nest)
+
+df_bc_yr_nest <- group_by(df_Cmpts_bc, Year) %>% nest()
+head(df_bc_yr_nest)
+
+str(df_bc_yr_nest)
+df_bc_yr_nest$data[[1]] # 2016
+head(df_bc_yr_nest$data[[1]])
+tail(df_bc_yr_nest$data[[1]])
+
+
+var_one_yr(df_bc_yr_nest$data[[1]])
+
+
+df_bc_yr_nest %>%
+  mutate(variog = map(data, var_one_yr)) %>%
+  mutate(variog_df = map(variog, tidy)) %>%
+  unnest(variog_df)
+
+
+
+
 
 
