@@ -64,7 +64,7 @@ head(YrMean_Cmpts_long_log)
 
 TS_Cmpts_log <- data.frame(YrMean_Cmpts_long_log, Labels, stringsAsFactors = F)
 str(TS_Cmpts_log)
-
+head(TS_Cmpts_log)
 
 
 #-----------------#
@@ -91,6 +91,145 @@ for(i in unique(TS_Cmpts_log[,2])) {
 
 do.call(grid.arrange, Plt_ts_log)
 
+
+
+#==================#
+# Empirical Tmp Mean
+#==================#
+
+head(TS_Cmpts_log)
+nrow(TS_Cmpts_log)
+
+Year <- rep((2016:2012), 6)
+length(Year)
+
+Tp_Mean_df <- data.frame(TS_Cmpts_log, Year, stringsAsFactors = F)
+head(Tp_Mean_df)
+
+
+P_tp <- list()
+plot_tp_df <- list()
+for (i in unique(Tp_Mean_df$Label)) {
+  plot_tp_df[[i]] <- filter(Tp_Mean_df, Labels == i)
+  
+  P_tp[[i]] <- ggplot(plot_tp_df[[i]]) + 
+    geom_line(aes(x = Year, y = as.numeric(Values)),
+              colour = "LightSkyBlue") +
+    xlab("Year") + 
+    ylab("Temporal Mean \n (log)") + 
+    facet_wrap(~Labels) +
+    theme_light()
+} 
+
+do.call(grid.arrange, P_tp)
+
+
+
+
+#=======================#
+# Empirical Spatial Mean
+#=======================#
+
+Sp_mean_Cmpt_log <- list()
+for(i in unique(df_all_long_log$Cmpts)) {
+  Sp_mean_Cmpt_log[[i]] <- filter(df_all_long_log, Cmpts == i) %>%
+    select(Lon, Lat, Values) %>%
+    group_by(Lon, Lat) %>%
+    nest() %>%
+    mutate(SpMean = map(data, colMeans)) %>%
+    ungroup()
+}
+
+str(Sp_mean_Cmpt_log)
+head(Sp_mean_Cmpt_log[[1]])
+nrow(Sp_mean_Cmpt_log[[1]]) # 27384
+
+Sp_mean_Cmpt_log_long <- do.call("rbind", Sp_mean_Cmpt_log)
+str(Sp_mean_Cmpt_log_long)
+# $ SpMean:List of 164304
+
+
+## add labels
+Labs <-  c("BC", "DU", "OM", "SS", "SU", "PM25")
+
+Labels <- rep(Labs, each = 27384)
+str(Labels) # chr [1:164304] "BC" "BC" "BC" "B
+
+
+SpMean_Cmpts_long_df <- data.frame(Sp_mean_Cmpt_log_long, Labels, stringsAsFactors = F)
+head(SpMean_Cmpts_long_df, 10)
+
+
+SpMean_Cmpts_long_df2 <- SpMean_Cmpts_long_df %>% select(-data)
+head(SpMean_Cmpts_long_df2)
+tail(SpMean_Cmpts_long_df2)
+
+rownames(SpMean_Cmpts_long_df2) <- NULL
+
+
+
+#======#
+# Plot 
+#======#
+
+# to see how empirical mean varies according to the lon, lat
+# Ref: https://stackoverflow.com/questions/54373807/multipanel-plot-with-ggplot2
+
+install.packages("grid")
+install.packages("gridExtra")
+install.packages("lattice")
+install.packages("latticeExtra")
+install.packages("cowplot")
+
+library(grid)
+library(gridExtra)
+library(lattice)
+library(latticeExtra)
+library(cowplot)
+
+
+#--------------#
+# Latitude wise
+#--------------#
+
+P_lat <- list()
+plot_df <- list()
+for (i in unique(SpMean_Cmpts_long_df2$Labels)) {
+  plot_df[[i]] <- filter(SpMean_Cmpts_long_df2, Labels == i)
+  
+  P_lat[[i]] <- ggplot(plot_df[[i]]) + 
+    geom_point(aes(x = Lat, y = as.numeric(SpMean)),
+               colour = "LightSkyBlue", alpha = 0.15) +
+    xlab("Lattitude (deg)") + 
+    ylab("Empirical Mean") + 
+    facet_wrap(~ Labels) +
+    theme_light()
+} 
+
+do.call(grid.arrange, P_lat) # plot
+
+
+#--------------#
+# Longitude wise
+#--------------#
+
+P_lat <- list()
+plot_df <- list()
+for (i in unique(SpMean_Cmpts_long_df2$Labels)) {
+  plot_df[[i]] <- filter(SpMean_Cmpts_long_df2, Labels == i)
+  
+  P_lat[[i]] <- ggplot(plot_df[[i]]) + 
+    geom_point(aes(x = Lon, y = as.numeric(SpMean)),
+               colour = "LightSkyBlue", alpha = 0.15) +
+  #geom_point(aes(x = Lon, y = as.numeric(SpMean)),
+   #          colour = "#b3daff", alpha = 0.15) +
+    xlab("Longitude (deg)") + 
+    ylab("Empirical Mean") + 
+    facet_wrap(~ Labels) +
+    theme_light()
+} 
+
+do.call(grid.arrange, P_lat) # plot
 
 
 
