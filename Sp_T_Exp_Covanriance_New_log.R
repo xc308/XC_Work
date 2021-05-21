@@ -102,12 +102,6 @@ Lag0_corr_PM25_OM_log <- cor(X_log[["PM25"]], X_log[["OM"]])
 Lag0_corr_OM_SS_log <- cor(X_log[["OM"]], X_log[["SS"]])
 
 
-Lag0_cor <- c(Lag0_corr_BC_DU, Lag0_corr_DU_SU, Lag0_corr_SU_PM25, Lag0_corr_PM25_OM, Lag0_corr_OM_SS)
-for(i in unique(Lag0_cor)) {
-  save(i, file = paste0(i, ".RData"))
-}
-
-
 
 
 #=========================#
@@ -173,26 +167,26 @@ EMP_cor_lat_plt <- function(C, sp_loc_df) {
 # Plot of uni-correlation
 #========================#
 
-png("Lag0_corr_BC-%02d.png")
+png("Lag0_corr_BC_log-%02d.png")
 png("Lag0_corr_BC-04.png")
-EMP_cor_lat_plt(Lag0_corr_BC, sp_loc_df)
+EMP_cor_lat_plt(Lag0_corr_BC_log, sp_loc_df)
 
-png("Lag0_corr_DU-%02d.png")
+png("Lag0_corr_DU-log-%02d.png")
 png("Lag0_corr_DU-04.png")
-EMP_cor_lat_plt(Lag0_corr_DU, sp_loc_df)
+EMP_cor_lat_plt(Lag0_corr_DU_log, sp_loc_df)
 
-png("Lag0_corr_OM-%02d.png")
+png("Lag0_corr_OM-log-%02d.png")
 png("Lag0_corr_OM-04.png")
-EMP_cor_lat_plt(Lag0_corr_OM, sp_loc_df)
+EMP_cor_lat_plt(Lag0_corr_OM_log, sp_loc_df)
 
-png("Lag0_corr_SU-%02d.png")
-EMP_cor_lat_plt(Lag0_corr_SU, sp_loc_df)
+png("Lag0_corr_SU-log-%02d.png")
+EMP_cor_lat_plt(Lag0_corr_SU_log, sp_loc_df)
 
-png("Lag0_corr_SS-%02d.png")
-EMP_cor_lat_plt(Lag0_corr_SS, sp_loc_df)
+png("Lag0_corr_SS-log-%02d.png")
+EMP_cor_lat_plt(Lag0_corr_SS_log, sp_loc_df)
 
-png("Lag0_corr_PM25-%02d.png")
-EMP_cor_lat_plt(Lag0_corr_PM25, sp_loc_df)
+png("Lag0_corr_PM25-log-%02d.png")
+EMP_cor_lat_plt(Lag0_corr_PM25_log, sp_loc_df)
 
 
 
