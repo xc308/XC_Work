@@ -130,6 +130,13 @@ do.call(grid.arrange, P_tp)
 # Empirical Spatial Mean
 #=======================#
 
+library(dplyr)
+library(tidyr)
+
+install.packages("purrr")
+library(purrr)
+
+
 Sp_mean_Cmpt_log <- list()
 for(i in unique(df_all_long_log$Cmpts)) {
   Sp_mean_Cmpt_log[[i]] <- filter(df_all_long_log, Cmpts == i) %>%
@@ -139,6 +146,8 @@ for(i in unique(df_all_long_log$Cmpts)) {
     mutate(SpMean = map(data, colMeans)) %>%
     ungroup()
 }
+
+
 
 str(Sp_mean_Cmpt_log)
 head(Sp_mean_Cmpt_log[[1]])
@@ -200,7 +209,7 @@ for (i in unique(SpMean_Cmpts_long_df2$Labels)) {
   P_lat[[i]] <- ggplot(plot_df[[i]]) + 
     geom_point(aes(x = Lat, y = as.numeric(SpMean)),
                colour = "LightSkyBlue", alpha = 0.15) +
-    xlab("Lattitude (deg)") + 
+    xlab("Latitude (deg)") + 
     ylab("Empirical Mean") + 
     facet_wrap(~ Labels) +
     theme_light()
