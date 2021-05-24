@@ -89,13 +89,15 @@ stargazer(BC_step_lm[[1]], BC_step_lm[[2]],
           BC_step_lm[[3]], BC_step_lm[[4]],
           title = "Stepwise Selection Results (1-4)",
           align = T,
-          omit.stat = c("LL", "ser", "f"),
+          order = c("Constant"),
+          omit.stat = c("LL", "f"),
           no.space = T)
 
 stargazer(BC_step_lm[[5]], BC_step_lm[[6]], 
           title = "Stepwise Selection Results (5-6)",
           align = T,
-          omit.stat = c("LL", "ser", "f"),
+          order = c("Constant"),
+          omit.stat = c("LL", "f"),
           no.space = T)
 
 
@@ -115,7 +117,7 @@ stargazer(DU_step_lm[[1]], DU_step_lm[[2]],
           dep.var.labels=c("DU (on log scale)"),
           order = c("Constant"),
           align = T,
-          omit.stat = c("LL", "ser", "f"),
+          omit.stat = c("LL", "f"),
           no.space = T)
 
 
@@ -124,7 +126,7 @@ stargazer(DU_step_lm[[5]], DU_step_lm[[6]],
           dep.var.labels=c("DU (on log scale)"),
           order = c("Constant"),
           align = T,
-          omit.stat = c("LL", "ser", "f"),
+          omit.stat = c("LL", "f"),
           no.space = T)
 
 
@@ -144,7 +146,7 @@ stargazer(OM_step_lm[[1]], OM_step_lm[[2]],
           dep.var.labels=c("OM (on log scale)"),
           order = c("Constant"),
           align = T,
-          omit.stat = c("LL", "ser", "f"),
+          omit.stat = c("LL", "f"),
           no.space = T)
 
 
@@ -153,7 +155,7 @@ stargazer(OM_step_lm[[5]], OM_step_lm[[6]],
           align = T,
           dep.var.labels=c("OM (on log scale)"),
           order = c("Constant"),
-          omit.stat = c("LL", "ser", "f"),
+          omit.stat = c("LL", "f"),
           no.space = T)
 
 
@@ -173,7 +175,7 @@ stargazer(SU_step_lm[[1]], SU_step_lm[[2]],
           dep.var.labels=c("SU (on log scale)"),
           order = c("Constant"),
           align = T,
-          omit.stat = c("LL", "ser", "f"),
+          omit.stat = c("LL", "f"),
           no.space = T)
 
 
@@ -182,7 +184,7 @@ stargazer(SU_step_lm[[5]], SU_step_lm[[6]],
           align = T,
           dep.var.labels=c("SU (on log scale)"),
           order = c("Constant"),
-          omit.stat = c("LL", "ser", "f"),
+          omit.stat = c("LL",  "f"),
           no.space = T)
 
 
@@ -203,7 +205,7 @@ stargazer(SS_step_lm[[1]], SS_step_lm[[2]],
           align = T,
           dep.var.labels=c("SS (on log scale)"),
           order = c("Constant"),
-          omit.stat = c("LL", "ser", "f"),
+          omit.stat = c("LL", "f"),
           no.space = T)
 
 stargazer(SS_step_lm[[5]], SS_step_lm[[6]],
@@ -211,7 +213,7 @@ stargazer(SS_step_lm[[5]], SS_step_lm[[6]],
           align = T,
           dep.var.labels=c("SS (on log scale)"),
           order = c("Constant"),
-          omit.stat = c("LL", "ser", "f"),
+          omit.stat = c("LL", "f"),
           no.space = T)
 
 
@@ -232,7 +234,7 @@ stargazer(PM25_step_lm[[1]], PM25_step_lm[[2]],
           align = T,
           dep.var.labels=c("PM25 (on log scale)"),
           order = c("Constant"),
-          omit.stat = c("LL", "ser", "f"),
+          omit.stat = c("LL", "f"),
           no.space = T)
 
 stargazer(PM25_step_lm[[5]], PM25_step_lm[[6]], 
@@ -240,7 +242,7 @@ stargazer(PM25_step_lm[[5]], PM25_step_lm[[6]],
           align = T,
           dep.var.labels=c("PM25 (on log scale)"),
           order = c("Constant"),
-          omit.stat = c("LL", "ser", "f"),
+          omit.stat = c("LL", "f"),
           no.space = T)
 
 
