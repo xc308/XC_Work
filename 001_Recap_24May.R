@@ -28,6 +28,16 @@ library(tidyr)
 #=====================#
 
 head(df_all)
+# at each give location, the sum of 5 Cmpts is PM25
+# 0.007900851 + 0.003339927 + 0.11029157 + 0.05850084+ 0.01452385
+# = 0.194557
+
+
+log(5) + log(3) + log(7)  # 4.65396
+log(15)  # 2.70805
+
+
+
 
 df_all_lg <- df_all
 head(df_all_lg)
@@ -54,9 +64,26 @@ str(df_all_log)
 # 5 yrs data 27384 * 5 = 136920
 
 
+#------------#
+# fit BC lm
+#------------#
+fit_BC_log <- lm(BC ~ Lon + Lat + I(Lat^2), data = df_all_log)
+
+fitted_BC_Mean_log <- fit_BC_log$fitted.values
+fitted_BC_Residual_log <- fit_BC_log$residuals
+
+str(fitted_BC_Mean_log)
+# Named num [1:136920] -3.47 -3.47 -3.47 -3.46 
+str(fitted_BC_Residual_log)
+# Named num [1:136920] -1.37 -1.51 -1.54 -1.54 -1.51 
+
+#rm(fitted_BC_Mean)
+#rm(fitted_BC_Residual)
+
+
 
 #======================#
-# df_Cmpts_Res_long_log
+# df_Cmpts_Res_long_log (spot a mistake)
 #======================#
 
 load("/Users/xchen/OneDrive - University of Exeter/XC_PhD/Data/Processed/XC_WORK/RData/df_Cmpts_Res_long_log.RData")
@@ -80,6 +107,40 @@ tail(df_Cmpts_Res_long_log)
 
 
 
+#--------------------#
+# Detrending using lm
+#--------------------#
+
+
+
+form_Compts <- list()
+for (i in unique(df_all_long_log$Cmpts)) {
+  form_Compts <- filter(df_Cmpts_Res_long_log, Cmpts == i) %>%
+    as.formula(paste0(i, "~", "Lon + Lat + I(Lat^2)")) %>%
+  lm_fit_cmpts <- lm(formula = form_Compts[[i]], data = df_all_log)
+  
+}
+
+
+
+
+
+
+df_Cmpts <-list()
+for(i in unique(df_all_long_log$Cmpts)) {
+  
+  df_Cmpts[[i]] <- filter(df_all_long_log, Cmpts == i)
+  form_cmpts[[i]] <- as.formula(paste0(i, "~", "Lon + Lat + I(Lat ^ 2)"))
+  lm_fit_cmpts[[i]] <- lm(form_cmpts[[i]], data = df_all_log)
+  df_Cmpts[[i]]$Residual <- lm_fit_cmpts[[i]]$residuals
+  
+}
+
+df_Cmpts_Res_long_log <- do.call("rbind", df_Cmpts) # 821520 * 7 = 136920 * 6 components * 7 var
+
+
+
+
 #-------
 # Wide
 #------
@@ -89,4 +150,21 @@ df_Cmpts_Res_wide_log <- df_Cmpts_Res_long_log %>%
   spread(key = Cmpts, value = Residual)
 
 head(df_Cmpts_Res_wide_log)
+
+save(df_Cmpts_Res_wide_log, file = "/Users/xchen/OneDrive - University of Exeter/XC_PhD/Data/Processed/XC_WORK/RData/df_Cmpts_Res_wide_log.RData")
+
+
+
+range(df_Cmpts_Res_wide_log$BC)  # [1] -1.050601 53.809133
+quantile(df_Cmpts_Res_wide_log$BC)
+#         0%         25%         50%         75%        100% 
+# -1.05060097 -0.44997465 -0.19906984  0.09433469 53.80913259 
+
+quantile(df_Cmpts_Res_wide_log$DU)
+#        0%        25%        50%        75%       100% 
+# -21.240140 -10.537969  -5.738078   2.681979 953.412098 
+
+quantile(df_Cmpts_Res_wide_log$)
+
+
 
