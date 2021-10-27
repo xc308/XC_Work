@@ -15,7 +15,7 @@ df_all_lg <- df_all_lg %>% mutate(across(.cols = c(BC:PM25), .fns = log))
 head(df_all_lg)
 
 # across apply a function/s to multiple cols of df
-
+# ref: https://dplyr.tidyverse.org/reference/across.html
 
 
 install.packages("stargazer")
