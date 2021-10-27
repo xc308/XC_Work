@@ -162,13 +162,54 @@ df_Cmpts_Mn_Res_long_log %>%
 df_Cmpts_Mn_Res_wide_log <- df_Cmpts_Mn_Res_long_log %>% 
   pivot_wider(names_from = "Cmpts",
               values_from = c("Values_log", "Fitted_Val_log", "Residuals_log"),
-              names_glue = "{Cmpts}_{.value}")
+              names_glue = "{Cmpts}_{.value}") %>% 
+  as.data.frame()
 
 head(df_Cmpts_Mn_Res_wide_log)
 str(df_Cmpts_Mn_Res_wide_log)
+# 'data.frame':	136920 obs. of  22 variables:
 
 
-save(df_Cmpts_Mn_Res_wide_log, file = "/Users/xchen/OneDrive - University of Exeter/XC_PhD/Data/Processed/XC_WORK/RData/df_Cmpts_Mn_Res_wide_log.rda")
+save(df_Cmpts_Mn_Res_wide_log, 
+     file = "/Users/xchen/OneDrive - University of Exeter/XC_PhD/Data/Processed/XC_WORK/RData/df_Cmpts_Mn_Res_wide_log.rda")
+
+
+#-----------------------#
+# df_Cmpts_Res_wide_log
+#-----------------------#
+
+# Only work on residuals
+head(df_Cmpts_Mn_Res_wide_log)
+
+
+df_Cmpts_Res_wide_log <- df_Cmpts_Mn_Res_wide_log %>%
+  select(Lon, Lat, Year, 
+         BC_Residuals_log, DU_Residuals_log,
+         OM_Residuals_log, SS_Residuals_log,
+         SU_Residuals_log, PM25_Residuals_log)
+
+
+head(df_Cmpts_Res_wide_log)
+str(df_Cmpts_Res_wide_log)
+# 'data.frame':	136920 obs. of  9 variables:
+
+
+
+#====================#
+# Map the Residuals
+#====================#
+
+# if residuals exhibit spatial patterns, then justify further spatial modelling
+
+
+
+
+
+
+
+
+
+
 
 
 
