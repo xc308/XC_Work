@@ -88,6 +88,7 @@ str(fitted_BC_Residual_log)
 
 # spot mistake in df_Cmpts_Res_long_log, model fitted data is wrong
 # so refit below
+rm(df_Cmpts_Res_long_log)
 
 
 #------------------------------#
@@ -148,26 +149,26 @@ save(df_Cmpts_Mn_Res_long_log,
 # Wide
 #------
 
-df_Cmpts_Res_wide_log <- df_Cmpts_Res_long_log %>% 
-  select(Lon, Lat, Year, Cmpts, Residual) %>%
-  spread(key = Cmpts, value = Residual)
-
-head(df_Cmpts_Res_wide_log)
-
-save(df_Cmpts_Res_wide_log, file = "/Users/xchen/OneDrive - University of Exeter/XC_PhD/Data/Processed/XC_WORK/RData/df_Cmpts_Res_wide_log.RData")
+# pivotwider ref: https://stackoverflow.com/questions/29775461/how-can-i-spread-repeated-measures-of-multiple-variables-into-wide-format
 
 
+str(df_Cmpts_Mn_Res_long_log)
 
-range(df_Cmpts_Res_wide_log$BC)  # [1] -1.050601 53.809133
-quantile(df_Cmpts_Res_wide_log$BC)
-#         0%         25%         50%         75%        100% 
-# -1.05060097 -0.44997465 -0.19906984  0.09433469 53.80913259 
+df_Cmpts_Mn_Res_long_log %>%
+  select(Lon, Lat, Year, Cmpts,
+         Fitted_Val_log, Residuals_log)
 
-quantile(df_Cmpts_Res_wide_log$DU)
-#        0%        25%        50%        75%       100% 
-# -21.240140 -10.537969  -5.738078   2.681979 953.412098 
 
-quantile(df_Cmpts_Res_wide_log$)
+df_Cmpts_Mn_Res_wide_log <- df_Cmpts_Mn_Res_long_log %>% 
+  pivot_wider(names_from = "Cmpts",
+              values_from = c("Values_log", "Fitted_Val_log", "Residuals_log"),
+              names_glue = "{Cmpts}_{.value}")
+
+head(df_Cmpts_Mn_Res_wide_log)
+str(df_Cmpts_Mn_Res_wide_log)
+
+
+save(df_Cmpts_Mn_Res_wide_log, file = "/Users/xchen/OneDrive - University of Exeter/XC_PhD/Data/Processed/XC_WORK/RData/df_Cmpts_Mn_Res_wide_log.rda")
 
 
 
