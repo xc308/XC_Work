@@ -2,6 +2,10 @@
 # Global Detrend on log scale
 #******************************#
 
+getwd()
+# [1] "/Users/xchen/OneDrive - University of Exeter/XC_PhD/Data/Processed/XC_WORK/XC_Work"
+
+
 library(dplyr)
 
 
@@ -36,7 +40,7 @@ library(STRbook)
 
 
 #=============================#
-# Fit 6 globle models in one go
+# Fit 6 globle models in one go (one data mistake in line 56; correct in 001.R)
 #=============================#
 
 # global model fitted using step-wise selection, see below section
@@ -53,7 +57,8 @@ for(i in unique(df_all_long_log$Cmpts)) {
   
   df_Cmpts[[i]] <- filter(df_all_long_log, Cmpts == i)
   form_cmpts[[i]] <- as.formula(paste0(i, "~", "Lon + Lat + I(Lat ^ 2)"))
-  lm_fit_cmpts[[i]] <- lm(form_cmpts[[i]], data = df_all)
+  #lm_fit_cmpts[[i]] <- lm(form_cmpts[[i]], data = df_all) wrong data
+  lm_fit_cmpts[[i]] <- lm(form_cmpts[[i]], data = df_all_lg) # not run; run in 001
   df_Cmpts[[i]]$Residual <- lm_fit_cmpts[[i]]$residuals
   
 }
