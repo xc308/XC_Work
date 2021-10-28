@@ -6,9 +6,12 @@
 #' @name Form_Z
 #' @aliases bisquare_1d
 #'
-#' @description This function concatenates different variables of a data frame into one vector. 
-#' @param h displacement (1d)
-#' @details It also allows a reverse version of the order of variables formed into one vector hence create a reverse version of the intended model.
+#' @description This function concatenates different variables of a data frame into one joint vector. 
+#' @param df data frame 
+#' @param col_num1 The 1st col want to extract from df to be the 1st variable in the concatenated joint vector.
+#' @param col_num2 The 2nd col want to extract from df to be the 2nd variable in the concatenated joint vector.
+#' @param model_num It can only be 1 or 2. If model_num == 2, then concate a reversed version.
+#' @details 
 #' @export
 #' @examples
 
