@@ -132,7 +132,7 @@ mesh <- inla.mesh.2d(loc = df_Cmpt_Res_log_16[c("Lon", "Lat")],
              offset = 4)
 
 str(mesh)
-
+rm(mes)
 
 #-------------------#
 # mesh locations
@@ -157,29 +157,28 @@ str(mesh_locs) # num [1:218377, 1:2]
   # The function RFearth2dist calculates distances, cf. dist, assuming that the earth is an ellipsoid.
 
 
+
+#~~~~~~~~~~~~~~~~~~~~~~~~#
+# Try using sparse matrix
+#~~~~~~~~~~~~~~~~~~~~~~~~#
+
+# https://stackoverflow.com/questions/5171593/r-memory-management-cannot-allocate-vector-of-size-n-mb
+
+str(mesh_locs) # num [1:218377, 1:2]
+mesh_locs_spars <- mesh_locs %>% as("dgeMatrix")
+str(mesh_locs_spars)
+
+try <- as.matrix(mesh_locs_spars )
+rm(try)
+rm(mesh_locs_spars)
+## Not useful
+
+
+
 D <- as.matrix(RFearth2dist(coord = as.matrix(mesh_locs))) # dist in Cartisian sys
+
 
 D_vec <- as.double(c(D))
 
-rm(Rst_Cmpt_Res_log_16)
-rm(WHO_map)
-rm(WHO_regions)
-rm(fitted_BC_Mean_log)
-rm(fit_BC_log)
-rm(fitted_BC_Residual_log)
-rm(lm_fit_Cmpts)
-rm(dfr)
-rm(Bk_Res_log_16)
-rm(df_all)
-rm(df_all_log)
-rm(df_all_long_log)
-rm(df_Cmpts)
-rm(df_Cmpts_Mn_Res_long_log)
-rm(df_Cmpts_Mn_Res_wide_log)
-rm(form_Compts)
-rm(plt)
-rm(Z_BC_OM)
-rm(df_Cmpts_Res_wide_log)
-rm(labels_expback_total)
 
 
