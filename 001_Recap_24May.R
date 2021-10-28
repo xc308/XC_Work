@@ -195,12 +195,6 @@ str(df_Cmpts_Res_wide_log)
 
 
 
-#====================#
-# Map the Residuals
-#====================#
-
-# if residuals exhibit spatial patterns, then justify further spatial modelling
-
 
 
 
