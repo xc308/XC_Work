@@ -175,8 +175,24 @@ rm(mesh_locs_spars)
 
 
 
-D <- as.matrix(RFearth2dist(coord = as.matrix(mesh_locs))) # dist in Cartisian sys
+## try bigmemory package (Warning: R cannot save the file)
+install.packages("bigmemory")
+library(bigmemory)
+detach("package:bigmemory")
 
+
+
+## try snow package
+install.packages("snow")
+library(snow)
+
+makeCl
+cl <- makeCluster(1)
+D <- parRapply(cl, x = as.matrix(mesh_locs), fun = RFearth2dist)
+str(D)
+
+D <- as.big.matrix(RFearth2dist(coord = as.matrix(mesh_locs)))
+D <- as.big.matrix(RFearth2dist(coord = as.matrix(mesh_locs))) # dist in Cartisian sys
 
 D_vec <- as.double(c(D))
 
