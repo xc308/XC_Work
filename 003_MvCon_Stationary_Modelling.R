@@ -158,6 +158,40 @@ str(mesh_locs) # num [1:218377, 1:2]
 
 
 
+mesh_locs_cart <- as.matrix(RFearth2cartesian(coord = as.matrix(mesh_locs)))
+str(mesh_locs_cart)  # num [1:218377, 1:3]
+M <- mesh_locs_cart[, 1:2]
+n1 <- nrow(M)
+
+rm(mesh)
+rm(mesh_locs)
+rm(mesh_locs_cart)
+
+# To calculate the Euclidean distance for large matrix
+install.packages("distances")
+library(distances)
+
+
+D <- distances(M)
+str(D)  # 'distances' num [1:2, 1:218377]
+
+# turn distances obj into dist obj
+D_dist <- distance_matrix(D)
+
+
+
+D <- as.big.matrix(RFearth2dist(coord = as.matrix(mesh_locs)))
+D <- as.big.matrix(RFearth2dist(coord = as.matrix(mesh_locs))) # dist in Cartisian sys
+
+D_vec <- as.double(c(D))
+
+
+
+
+
+
+#### History ####
+
 #~~~~~~~~~~~~~~~~~~~~~~~~#
 # Try using sparse matrix
 #~~~~~~~~~~~~~~~~~~~~~~~~#
@@ -178,23 +212,20 @@ rm(mesh_locs_spars)
 ## try bigmemory package (Warning: R cannot save the file)
 install.packages("bigmemory")
 library(bigmemory)
-detach("package:bigmemory")
+#detach("package:bigmemory")
 
+bg_mesh_locs <- as.big.matrix(mesh_locs)
+str(bg_mesh_locs)
+object.size(bg_mesh_locs)
 
 
 ## try snow package
 install.packages("snow")
 library(snow)
 
-makeCl
+
 cl <- makeCluster(1)
 D <- parRapply(cl, x = as.matrix(mesh_locs), fun = RFearth2dist)
 str(D)
-
-D <- as.big.matrix(RFearth2dist(coord = as.matrix(mesh_locs)))
-D <- as.big.matrix(RFearth2dist(coord = as.matrix(mesh_locs))) # dist in Cartisian sys
-
-D_vec <- as.double(c(D))
-
 
 
