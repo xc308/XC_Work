@@ -358,7 +358,9 @@ save(coords_glob, file = "coords_glob.rda")
 load("coords_glob.rda")
 
 
+#----------
 # verify 
+#----------
 all_lat_5475 <- coords_glob %>%
   filter(Lat == -54.75)
 nrow(all_lat_5475)  #  480
@@ -374,7 +376,20 @@ df_all_lat_5475 <- df_all %>%
 indx <- match(all_lat_5475$Lon, df_all_lat_5475$Lon)
 str(indx)
 all(indx == "NA")  # [1] FALSE
-which(indx != "NA")
+which(indx != "NA") # [1] 146 147 148 149 150 151 152 153
+
+
+
+#------------------
+# extract 2nd strip
+#------------------
+coords_2nd_strip <- coords_glob%>%
+  filter(between(Lon, -90.00, 0.00))
+
+head(coords_2nd_strip)
+
+save(coords_2nd_strip, file = "coords_2nd_strip.rda")
+
 
 
 #=====================================#
