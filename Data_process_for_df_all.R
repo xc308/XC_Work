@@ -72,7 +72,7 @@ for (i in seq_along(load_years)) {
   load_names_yr[[i]] <- paste(load_names, load_years[i], sep = "")
 }
 
-#load_names_yr[[1]]
+load_names_yr[[1]]
 
 comp_names <- lapply(load_names_yr, function(x) str_to_upper(x))
 comp_names
@@ -125,11 +125,12 @@ head(lon_re) # [1] 0.00 0.75 1.50 2.25 3.00 3.75
 head(order(lon_re)) # [1] 242 243 244 245 246 247
 
 
+
 #---------------------#
 # Define Raster Names
 #---------------------#
 
-rev(R_names)
+#rev(R_names)
 
 R_names <- c("R_PM25", "R_SU", "R_SS", "R_OM", "R_DU", "R_BC")
 R_yrs <- c("_2016", "_2015", "_2014", "_2013", "_2012")
@@ -255,6 +256,7 @@ for (i in 1:5) {
 R_comp_yr[[1]] # all components in 2016
 
 
+
 #------------------#
 # single year (ref)
 #------------------#
@@ -296,10 +298,9 @@ R_mask_all[[1]]
 
 
 #==================================#
-# Code Chunk 5: Stack Raster Layers
+# Code Chunk 5: Stack Raster Layers (trimed)
 #==================================#
 # by year
-
 stack_i <- function(i = i) {
   stack(R_mask_all[[i]][[1]], R_mask_all[[i]][[2]],
         R_mask_all[[i]][[3]], R_mask_all[[i]][[4]],
@@ -314,6 +315,60 @@ stk_lst <- list(stk_2016 = stack_i(1), stk_2015 = stack_i(2),
      stk_2014 = stack_i(3), stk_2013 = stack_i(4),
      stk_2012 = stack_i(5))
 stk_lst
+
+
+
+#==================================#
+# Code Chunk 5': Stack Raster Layers (Not trimed)
+#==================================#
+
+R_comp_yr[[1]] # all components in 2016
+
+# by year
+stack_i_no_trim <- function(i = i) {
+  stack(R_comp_yr[[i]][[1]], R_comp_yr[[i]][[2]],
+        R_comp_yr[[i]][[3]], R_comp_yr[[i]][[4]],
+        R_comp_yr[[i]][[5]], R_comp_yr[[i]][[6]])
+}
+
+
+stack_i_no_trim(1)
+
+
+#=====================================#
+# Code Chunk 6': Dataframe Stack Layers (not trim)
+#=====================================#
+
+df_16_no_trim <- as.data.frame(stack_i_no_trim(1), xy = TRUE)
+head(df_16_no_trim)
+#    x  y   R_BC_2016
+#1 -179.25 90 0.008406345
+#2 -178.50 90 0.008406345
+#3 -177.75 90 0.008406345
+
+coords_glob <- df_16_no_trim %>%
+  select(x, y) 
+  
+str(coords_glob)  # 'data.frame':	115680 obs
+names(coords_glob) <- c("Lon", "Lat")
+
+head(coords_glob)
+
+save(coords_glob, file = "coords_glob.rda")
+load("coords_glob.rda")
+
+
+# verify 
+all_lat_5475 <- coords_glob %>%
+  filter(Lat == -54.75)
+
+
+df_all_lat_5475 <- df_all %>% 
+  select(Lon, Lat) %>%
+  filter(Lat == -54.75)
+
+
+
 
 
 
@@ -413,4 +468,4 @@ df_all <- do.call(rbind, df_lst)
 head(df_all)
 tail(df_all)
 
-
+load("df_all.Rda")
