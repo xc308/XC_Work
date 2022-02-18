@@ -361,15 +361,20 @@ load("coords_glob.rda")
 # verify 
 all_lat_5475 <- coords_glob %>%
   filter(Lat == -54.75)
+nrow(all_lat_5475)  #  480
 
 
+str(df_all)
 df_all_lat_5475 <- df_all %>% 
+  filter(Year == "2016") %>%
   select(Lon, Lat) %>%
   filter(Lat == -54.75)
 
 
-
-
+indx <- match(all_lat_5475$Lon, df_all_lat_5475$Lon)
+str(indx)
+all(indx == "NA")  # [1] FALSE
+which(indx != "NA")
 
 
 #=====================================#
