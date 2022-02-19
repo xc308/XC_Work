@@ -141,7 +141,9 @@ rm(mes)
 str(mesh$loc)  # num [1:218377, 1:3]
 mesh_locs <- mesh$loc[, 1:2]
 
-str(mesh_locs) # num [1:218377, 1:2]
+str(mesh_locs) # num [1:218377, 1:2]  # ellipsoid
+
+save(mesh_locs, file = "/Users/xchen/OneDrive - University of Exeter/XC_PhD/Data/Processed/XC_WORK/RData/mesh_locs.rda")
 
 
 #---------------------------#
@@ -157,44 +159,33 @@ str(mesh_locs) # num [1:218377, 1:2]
   # The function RFearth2dist calculates distances, cf. dist, assuming that the earth is an ellipsoid.
 
 
+## Practical problem:
+  ## 
+      # The matrix size it can create is limited by .Machine$integer.max [1] 2147483647
+      sqrt(2147483647) 
+      # so the dimension of the mesh_loc matrix is capped at 46340 * 46340
+
+ 
+      
+.Machine$integer.max      
+           
+
 
 mesh_locs_cart <- as.matrix(RFearth2cartesian(coord = as.matrix(mesh_locs)))
 str(mesh_locs_cart)  # num [1:218377, 1:3]
-M <- mesh_locs_cart[, 1:2]
-n1 <- nrow(M)
 
-rm(mesh)
-rm(mesh_locs)
-rm(mesh_locs_cart)
+M_loc_cart <- mesh_locs_cart[, 1:2]   # cartisian
+str(M_loc_cart) # num [1:218377, 1:2] 
 
-# To calculate the Euclidean distance for large matrix
-install.packages("distances")
-library(distances)
-
-
-D <- distances(M)
-str(D)  # 'distances' num [1:2, 1:218377]
-
-# turn distances obj into dist obj
-D_dist <- distance_matrix(D)
-
-
-
-D <- as.big.matrix(RFearth2dist(coord = as.matrix(mesh_locs)))
-D <- as.big.matrix(RFearth2dist(coord = as.matrix(mesh_locs))) # dist in Cartisian sys
-
-D_vec <- as.double(c(D))
-
-
+dist(M_loc_cart)  # fail
 
 
 
 
 #### History ####
 
-#~~~~~~~~~~~~~~~~~~~~~~~~#
-# Try using sparse matrix
-#~~~~~~~~~~~~~~~~~~~~~~~~#
+
+## Try using sparse matrix
 
 # https://stackoverflow.com/questions/5171593/r-memory-management-cannot-allocate-vector-of-size-n-mb
 
@@ -229,3 +220,28 @@ D <- parRapply(cl, x = as.matrix(mesh_locs), fun = RFearth2dist)
 str(D)
 
 
+
+## To calculate the Euclidean distance for large matrix
+install.packages("distances")
+library(distances)
+
+
+D <- distances(M_loc_cart)
+str(D)  # 'distances' num [1:2, 1:218377]
+
+# turn distances obj into dist obj (fail)
+D_dist <- distance_matrix(D)
+
+
+
+## Try to calculate the distance by myself
+n1 <- n2 <- nrow(M_loc_cart)
+
+h <- matrix(0, n1 * n2, 2)   
+for (i in 1:n2) {
+  h[((i - 1) * n1) : (i * n1), ] <- t(t(mesh_locs_cart) - mesh_locs_cart[i, ])
+}
+
+# Error in matrix(0, n1 * n2, 2) : invalid 'nrow' value (too large or NA)
+#In addition: Warning message:
+#  In n1 * n2 : NAs produced by integer overflow
