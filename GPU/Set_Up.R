@@ -1,3 +1,4 @@
+#load("/Users/xchen/OneDrive - University of Exeter/XC_PhD/Data/Processed/XC_WORK/RData/df_Cmpts_Res_long_log.RData")
 
 
 #load("/Users/gavin/Desktop/XC_WORK/XC_WORK/df_Cmpts_Res_long_log.RData")
@@ -46,7 +47,7 @@ for(i in unique(df_Cmpts_Res_long$Cmpts)) {
 
 str(X)
 
-save(X, file = "5yr_Residual_matrix_all_Cmpts")
+save(X, file = "5yr_Residual_matrix_all_Cmpts.rda")
 
 
 #install.packages("fields")
@@ -92,6 +93,8 @@ EMP_cor_lat_plt2 <- function(C, sp_loc_df, strip_num = NA) {
                xlab = "Latitude", ylab = "Latitude",
                col = tim.colors(100), 
                #col = brewer_AC.div(500),
-               cex = 200)
+               cex = 200, 
+               cex.lab = 2,
+               cex.axis = 2)
   #}
 }
