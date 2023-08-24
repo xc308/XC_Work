@@ -17,18 +17,6 @@
       # output: the parent node id corresponds to the input one
 
 
-#------------------------
-# hierarchy data structure
-#------------------------
-
-hierarchy_data <- data.frame(
-  node_id = c(1, 2, 3, 4),
-  par_id = c(NA, 1, 2, 1)
-)
-
-head(hierarchy_data)
-
-
 
 #----------------------------------------------------------
 # function to check if one node is a parent node of another
@@ -61,25 +49,24 @@ Check_par_node <- function(Node, data = hierarchy_data) {
 #-----
 # Test
 #------
-Check_par_node(Node = 3, data = hierarchy_data) # [1] 2
-Check_par_node(Node = 4, data = hierarchy_data) # [1] 1
+#Check_par_node(Node = 3, data = hierarchy_data) # [1] 2
+#Check_par_node(Node = 4, data = hierarchy_data) # [1] 1
 
 
-hierarchy_data2 <- data.frame(
-  node_id = c(1, 2, 3, 3, 4, 4),
-  par_id = c(NA, 1, c(2, 1), c(2, 3))
-)
+#hierarchy_data2 <- data.frame(
+  #node_id = c(1, 2, 3, 3, 4, 4),
+  #par_id = c(NA, 1, c(2, 1), c(2, 3))
+#)
 
-Check_par_node(Node = 3, data = hierarchy_data2)
-res <- Check_par_node(Node = 4, data = hierarchy_data2)
-str(res) # num [1:2] 2 3 a vector
-res[1]
-res[2]
-
-
+#Check_par_node(Node = 3, data = hierarchy_data2)
+#res <- Check_par_node(Node = 4, data = hierarchy_data2)
+#str(res) # num [1:2] 2 3 a vector
+#res[1]
+#res[2]
 
 
-
+#mach_cond <- hierarchy_data2$node_id == 3
+#Par_index <- hierarchy_data2[mach_cond, ]$par_id
 
 
 
