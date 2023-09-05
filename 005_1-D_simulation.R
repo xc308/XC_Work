@@ -13,12 +13,14 @@ rm(list = ls())
 # Settings
 #==========
 
-image_path <- "./Results/Fig/"
+image_path <- "./Results/"
 
 install.packages("Matrix")
 Yes
 library(Matrix)
 
+install.packages("dplyr")
+library(dplyr)
 
 #===================
 # Simulation set up
@@ -54,9 +56,15 @@ n <- n1 + n2
 # Parameters
 #-----------
 
-# Matern for C11, and conditional variances C2_1, C3_2, C4_3, C_54
+# Matern for C11, and conditional variances C2_1, C3_2, C4_3, C5_4, C6_5, C7_6
 sig2_11 <- sig2_21 <- sig2_32 <- sig2_43 <- sig2_54 <- 1 # marginal var for Matern
+sig2_65 <- 1
+sig2_76 <- 1
 kappa11 <- kappa_21 <- kappa_32 <- kappa_43 <- kappa_54 <- 2
+kappa_65 <- 2
+kappa_76 <- 2
+
+
 
 # Tri-Wave function
 set.seed(50) 
@@ -99,9 +107,13 @@ C2_1 <- Matern_32(Var = sig2_21, Kappa = kappa_21, d_vec = D_vec)
 C3_2 <- Matern_32(Var = sig2_32, Kappa = kappa_32, d_vec = D_vec)
 C4_3 <- Matern_32(Var = sig2_43, Kappa = kappa_43, d_vec = D_vec)
 C5_4 <- Matern_32(Var = sig2_54, Kappa = kappa_54, d_vec = D_vec)
+C6_5 <- Matern_32(Var = sig2_65, Kappa = kappa_65, d_vec = D_vec)
+C7_6 <- Matern_32(Var = sig2_76, Kappa = kappa_76, d_vec = D_vec)
 
 
 D <- bdiag(C11, C2_1, C3_2, C4_3, C5_4)
+D <- bdiag(C11, C2_1, C3_2, C4_3, C5_4, C6_5)
+D <- bdiag(C11, C2_1, C3_2, C4_3, C5_4, C6_5, C7_6)
 str(D)
 
 
@@ -110,7 +122,8 @@ str(D)
 #===========
 
 p <- 5  # the number of variates
-
+p <- 6
+p <- 7
 
 #-----------------------------
 # Hierarchical data structure
@@ -121,6 +134,28 @@ hierarchy_data <- data.frame(
   par_id = c(NA, 1, c(2, 1), c(2, 3), 4)
 )
 
+hierarchy_data2 <- data.frame(
+  node_id = c(1, 2, 3, 3, 4, 4, 5, 6, 6),
+  par_id = c(NA, 1, c(2, 1), c(2, 3), 4, c(1, 5))
+)
+
+cond <- hierarchy_data2$node_id == 6
+hierarchy_data2[cond, ]$par_id
+Check_par_node(Node = 6, data = hierarchy_data2) #[1] 1 5
+
+
+hierarchy_data3 <- data.frame(
+  node_id = c(1, 2, 3, 3, 4, 4, 5, 6, 6, 7, 7),
+  par_id = c(NA, 1, c(2, 1), c(2, 3), 4, c(1, 5), c(5, 3))
+)
+
+
+hierarchy_data4 <- data.frame(
+  node_id = c(1, 2, 3, 4, 5, 6, 7),
+  par_id = c(NA, 1, 2, 3, 4, 5, 6)
+)
+
+
 
 #--------
 # Algo
@@ -130,11 +165,14 @@ Check_par_node(Node = 2, data = hierarchy_data) # [1] 1
 Check_par_node(Node = 3, data = hierarchy_data) # [1] 2 1
 Check_par_node(Node = 4, data = hierarchy_data) # [1] 2 3
 Check_par_node(Node = 5, data = hierarchy_data)
+Check_par_node(Node = 6, data = hierarchy_data2)
+Check_par_node(Node = 7, data = hierarchy_data3) # [1] 5 3
+
 
 
 n <- nrow(H) #20
 
-make_SIGMA <- function(p) {
+make_SIGMA <- function(p, data) {
   
   ## bivariate
   B21 <- B
@@ -149,7 +187,7 @@ make_SIGMA <- function(p) {
     
     for(r in seq(3, p, by = 1)) {
       
-      PN = Check_par_node(Node = r, data = hierarchy_data)
+      PN = Check_par_node(Node = r, data = data)
       R <- C <- NULL
       
       for (c in seq(1, (r-1), by = 1)) {
@@ -205,11 +243,24 @@ make_SIGMA <- function(p) {
 #========
 # Test
 #========
-SIGMA_1212 <- make_SIGMA(p = 2)
-SIGMA_1313 <- make_SIGMA(p = 3)
-SIGMA_1414 <- make_SIGMA(p = 4)
-SIGMA_1515 <- make_SIGMA(p = 5)
+SIGMA_1212 <- make_SIGMA(p = 2, data = hierarchy_data2)
+SIGMA_1313 <- make_SIGMA(p = 3, data = hierarchy_data2)
+SIGMA_1414 <- make_SIGMA(p = 4, data = hierarchy_data2)
+SIGMA_1515 <- make_SIGMA(p = 5, data = hierarchy_data2)
+SIGMA_1616 <- make_SIGMA(p = 6, data = hierarchy_data2)
+SIGMA_1717 <- make_SIGMA(p = 7, data = hierarchy_data3)
 
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Special case - Chain-structure
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+SIGMA_Chain_7 <- make_SIGMA(p = 7, data = hierarchy_data4)
+
+
+#~~~~~~~~~~
+# sym & pd
+#~~~~~~~~~~
 
 source("Fun_Tst_Sym_Pd.R")
 Test_sym_pd(SIGMA_1414)
@@ -217,6 +268,18 @@ Test_sym_pd(SIGMA_1414)
 # [1] "p.d.: Yes"
 
 Test_sym_pd(SIGMA_1515)
+Test_sym_pd(SIGMA_1616)
+# [1] "Symmetric: Yes"
+# [1] "p.d.: Yes"
+
+Test_sym_pd(SIGMA_1717)
+# [1] "Symmetric: Yes"
+# [1] "p.d.: Yes"
+
+
+Test_sym_pd(SIGMA_Chain_7)
+# [1] "Symmetric: Yes"
+# [1] "p.d.: Yes"
 
 
 
@@ -242,24 +305,85 @@ plt_Sig(SIGMA_1212, p = 2)
 plt_Sig(SIGMA_1313, p = 3)
 plt_Sig(SIGMA_1414, p = 4)
 plt_Sig(SIGMA_1515, p = 5)
+plt_Sig(SIGMA_1616, p = 6)
+plt_Sig(SIGMA_1717, p = 7)
 
+plt_Sig(SIGMA_Chain_7, p = 7)
+
+
+#--------
+# Save
+#--------
+
+png(paste0(image_path, "SIGMAS.png"), res = 300,
+    width = 12, height = 10, units = "in")
+
+par(mfrow = c(2, 2), mar = c(2, 2, 2, 1))
+
+plt_Sig(SIGMA_1212, p = 2)
+plt_Sig(SIGMA_1313, p = 3)
+plt_Sig(SIGMA_1414, p = 4)
+plt_Sig(SIGMA_1515, p = 5)
+
+dev.off()
+
+
+png(paste0(image_path, "SIGMA1212.png"), res = 300,
+    width = 8, height = 7, units = "in")
+plt_Sig(SIGMA_1212, p = 2)
+dev.off()
+
+
+png(paste0(image_path, "SIGMA1313.png"), res = 300, 
+    width = 8, height = 7, units = "in")
+plt_Sig(SIGMA_1313, p = 3)
+dev.off()
+
+
+png(paste0(image_path, "SIGMA1414.png"), res = 300, 
+    width = 8, height = 7, units = "in")
+plt_Sig(SIGMA_1414, p = 4)
+dev.off()
+
+
+png(paste0(image_path, "SIMGA1515.png"), res = 300, 
+    width = 8, height = 7, units = "in")
+plt_Sig(SIGMA_1515, p = 5)
+dev.off()
+
+
+png(paste0(image_path, "SIGMA1616.png"), res = 300, 
+    width = 8, height = 7, units = "in")
+plt_Sig(SIGMA_1616, p = 6)
+dev.off()
+
+#--------------
+# piece together
+#--------------
+
+
+require("cowplot")
+install.packages("cowplot")
+library(cowplot)
+plot_grid(S2, S3, nrow = 1)
 
 
 #------
 # Opt2
 #------
 
-plt_Sigma <- function(Sigma, p) {
+plt_Sigma <- function(Sigma) {
   #p = 4
-  indx <- seq(1, p, by = 1)
+  #indx <- seq(1, p, by = 1)
   
-  Sigma_df <- expand.grid(s1 = df$s, comp1 = c(paste0("Y", indx)), 
-                          s2 = df$s, comp2 = c(paste0("Y", indx))) %>%
+  Sigma_df <- expand.grid(s1 = df$s, comp1 = c(paste0("Y", 1)), 
+                          s2 = df$s, comp2 = c(paste0("Y", 2)),
+                          s3 = df$s, comp3 = c(paste0("Y", 3))) %>%
     mutate(cov = c(Sigma))
   
   Sigma_plt <- ggplot() + 
-    geom_tile(data = Sigma_df, aes(x = s1, s2, fill = cov)) + 
-    facet_grid(comp1 ~ comp2) +
+    geom_tile(data = Sigma_df, aes(x = s1, s2, s3, fill = cov)) + 
+    facet_grid(comp1 ~ comp2 ~ comp3) +
     scale_fill_gradient(low = "#FFFFCC", high = "#000080") +
     ylab("s") + xlab("u") + 
     scale_y_reverse()
@@ -269,7 +393,7 @@ plt_Sigma <- function(Sigma, p) {
 }
 
 
-
+plt_Sigma(SIGMA_1313)
 
 
 
