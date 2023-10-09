@@ -49,6 +49,11 @@ AJ_Mat <- function(Neighbour_index, data_matrix) {
 }
 
 
+#=========
+# Examples
+#=========
+
+
 #---------------
 # Generate Data
 #---------------
@@ -56,7 +61,7 @@ AJ_Mat <- function(Neighbour_index, data_matrix) {
 ## Data 1: rnorm
 set.seed(08-10-23)
 
-n <- 100
+n <- 10
 p <- 2
 
 data_mat <- matrix(rnorm(n*p), n, p)
@@ -74,7 +79,7 @@ all(DIST == D_vec) # [1] TRUE
 #----------------------------------
 # distance among each pair of rows
 #----------------------------------
-Dist <- dist(data_mat) # Euclidean
+Dist <- dist(data_mat) # Euclidean, lower diag elements
 quantile(Dist)
 
 #        0%        25%        50%      75%       100% 
@@ -99,6 +104,8 @@ str(N_indx) # logi [1:4950, 1]
 
 # data2: set Neighbour radius 0.5
 N_indx2 <- as.matrix(DIST <= 0.5)
+str(N_indx2) # logi [1:20, 1:20]
+
 
 
 #-----------------------------------
@@ -109,7 +116,43 @@ str(Aj_mat)
 Aj_mat[1:10, 1:10]
 
 
-Aj_mat2 <- AJ_Mat(Neighbour_index = N_indx2, data_matrix = DIST)
 
-DIST
+# for ordered separation lag matrix
+# after checking the radius obtain logic matrix
+# just need to as.numeric to turn it into original 
+Aj_mat2 <- matrix(as.numeric(N_indx2), 20, 20)
+diag(Aj_mat2) <- 0
+
+
+
+# Below naivee NOT RIGHT
+# AJ_Mat function requires N_index is from dist()
+  # which is a vector of n(n-1)/2 lower diag elements
+  # of a matrix of n rows
+  
+  # here N_indx2 is a ordered sparation lag matrix
+  # unless extract out its lower diag elements as N_indx2
+  # and direct assign N_indx2 as N_index is incorrect
+# Aj_mat2 <- AJ_Mat(Neighbour_index = N_indx2, data_matrix = DIST)
+
+
+#---------
+# now try to obtain the lower of N_indx2
+# and reconstruct the Aj matrix, 
+# see if it's the same as directly as.numeric N_index 2
+#--------
+
+
+# Obtain lower diagonal elements
+N_indx2_elements <- N_indx2[lower.tri(N_indx2)]
+str(N_indx2_elements) # logi [1:190]
+
+str(N_indx2) # logi [1:20, 1:20]
+# Now, put the lower elements as N index in AJ function
+AJ_mat3 <- AJ_Mat(Neighbour_index = N_indx2_elements, data_matrix = N_indx2)
+all(AJ_mat3 == Aj_mat2)
+# [1] TRUE
+
+
+
 
