@@ -150,10 +150,6 @@ hierarchy_data3 <- data.frame(
 )
 
 
-hierarchy_data4 <- data.frame(
-  node_id = c(1, 2, 3, 4, 5, 6, 7),
-  par_id = c(NA, 1, 2, 3, 4, 5, 6)
-)
 
 
 
@@ -251,12 +247,6 @@ SIGMA_1616 <- make_SIGMA(p = 6, data = hierarchy_data2)
 SIGMA_1717 <- make_SIGMA(p = 7, data = hierarchy_data3)
 
 
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Special case - Chain-structure
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-SIGMA_Chain_7 <- make_SIGMA(p = 7, data = hierarchy_data4)
-
 
 #~~~~~~~~~~
 # sym & pd
@@ -308,7 +298,7 @@ plt_Sig(SIGMA_1515, p = 5)
 plt_Sig(SIGMA_1616, p = 6)
 plt_Sig(SIGMA_1717, p = 7)
 
-plt_Sig(SIGMA_Chain_7, p = 7)
+
 
 
 #--------
@@ -368,33 +358,44 @@ library(cowplot)
 plot_grid(S2, S3, nrow = 1)
 
 
-#------
-# Opt2
-#------
 
-plt_Sigma <- function(Sigma) {
-  #p = 4
-  #indx <- seq(1, p, by = 1)
-  
-  Sigma_df <- expand.grid(s1 = df$s, comp1 = c(paste0("Y", 1)), 
-                          s2 = df$s, comp2 = c(paste0("Y", 2)),
-                          s3 = df$s, comp3 = c(paste0("Y", 3))) %>%
-    mutate(cov = c(Sigma))
-  
-  Sigma_plt <- ggplot() + 
-    geom_tile(data = Sigma_df, aes(x = s1, s2, s3, fill = cov)) + 
-    facet_grid(comp1 ~ comp2 ~ comp3) +
-    scale_fill_gradient(low = "#FFFFCC", high = "#000080") +
-    ylab("s") + xlab("u") + 
-    scale_y_reverse()
-  
-  print(Sigma_plt)
-  
-}
+#==================
+# Chain structure
+#==================
+
+## Data
+hierarchy_data4 <- data.frame(
+  node_id = c(1, 2, 3, 4, 5, 6, 7),
+  par_id = c(NA, 1, 2, 3, 4, 5, 6)
+)
 
 
-plt_Sigma(SIGMA_1313)
+## Construct
+SIGMA_Chain_7 <- make_SIGMA(p = 7, data = hierarchy_data4)
 
+
+## Test
+Test_sym_pd(SIGMA_Chain_7)
+# [1] "Symmetric: Yes"
+# [1] "p.d.: Yes"
+
+
+## plot and save
+png(paste0(image_path, "SIGMA7_Chain.png"), res = 300, 
+    width = 8, height = 7, units = "in")
+plt_Sig(SIGMA_Chain_7, p = 7)
+dev.off()
+
+
+## Inverse
+SIGMA_7_C_inv <- chol2inv(chol(SIGMA_Chain_7))
+SIGMA_7_C_inv_mat <- as.matrix(SIGMA_7_C_inv)
+plt_Sig(SIGMA_7_C_inv_mat, p = 7)
+
+png(paste0(image_path, "SIGMA7_Chain_Inv_log.png"),
+    res = 300, width = 8, height = 7, units = "in")
+plt_Sig(log(abs(SIGMA_7_C_inv_mat)), p = 7)
+dev.off()
 
 
 
