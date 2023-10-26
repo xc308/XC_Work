@@ -46,9 +46,8 @@ Para_sig2_mat <- function(p) {
   sig2_D
 }
 
-Para_sig2_mat(5)
+#Para_sig2_mat(5)
 
-#paste0("sig2", 1, 1) # "sig211"
 
 
 Para_kappa_mat <- function(p) {
@@ -61,7 +60,7 @@ Para_kappa_mat <- function(p) {
   kappa_D
 }
 
-Para_kappa_mat(p = 5)
+#Para_kappa_mat(p = 5)
 
 
 All_paras <- function(p, data){
@@ -79,33 +78,32 @@ All_paras <- function(p, data){
 
 
 
-All_paras(p = 5, data = hierarchy_data)
-All_paras(p = 6, data = hierarchy_data2)
+#All_paras(p = 5, data = hierarchy_data)
+#All_paras(p = 6, data = hierarchy_data2)
 
 
 
 #-----
 # Test
 #-----
-hierarchy_data <- data.frame(
-  node_id = c(1, 2, 3, 3, 4, 4, 5),
-  par_id = c(NA, 1, c(2, 1), c(2, 3), 4)
-)
+#hierarchy_data <- data.frame(
+  #node_id = c(1, 2, 3, 3, 4, 4, 5),
+  #par_id = c(NA, 1, c(2, 1), c(2, 3), 4)
+#)
 
-p <- 5
-A_mat <- Para_A_mat(p = 5, data = hierarchy_data)
-A_mat[2, 1]
-str(A_mat[3, 2]) #  num NA
-
-
+#p <- 5
+#A_mat <- Para_A_mat(p = 5, data = hierarchy_data)
+#A_mat[2, 1]
+#str(A_mat[3, 2]) #  num NA
 
 
-hierarchy_data2 <- data.frame(
-  node_id = c(1, 2, 3, 3, 4, 4, 5, 6, 6),
-  par_id = c(NA, 1, c(2, 1), c(2, 3), 4, c(1, 5))
-)
 
-Para_Dlt_mat(p = 6, data = hierarchy_data2)
+#hierarchy_data2 <- data.frame(
+#  node_id = c(1, 2, 3, 3, 4, 4, 5, 6, 6),
+ # par_id = c(NA, 1, c(2, 1), c(2, 3), 4, c(1, 5))
+#)
+
+#Para_Dlt_mat(p = 6, data = hierarchy_data2)
 
 
 
