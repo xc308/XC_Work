@@ -5,7 +5,9 @@
 # Aim:
   # To extend the current 008_1D_simu_NEW_algo
     # to allow the algo generate the SIGMA_inv
-    # simultaneously 
+    # simultaneously
+    # on the computational order of p * O(n^3)
+    # linear order in p, but still cubic order in n
 
 
 build_SG_SGInv <- function(p, data, A_mat, dlt_mat, sig2_mat, kappa_mat, d_vec, h) {
