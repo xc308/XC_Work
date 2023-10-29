@@ -82,7 +82,8 @@ build_SG_SGInv <- function(p, data, A_mat, dlt_mat, sig2_mat, kappa_mat, d_vec, 
     
     
     if (r == p) return(
-      list(SIGMA = as.matrix(SIGMA), SIGMA_inv = as.matrix(SIGMA_inv))
+      list(SIGMA = as.matrix(forceSymmetric(SIGMA)), 
+           SIGMA_inv = as.matrix(SIGMA_inv))
       )
   }
 }
