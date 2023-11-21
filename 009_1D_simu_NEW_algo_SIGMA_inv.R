@@ -92,16 +92,19 @@ build_SG_SGInv <- function(p, data, A_mat, dlt_mat, sig2_mat, kappa_mat, d_vec, 
 #=======
 # Test 
 #=======
+# Target:
+  # if the constructed SIGMA_inv is correct or not
+
 # Method:
   # the generated SIGMA and SIGMA_inv, 
   # their product shall be I. 
 
 
-p = 5
-
 #------
 # data
 #------
+p = 5
+
 hierarchy_data <- data.frame(
   node_id = c(1, 2, 3, 3, 4, 4, 5),
   par_id = c(NA, 1, c(2, 1), c(2, 3), 4)
@@ -129,16 +132,20 @@ kappa_mat_2 <- Fn_set_ini_vals(pars_mat = all_pars_lst_5[[4]], ini_vals = 2)
 
 
 #------------------------------------
-# Location, separation lag, distance
+# Location, displacements, distance
 #------------------------------------
 ds <- 0.1 
 s <- seq(-1 + ds/2, 1 - ds/2, by = ds)
 
+
 # displacements between pairs of points
-H <- outer(df$s, df$s, FUN = "-")
+  # a vector quantity has magnitude and direction
+H <- outer(s, s, FUN = "-")
 H <- t(H)  
 
+
 # distance
+  # a scalar quantity
 D_vec <- as.double(c(abs(H))) #[1:400]
 
 
@@ -177,7 +184,6 @@ Test_sym_pd(forceSymmetric(SG_SGInv_5$SIGMA_inv))
 Test_sym_pd(SG_SGInv_5$SIGMA)
 # [1] "Symmetric: Yes"
 # [1] "p.d.: Yes"
-
 
 
 
