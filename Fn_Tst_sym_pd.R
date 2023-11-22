@@ -29,6 +29,10 @@ Tst_sym_pd <- function(tst.M){
 #======
 
 #Tst_sym_pd(SIGMA_inv_5_pert)
-#Tst_sym_pd(SG_SG_inv_5_TST2$SIGMA_inv)
+# [1] "Symmetric: Yes"
+# [1] "p.d.: Yes"
 
+#Tst_sym_pd(SG_SG_inv_5_TST2$SIGMA_inv)
+# [1] "Symmetric: Yes"
+# [1] "p.d.: No"
 
