@@ -3,7 +3,7 @@
 #==================
 
 #Aim:
-    # Follow work done on 22 Nov. 2023, Investigate_pertub_on_wave_v4.R
+    # Follow work done in 011_Investigate_pertub_on_wave_v4.R
     # Understand the ini value for dlt
     # and impact on wave function and p.d. of SIGMA_inv
 
@@ -18,7 +18,7 @@
     # p.d. of resulting SIGMA_inv using
     # TST2_SG_SGInv function with wave_v5
   
-# Conclusion:
+# Conclusion: (24 Nov.)
     # much improved numerical stability of SIGMA_inv
     # dlt = 0.3, A = 1, p.d NO; pert: 1e-7
     # dlt = 0.4, A = 0.9, p.d. NO; pert: 1e-5
