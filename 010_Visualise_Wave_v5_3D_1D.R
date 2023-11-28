@@ -96,23 +96,40 @@ dev.off()
 #---------
 length(H) # 400
 length(s) # 20
-plt_w5 <- function(dlt){
+plt_w56 <- function(dlt){
   
   # plot wave_v5 at each grid of s
-  w_5 <- wave_v5(h = s, delta = dlt, A = 1)
-  plot(s, w_5, type = "l", 
-       main = bquote(atop("Tri_wave (A = 1)", 
+  #w_5 <- wave_v5(h = s, delta = dlt, A = 1)
+  w_6 <- wave_v6(h = s, delta = dlt, A = 1)
+  plot(s, w_6, type = "l", 
+       main = bquote(atop("Tri_wave_v6 (A = 1)", 
                           "delta = "~ .(dlt))))
   
 }
 
 jpeg(paste0(img_path, "Wave_v5_1D_pos_dlt.jpeg"),
      width = 8, height = 7, units = "in", res = 300)
+
+jpeg(paste0(img_path, "Wave_v6_1D_pos_dlt.jpeg"),
+     width = 8, height = 7, units = "in", res = 300)
 par(mfrow = c(3, 2), mar = c(2.5, 2.5, 3.5, 2.5))
 DELTA <- c(0.1, 0.3, 0.5, 0.7, 0.9, 1)
 
 for (dlt in DELTA){
-  plt_w5(dlt)
+  plt_w56(dlt)
+} 
+dev.off()
+
+
+
+## neg-delta
+jpeg(paste0(img_path, "Wave_v6_1D_neg_dlt.jpeg"),
+     width = 8, height = 7, units = "in", res = 300)
+par(mfrow = c(3, 2), mar = c(2.5, 2.5, 3.5, 2.5))
+DELTA <- -1*c(0.1, 0.3, 0.5, 0.7, 0.9, 1)
+
+for (dlt in DELTA){
+  plt_w56(dlt)
 } 
 dev.off()
 
@@ -137,12 +154,25 @@ dev.off()
 
 
 
+#------
+# large grid but very small dlt, what happens
+#------
+ds <- 10
+s <- seq(-100 + ds/2, 100 - ds/2, by = ds)
+
+#jpeg(paste0(img_path, "Wave_v5_1D_pos_dlt_big_grid.jpeg"),
+     #width = 8, height = 7, units = "in", res = 300)
+
+DELTA <- c(0.1, 0.5, 1, 3, 5)
+par(mfrow = c(3, 2), mar = c(2.5, 2.5, 3.5, 2.5))
+
+for (dlt in DELTA){
+  plt_w5(dlt)
+} 
 
 
 
-
-
-
+wave_v5(h = s, delta = 0.1, A = 1)
 
 
 
