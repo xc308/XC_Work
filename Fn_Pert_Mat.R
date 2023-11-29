@@ -40,6 +40,8 @@ Pert_Mat <- function(M){
       return(M_pert)
     } else {
       cat("No suitable pert found.", "\n")
+      cat("Min & Max singular value:", range(svd(M)$d), "\n" )
+      cat("Condition number is:",kappa(M), "\n" )
       return(M)}
     
   } else {
