@@ -2,6 +2,11 @@
 # 24 Nov. 2023
 #=============
 
+# wave function versions:
+    # wave_v4: TST; phi = 1/2; /h-dlt/ < 2/dlt/
+    # wave_v5: TST2; phi = 2; /h-dlt/ < /dlt/
+    # wave_v6: TST3; phi = 1/2; /h-dlt/ < /dlt/
+
 # Aim:
   # compare wave_v6 with wave_v5
   # wave_v6: smaller compact support region compare with wave_v4
@@ -9,7 +14,7 @@
       # wave_v5 correlation decays faster than wave_v6
 
 # Modify:
-  # TST3_build_SG_SGInv use wave_v6
+  # TST3_build_SG_SGInv use wave_v6 (slow decay phi = 1/2)
 
 
 #source("Fn_Waves.R")
@@ -38,7 +43,6 @@ TST3_build_SG_SGInv <- function(p, data, A_mat, dlt_mat, sig2_mat, kappa_mat, d_
         B_rt <- wave_v6(h = h, delta = dlt_mat[r, t], A = A_mat[r, t])
         #B_rt <- wave_v5(h = h, delta = dlt_mat[r, t], A = A_mat[r, t])
         #B_rt <- wave_v4(h = h, delta = dlt_mat[r, t], A = A_mat[r, t])
-        
         
         BT <- rbind(BT, t(B_rt))
         C_rc <- C_rc + B_rt %*% SIGMA[((t-1)*n+1) : (t*n), ((c-1)*n+1): (c*n)]
@@ -131,7 +135,7 @@ kappa_mat_2 <- Fn_set_ini_vals(pars_mat = all_pars_lst_5[[4]], ini_vals = 2)
 # Test under all dlt and A combinations, p.d. of SIGMA_inv
 #=========================================================
 # Method:
-  # use TST3_SG_SGInv with wave_v6
+  # use TST3_SG_SGInv with wave_v6 (slow decay phi = 1/2; same region supprt)
 
 sig2_mat_1 <- Fn_set_ini_vals(pars_mat = all_pars_lst_5[[3]], ini_vals = 1)
 kappa_mat_2 <- Fn_set_ini_vals(pars_mat = all_pars_lst_5[[4]], ini_vals = 2)
