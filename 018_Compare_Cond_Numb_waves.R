@@ -15,9 +15,12 @@
 # Method:
   # modify TST5 to add condition number of both C and CDinvR
 
-# Result:
-  #
-
+# Conclusions:
+    # prefer b function
+    # 1. promote significant diag dominance, 
+        # speedy decay, but f(0) >> f(xi-xj)
+        # symmetric about the origin h = 0;
+    # 2. smooth decay curve, rather than abrupt change
 
 
 TST6_Pert_build_SG_SGInv <- function(p, data, A_mat, dlt_mat, sig2_mat, kappa_mat, d_vec, h) {
@@ -43,6 +46,7 @@ TST6_Pert_build_SG_SGInv <- function(p, data, A_mat, dlt_mat, sig2_mat, kappa_ma
       BT <- NULL
       C_rc <- 0
       for(t in c(PN)){
+        #B_rt <- wave_v9(h = h, delta = dlt_mat[r, t], A = A_mat[r, t])
         #B_rt <- wave_v6(h = h, delta = dlt_mat[r, t], A = A_mat[r, t])
         B_rt <- wave_v5(h = h, delta = dlt_mat[r, t], A = A_mat[r, t])
         #B_rt <- wave_v4(h = h, delta = dlt_mat[r, t], A = A_mat[r, t])
@@ -92,6 +96,7 @@ TST6_Pert_build_SG_SGInv <- function(p, data, A_mat, dlt_mat, sig2_mat, kappa_ma
     CDR_sym <- forceSymmetric(CDrr_in %*% R)
     
     #CDR_sym <- forceSymmetric(C %*% Drr_inv %*% R)
+    cat("condition number of C", kappa(C), "\n")
     cat("condition number of CDinv", kappa(CDrr_in), "\n")
     cat("condition number of CDinvR", kappa(CDR_sym), "\n")
     
@@ -178,7 +183,7 @@ kappa_mat_2 <- Fn_set_ini_vals(pars_mat = all_pars_lst_5[[4]], ini_vals = 2)
 # Test under all dlt and A combinations, p.d. of SIGMA_inv
 #=========================================================
 # Method:
-# use TST3_SG_SGInv with wave_v6 (slow decay phi = 1/2; same region supprt)
+# use TST6_SG_SGInv with wave_v6 (slow decay phi = 1/2; same region supprt)
 
 sig2_mat_1 <- Fn_set_ini_vals(pars_mat = all_pars_lst_5[[3]], ini_vals = 1)
 kappa_mat_2 <- Fn_set_ini_vals(pars_mat = all_pars_lst_5[[4]], ini_vals = 2)
@@ -242,24 +247,24 @@ for (dlt in seq(0.5, 1, by = 0.2)){
 # Tst output (wave_v4)
 #---------------------
 
-r: 4 
-condition number of C 2.46381e+16 
-condition number of CDinvR 1.919463e+21 
-r 4 
-No need to perturb. 
-SG_inv 
-[1] "Symmetric: Yes"
-[1] "p.d.: Yes"
-r: 5 
-condition number of C 5.675521e+16 
-condition number of CDinvR 1.91837e+23 
-r 5 
-No suitable pert found. 
-SG_inv 
-[1] "Symmetric: Yes"
-[1] "p.d.: No"
-[1] "Symmetric: Yes"
-[1] "p.d.: No"
+#r: 4 
+#condition number of C 2.46381e+16 
+#condition number of CDinvR 1.919463e+21 
+#r 4 
+#No need to perturb. 
+#SG_inv 
+#[1] "Symmetric: Yes"
+#[1] "p.d.: Yes"
+#r: 5 
+#condition number of C 5.675521e+16 
+#condition number of CDinvR 1.91837e+23 
+#r 5 
+#No suitable pert found. 
+#SG_inv 
+#[1] "Symmetric: Yes"
+#[1] "p.d.: No"
+#[1] "Symmetric: Yes"
+#[1] "p.d.: No"
 
 
 #-------------------
@@ -287,19 +292,52 @@ SG_inv
 # Measures
 #=========
 
-# 1. create a wave_v8: 
+# 1. create a wave_v9: 
   # narrower CP support domain
   # speedy decay phi = 2.5
   # to promote the f(0) >> f(xi-xj) in magnitude
+  
+# Answer: wave range [0,1]
 
-# 2. observe its plots
+# 2. observe its plots 
+# Answer: narrower curve than wave_v5, 
+    # no neg part, reflected across x-axis
+    # the reflected part is not very smooth, has abrupt change
+
   
 # 3. test the corresponding condition number 
   # and p.d. of final SIGMA_inv
 
-# 4. try Wendland function
+# Answer:
+  # all p.d.
+  # but condition number is a bit higher than wave_v5
+  # possible reason, curve is not as smooth
+
+
+#=============
+# Conclusion:
+#=============
+# prefer b function
+  # 1. promote significant diag dominance, 
+      # speedy decay, but f(0) >> f(xi-xj)
+      # symmetric about the origin h = 0;
+  # 2. smooth decay curve, rather than abrupt change
+
+# better condition number and numerical stability
+
+
+# 3. try Wendland function see p
   # a pure p.d. function
  
+# 4. NOTE: not all p.d. function is rapid decrease symmetrically 
+    # about the wave center, e.g. spherical
+
+# 5. The fundamental features required in the b function:]  
+    # a) rapid decrease symmetrically about the origin
+    # b) smooth curve without abrupt change, continuously differentiable
+      # partiularly at the origin and sufficient smooth 
+      # at further away the origin
+
 
 
 
