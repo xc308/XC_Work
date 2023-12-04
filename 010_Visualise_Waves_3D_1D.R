@@ -17,7 +17,7 @@ img_path <- "./Results/"
 #--------
 # Domain
 #--------
-ds <- 0.1
+ds <- 0.01
 s <- seq(-1 + ds/2, 1 - ds/2, by = ds)
 
 # for 3D requires displacement
@@ -99,10 +99,10 @@ length(s) # 20
 plt_w56 <- function(dlt){
   
   # plot wave_v5 at each grid of s
-  #w_5 <- wave_v5(h = s, delta = dlt, A = 1)
-  w_6 <- wave_v6(h = s, delta = dlt, A = 1)
-  plot(s, w_6, type = "l", 
-       main = bquote(atop("Tri_wave_v6 (A = 1)", 
+  w_5 <- wave_v5(h = s, delta = dlt, A = 1)
+  #w_6 <- wave_v6(h = s, delta = dlt, A = 1)
+  plot(s, w_5, type = "l", 
+       main = bquote(atop("Tri_wave_v5 (A = 1)", 
                           "delta = "~ .(dlt))))
   
 }
@@ -123,7 +123,7 @@ dev.off()
 
 
 ## neg-delta
-jpeg(paste0(img_path, "Wave_v6_1D_neg_dlt.jpeg"),
+jpeg(paste0(img_path, "Wave_v5_1D_neg_dlt.jpeg"),
      width = 8, height = 7, units = "in", res = 300)
 par(mfrow = c(3, 2), mar = c(2.5, 2.5, 3.5, 2.5))
 DELTA <- -1*c(0.1, 0.3, 0.5, 0.7, 0.9, 1)
