@@ -175,7 +175,40 @@ for (dlt in DELTA){
 wave_v5(h = s, delta = 0.1, A = 1)
 
 
+#==============
+# side by side
+#==============
+install.packages("gridExtra")
+library(gridExtra)
+
+install.packages("jpeg")
+library(jpeg) # for readJPEG
+
+install.packages("grid")
+library(grid) # for rasterGrob
 
 
+getwd()
+image.path
+# [1] "./Results/"
 
 
+# Read the JPEG files
+image1 <- readJPEG(paste0(image.path, "wave_v5_3D_pos_dlt.jpeg"))
+image2 <- readJPEG(paste0(image.path, "wave_v5_3D_neg_dlt.jpeg"))
+
+
+# Create plots from the images
+plot1 <- rasterGrob(image1, interpolate = TRUE)
+plot2 <- rasterGrob(image2, interpolate = TRUE)
+
+
+# Arrange the plots side by side
+SBS_plots <- grid.arrange(plot1, plot2, ncol = 2)
+
+
+# Save the arranged plots as JPEG
+jpeg(paste0(image.path, "wave_v5_SBS.jpeg"),
+     width = 8, height = 7, units = "in", res = 300)
+grid.draw(SBS_plots)
+dev.off()
