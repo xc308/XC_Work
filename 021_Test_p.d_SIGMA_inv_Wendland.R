@@ -184,8 +184,6 @@ kappa_mat_2 <- Fn_set_ini_vals(pars_mat = all_pars_lst_5[[4]], ini_vals = 2)
 #=========================================================
 # Test under all dlt and A combinations, p.d. of SIGMA_inv
 #=========================================================
-# Method:
-# use TST6_SG_SGInv with wave_v6 (slow decay phi = 1/2; same region supprt)
 
 sig2_mat_1 <- Fn_set_ini_vals(pars_mat = all_pars_lst_5[[3]], ini_vals = 1)
 kappa_mat_2 <- Fn_set_ini_vals(pars_mat = all_pars_lst_5[[4]], ini_vals = 2)
@@ -222,8 +220,76 @@ for (dlt in seq(0.5, 1, by = 0.2)){
 # 
 
 
+#===========================
+# Test a new data structure
+#===========================
+
+#----------------
+# data structure
+#----------------
+
+p <- 7
+
+hierarchy_data3 <- data.frame(
+  node_id = c(1, 2, 3, 3, 4, 4, 5, 6, 6, 7, 7),
+  par_id = c(NA, 1, c(2, 1), c(2, 3), 4, c(1, 5), c(5, 3))
+)
 
 
+#-----------
+# Parameters
+#-----------
+source("Fn_para_mat_construct.R")
+all_pars_lst_7 <- All_paras(p = 7, data = hierarchy_data3)
+
+source("Fn_set_ini_vals.R")
+A_mat_0.5 <- Fn_set_ini_vals(pars_mat = all_pars_lst_7[[1]], ini_vals = 0.5)
+dlt_mat_0.5 <- Fn_set_ini_vals(pars_mat = all_pars_lst_7[[2]], ini_vals = 0.5)
+sig2_mat_1 <- Fn_set_ini_vals(pars_mat = all_pars_lst_7[[3]], ini_vals = 1)
+kappa_mat_2 <- Fn_set_ini_vals(pars_mat = all_pars_lst_7[[4]], ini_vals = 2)
+
+
+
+#=========================================================
+# Test under all dlt and A combinations, p.d. of SIGMA_inv
+#=========================================================
+
+sig2_mat_1 <- Fn_set_ini_vals(pars_mat = all_pars_lst_7[[3]], ini_vals = 1)
+kappa_mat_2 <- Fn_set_ini_vals(pars_mat = all_pars_lst_7[[4]], ini_vals = 2)
+
+
+
+for (dlt in seq(0.5, 1, by = 0.2)){
+  cat("dlt:", dlt, "\n")
+  dlt_mat_d <- Fn_set_ini_vals(pars_mat = all_pars_lst_7[[2]], ini_vals = dlt)
+  
+  for (a in seq(0.5, 1, by = 0.1)){
+    cat("A:", a, "\n")
+    A_mat_a <- Fn_set_ini_vals(pars_mat = all_pars_lst_7[[1]], ini_vals = a)
+    
+    SG_SG_inv_7 <- TST7_Pert_build_SG_SGInv(p = 7, data = hierarchy_data3, 
+                                            A_mat = A_mat_a, dlt_mat = dlt_mat_d, 
+                                            sig2_mat = sig2_mat_1, kappa_mat = kappa_mat_2,
+                                            d_vec = D_vec, h = H)
+    
+    Tst_sym_pd(SG_SG_inv_7$SIGMA_inv)
+    
+  }
+}
+
+
+#==========
+# Results
+#==========
+# All combinations are p.d.
+
+#r 7 
+#No need to perturb. 
+#SG_inv 
+#[1] "Symmetric: Yes"
+#[1] "p.d.: Yes"
+#[1] "Symmetric: Yes"
+#[1] "p.d.: Yes"
 
 
 
