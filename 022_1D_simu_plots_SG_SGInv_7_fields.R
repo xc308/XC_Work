@@ -420,6 +420,7 @@ dev.off()
 #-----------------------------
 A_mat_0.1 <- Fn_set_ini_vals(pars_mat = all_pars_lst_7[[1]], ini_vals = 0.1)
 dlt_mat_0.5 <- Fn_set_ini_vals(pars_mat = all_pars_lst_7[[2]], ini_vals = 0.5)
+dlt_mat_0 <- Fn_set_ini_vals(pars_mat = all_pars_lst_7[[2]], ini_vals = 0)
 
 sig2_mat_1 <- Fn_set_ini_vals(pars_mat = all_pars_lst_7[[3]], ini_vals = 1)
 kappa_mat_2 <- Fn_set_ini_vals(pars_mat = all_pars_lst_7[[4]], ini_vals = 2)
@@ -430,6 +431,19 @@ SG_SG_inv_7_Wendland <- TST8_Pert_build_SG_SGInv(p = 7, data = hierarchy_data3,
                                                 A_mat = A_mat_0.1, dlt_mat = dlt_mat_0.5, 
                                                 sig2_mat = sig2_mat_1, kappa_mat = kappa_mat_2,
                                                 d_vec = D_vec, h = H)
+
+SG_SG_inv_7_Wendland_0 <- TST8_Pert_build_SG_SGInv(p = 7, data = hierarchy_data3, 
+                                                 A_mat = A_mat_0.1, dlt_mat = dlt_mat_0, 
+                                                 sig2_mat = sig2_mat_1, kappa_mat = kappa_mat_2,
+                                                 d_vec = D_vec, h = H)
+
+# r 7 
+#No need to perturb. 
+#SG_inv 
+#[1] "Symmetric: Yes"
+#[1] "p.d.: Yes"
+
+
 
 # r 7 
 #No need to perturb. 
@@ -442,7 +456,7 @@ SG_SG_inv_7_Wendland <- TST8_Pert_build_SG_SGInv(p = 7, data = hierarchy_data3,
 # Plot Wendland
 #---------------
 image.path
-[1] "./Results/"
+#[1] "./Results/"
 jpeg(paste0(image.path, "SG_7_Wendland.jpeg"),
      width = 8, height = 7, units = "in",
      res = 300)
@@ -463,7 +477,10 @@ plt_Sig(Sigma = log(abs(SG_SG_inv_7_Wendland$SIGMA_inv)), p = 7)
 dev.off()
 
 
+#---------------------
+# Wendland delta = 0
+#---------------------
+plt_Sig(Sigma = SG_SG_inv_7_Wendland_0$SIGMA, p = 7)
 
-
-
+## No asymmetry
 
