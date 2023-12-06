@@ -40,8 +40,8 @@ TST8_Pert_build_SG_SGInv <- function(p, data, A_mat, dlt_mat, sig2_mat, kappa_ma
       for(t in c(PN)){
         #B_rt <- wave_v9(h = h, delta = dlt_mat[r, t], A = A_mat[r, t])
         #B_rt <- wave_v6(h = h, delta = dlt_mat[r, t], A = A_mat[r, t])
-        #B_rt <- wave_v5(h = h, delta = dlt_mat[r, t], A = A_mat[r, t])
-        B_rt <- WendLd_32(r = h, R = 0.5, dlt = dlt_mat[r, t], A = A_mat[r, t])
+        B_rt <- wave_v5(h = h, delta = dlt_mat[r, t], A = A_mat[r, t])
+        #B_rt <- WendLd_32(r = h, R = 0.5, dlt = dlt_mat[r, t], A = A_mat[r, t])
         #B_rt <- wave_v4(h = h, delta = dlt_mat[r, t], A = A_mat[r, t])
         
         BT <- rbind(BT, t(B_rt))
@@ -373,7 +373,7 @@ SG_SG_inv_7_wave_v4 <- TST8_Pert_build_SG_SGInv(p = 7, data = hierarchy_data3,
 # Plot wave_v4
 #-------------
 image.path
-[1] "./Results/"
+#[1] "./Results/"
 jpeg(paste0(image.path, "SG_7_W4.jpeg"),
      width = 8, height = 7, units = "in",
      res = 300)
