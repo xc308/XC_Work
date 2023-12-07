@@ -605,3 +605,74 @@ plt_Sig(Sigma = log(abs(SG_SG_inv_6_Wend$SIGMA_inv)), p = 6)
 dev.off()
 
 
+#-------------
+# Side by side
+#-------------
+
+jpeg(paste0(image.path, "SG_SG_Inv_6_w5.jpeg"),
+     width = 14, height = 7, units = "in",
+     res = 300)
+par(mfrow = c(1, 2))
+plt_Sig(Sigma = SG_SG_inv_6_wave_v5$SIGMA, p = 6)
+plt_Sig(Sigma = log(abs(SG_SG_inv_6_wave_v5$SIGMA_inv)), p = 6)
+
+dev.off()
+
+
+
+jpeg(paste0(image.path, "SG_SG_inv_6_w5_SBS.jpeg"),
+     width = 13, height = 7, units = "in", res = 300)
+
+jpeg(paste0(image.path, "SG_SG_inv_6_Wendland_SBS.jpeg"),
+     width = 13, height = 7, units = "in", res = 300)
+
+jpeg(paste0(image.path, "SG_SG_inv_6_w5_wend_SBS.jpeg"),
+     width = 10, height = 9, units = "in", res = 300)
+
+par(mfrow = c(1, 2))
+par(mfrow = c(2, 2))
+
+
+Plot_SG <- function(Sigma, p) {
+  
+  # to reverse order of cols in Sigma
+  rev_Sigma <- Sigma[, ncol(Sigma):1]
+  
+  # Plot the matrix with reversed y-axis scale
+  par(mar = c(3, 3, 4.5, 1), cex.main = 2)
+  image(1:nrow(Sigma), 1:ncol(Sigma), rev_Sigma, 
+        #main = expression(atop(Sigma, atop("Tri-wave; p = 6")))
+        main = expression(atop(Sigma, atop("Wendland; p = 6")))
+        )
+}
+
+
+
+# wave_v5
+Plot_SG(SG_SG_inv_6_wave_v5$SIGMA, p = 6)
+
+# Wendland
+Plot_SG(SG_SG_inv_6_Wend$SIGMA, p = 6)
+
+
+Plot_SG_inv <- function(Sigma, p) {
+  
+  # to reverse order of cols in Sigma
+  rev_Sigma <- Sigma[, ncol(Sigma):1]
+  
+  # Plot the matrix with reversed y-axis scale
+  par(mar = c(3, 3, 4.5, 1), cex.main = 2)
+  image(1:nrow(Sigma), 1:ncol(Sigma), rev_Sigma, 
+        #main = expression(atop(Sigma^{-1}~ (log), atop("Tri-wave; p = 6")))
+        main = expression(atop(Sigma^{-1}~ (log), atop("Wendland; p = 6")))
+        )
+}
+
+#wave_v5
+Plot_SG_inv(log(abs(SG_SG_inv_6_wave_v5$SIGMA_inv)), p = 6)
+
+# Wendland
+Plot_SG_inv(log(abs(SG_SG_inv_6_Wend$SIGMA_inv)), p = 6)
+dev.off()
+
+
