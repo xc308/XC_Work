@@ -46,11 +46,11 @@ wave_v9 <- function(h, delta, A = 1) {
 
 
 #--------
-# wave_v8 (faster decay: phi = 2.5, // < //)
+# wave_v8 (faster decay: phi = 2, // < 1/2 //)
 #--------
 wave_v8 <- function(h, delta, A = 1) {
   
-  A * (1 - 2.5 * (abs(h - delta) / abs(delta))^2) * (abs(h-delta) < abs(delta)) 
+  A * (1 - 2 * (abs(h - delta) / abs(delta))^2) * (abs(h-delta) < 1/2 * abs(delta)) 
 }
 
 
@@ -81,7 +81,7 @@ wave_v6 <- function(h, delta, A = 1) {
 #--------
 wave_v5 <- function(h, delta, A = 1) {
   
-  A * (1 - 2 * (abs(h - delta) / abs(delta))^2) * (abs(h-delta) < abs(delta)) 
+  A * (1 - 2 * (abs(h - delta) / abs(delta))^2) * (abs(h-delta) <= abs(delta)) 
 }
 
 
