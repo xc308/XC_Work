@@ -26,7 +26,7 @@
 
 WendLd_32 <- function(r, R, dlt, A){
   
-  ifelse(abs(r - dlt) < R, A*(1 - abs(r - dlt)/R)^4 * (1 + 4 * abs(r - dlt)/R), 0)
+  ifelse(abs(r - dlt) <= R, A*(1 - abs(r - dlt)/R)^4 * (1 + 4 * abs(r - dlt)/R), 0)
   
 }
 
