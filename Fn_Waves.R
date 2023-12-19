@@ -60,7 +60,7 @@ wave_v8 <- function(h, delta, A = 1) {
 #---------
 # wave_v7 (fast decay phi = 2, larger suppt)
 #---------
-wave_v6 <- function(h, delta, A = 1) {
+wave_v7 <- function(h, delta, A = 1) {
   A * (1- 2*(abs(h - delta) / abs(delta))^2)*(abs(h - delta) <= 2 * abs(delta))
 }
 
