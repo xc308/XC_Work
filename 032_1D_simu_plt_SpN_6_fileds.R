@@ -373,7 +373,7 @@ Plot_SG_Main_Wend <- function(Sigma, p) {
   par(mar = c(3, 3, 4.5, 1), cex.main = 2)
   image(1:nrow(Sigma), 1:ncol(Sigma), rev_Sigma, 
         #main = expression(atop(Sigma~ (log), atop("Tri-wave; p = 6")))
-        main = expression(atop(Sigma^{-1}~ (log), atop("Wendland; p = 6")))
+        main = expression(atop(Sigma~ (log), atop("Wendland; p = 6")))
   )
 }
 
