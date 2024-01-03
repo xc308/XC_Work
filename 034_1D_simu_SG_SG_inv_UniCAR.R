@@ -192,12 +192,6 @@ hierarchy_data6 <- data.frame(
 )
 
 
-hierarchy_data6 <- data.frame(
-  node_id = c(1, 2, 3, 3, 4, 4, 5, 6, 6, 6),
-  par_id = c(NA, 1, c(2, 1), c(2, 3), 4, c(1, 3, 5))
-)
-
-
 
 #------------------------------------
 # Location, displacements, distance
@@ -297,6 +291,8 @@ SG_SG_inv_6_A01dlt05_Wave_v5 <- TST10_SpNormPert_SG_SGInv(p = 6, data = hierarch
 # Test all combinations
 #-----------------------
 
+## Wendland
+
 for (dlt in seq(0.1, 1, by = 0.1)){
   cat("dlt:", dlt, "\n")
   dlt_mat_d <- Fn_set_ini_vals(pars_mat = all_pars_lst_6[[2]], ini_vals = dlt)
@@ -320,11 +316,28 @@ for (dlt in seq(0.1, 1, by = 0.1)){
   # all positive definite
 
 
+## Wave v_5
 
+for (dlt in seq(0.1, 1, by = 0.1)){
+  cat("dlt:", dlt, "\n")
+  dlt_mat_d <- Fn_set_ini_vals(pars_mat = all_pars_lst_6[[2]], ini_vals = dlt)
+  
+  for (a in seq(0.5, 1, by = 0.1)){
+    cat("A:", a, "\n")
+    A_mat_a <- Fn_set_ini_vals(pars_mat = all_pars_lst_6[[1]], ini_vals = a)
+    
+    SG_SG_inv_6 <- TST10_SpNormPert_SG_SGInv(p = 6, data = hierarchy_data6, 
+                                             A_mat = A_mat_a, dlt_mat = dlt_mat_d, 
+                                             sig2_mat = sig2_mat_1, phi = phi,
+                                             H_adj = H_adj, h = H)
+    
+    cat("SG:", "\n")
+    Tst_sym_pd(SG_SG_inv_6$SIGMA)
+    
+  }
+}
 
-
-
-
+# all p.d.
 
 
 
