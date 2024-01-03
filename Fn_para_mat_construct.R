@@ -10,6 +10,8 @@
   # p : the number of variates
   # data: the hierarchy data reflect par-child relationship
 
+source("Fn_Check_par_node.R")
+
 Para_A_mat <- function(p, data){
   A <- matrix(0, p, p)
   for (r in 2 : p) {
