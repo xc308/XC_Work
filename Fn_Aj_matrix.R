@@ -40,7 +40,6 @@ AJ_Mat <- function(Neighbour_index, data_matrix) {
         Aj_mat[i, j] <- 1
         Aj_mat[j, i] <- 1
       }
-      
       pair_indx <- pair_indx + 1
     }
   }
@@ -62,24 +61,26 @@ AJ_Mat <- function(Neighbour_index, data_matrix) {
 set.seed(08-10-23)
 
 n <- 10
-p <- 2
+m <- 2
 
-data_mat <- matrix(rnorm(n*p), n, p)
-
+data_mat <- matrix(rnorm(n*m), n, m)
+str(data_mat)# num [1:10, 1:2]
 
 ## Data 2: separation lag
 ds <- 0.01
+ds <- 0.1
 s <- seq(-1 + ds/2, 1 - ds/2, by = ds)
 
 DIST <- abs(t(outer(s, s,  FUN = "-")))
 all(DIST == D_vec) # [1] TRUE
 
-
+str(DIST) # num [1:200, 1:200]
 
 #----------------------------------
 # distance among each pair of rows
 #----------------------------------
 Dist <- dist(data_mat) # Euclidean, lower diag elements
+str(Dist) # 'dist' num [1:45]
 quantile(Dist)
 
 #        0%        25%        50%      75%       100% 
@@ -91,7 +92,10 @@ quantile(DIST)
 # 0%  25%  50%  75% 100% 
 # 0.0  0.3  0.6  1.0  1.9 
 
+# 0%  25%  50%  75% 100% 
+#0.00 0.27 0.59 1.00 1.99 
    
+
 #-----------------
 # Select Neighbour
 #-----------------
@@ -99,12 +103,19 @@ quantile(DIST)
 # data1: set Neighbour radius 1.5
 
 N_indx <- as.matrix(Dist <= 1.5)
-str(N_indx) # logi [1:4950, 1]
+str(N_indx) # logi [1:45, 1] (n^2 - n)/2
 
 
 # data2: set Neighbour radius 0.5
 N_indx2 <- as.matrix(DIST <= 0.5)
 str(N_indx2) # logi [1:20, 1:20]
+# logi [1:200, 1:200]
+
+
+# data3: use DIST (seperation lag, r < 0.5)
+N_indx3 <- as.matrix(DIST < 0.5)
+str(N_indx3) # logi [1:20, 1:20]
+
 
 
 
@@ -122,6 +133,13 @@ Aj_mat[1:10, 1:10]
 # just need to as.numeric to turn it into original 
 Aj_mat2 <- matrix(as.numeric(N_indx2), 20, 20)
 diag(Aj_mat2) <- 0
+
+Aj_mat2 <- matrix(as.numeric(N_indx2), 200, 200)
+diag(Aj_mat2) <- 0
+
+
+Aj_mat3 <- matrix(as.numeric(N_indx3), 20, 20)
+
 
 
 
