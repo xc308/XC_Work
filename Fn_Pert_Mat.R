@@ -26,7 +26,7 @@ Pert_Mat <- function(M){
     smallest_pert <- Inf # initialize the smallest pert
     for(pert in 10^seq(-7, -1, by = 1)){
       
-      M_pert <- M + I_spar(size = nrow(M), value = pert)
+      M_pert <- M + I_sparse(size = nrow(M), value = pert)
       
       if(all(eigen(M_pert, symmetric = T, only.values = T)$val > 0)){
         cat("smallest pert:", pert, "\n")
