@@ -3,10 +3,8 @@
 #=============
 
 # Aim:
-  # Link Cross-MRF with mixed graphical spatial model framework
-  # via model the inverse of uni-variate covariance using CAR, 
-  # inverse them back for the construction of SIGMA, p*O(n)
-  # 
+ # Uni-variate CAR in 1-D
+  # use ordered separation lag to construct adjacency matrix
 
 
 # Methods:
