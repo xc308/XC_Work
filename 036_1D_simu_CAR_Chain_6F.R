@@ -32,8 +32,8 @@ TST10_SpNormPert_SG_SGInv <- function(p, data, chain = F, A_mat, dlt_mat,
   # H: adjacency matrix
   
   I_sps <- I_sparse(size = nrow(H_adj), value = 1)
-  c_inv <- solve(I_sps - phi * H_adj)
-  C11_inv <- c_inv %*% I_sparse(size = nrow(H_adj), value = sig2_mat[1, 1])
+  c_inv <- I_sps - phi * H_adj
+  C11_inv <- c_inv %*% I_sparse(size = nrow(H_adj), value = 1/sig2_mat[1, 1])
   
   C11 <- chol2inv(chol(C11_inv)) 
   n <- nrow(C11)
@@ -73,7 +73,7 @@ TST10_SpNormPert_SG_SGInv <- function(p, data, chain = F, A_mat, dlt_mat,
       C <- rbind(C, C_cr)
     }
     
-    Drr_inv <- c_inv %*% I_sparse(size = nrow(H_adj), value = sig2_mat[r, r])
+    Drr_inv <- c_inv %*% I_sparse(size = nrow(H_adj), value = 1/sig2_mat[r, r])
     D_rr <- chol2inv(chol(Drr_inv))
     
     
@@ -148,7 +148,7 @@ TST10_SpNormPert_SG_SGInv <- function(p, data, chain = F, A_mat, dlt_mat,
     
     if (r == p){
       if (chain){
-        for(bdw in seq(0.2, 0.95, by = 0.05)){
+        for(bdw in seq(0.3, 0.95, by = 0.05)){
           SG_inv_bd <- band(SG_inv, -bdw * nrow(SG_inv), bdw * ncol(SG_inv))
           
           if (all(eigen(SG_inv_bd, symmetric = T, only.values = T)$val > 0)){
@@ -277,6 +277,21 @@ SG_SG_inv_6_Wend_bd_chain <- TST10_SpNormPert_SG_SGInv(p = 6, data = hierarchy_d
     #bdw： 0.35 
 
 
+  # r: 6 
+    #B cond numb: 4.050954 
+    #B cond numb: 4.050954 
+    #B cond numb: 4.050954 
+    #B cond numb: 4.050954 
+    #B cond numb: 4.050954 
+    #condition number of C 3059.145 
+    #condition number of CDinv 3635.516 
+    #No need to perturb. 
+    #SG_inv 
+    #[1] "Symmetric: Yes"
+    #[1] "p.d.: Yes"
+    #bdw： 0.2 
+
+
 
 
 # OLD Result: 
@@ -303,7 +318,6 @@ SG_SG_inv_6_Wend_bd_chain <- TST10_SpNormPert_SG_SGInv(p = 6, data = hierarchy_d
 ## SIGMA
 plt_Sig(Sigma = SG_SG_inv_6_Wend_bd_chain$SIGMA, p = 6)
 plt_Sig(Sigma = log(SG_SG_inv_6_Wend_bd_chain$SIGMA), p = 6)
-plt_Sig(Sigma = log(abs(SG_SG_inv_6_Wend_bd_chain$SIGMA)), p = 6)
 
 
 
@@ -323,13 +337,26 @@ quantile(as.matrix(SG_SG_inv_6_Wend_bd_chain$SIGMA_inv))
 # 100% 
 # 11.7073933 
 
+#     0%           25% 
+#  -1.000000e+00  0.000000e+00 
+#    50%           75% 
+#  0.000000e+00  1.498801e-15 
+# 100% 
+# 2.083661e+00 
+
+
 quantile(as.matrix(SG_SG_inv_6_Wend_bd_chain$SIGMA))
 #         0%           25%           50% 
 #-1.891355e+00 -1.762919e-01 -9.124712e-17 
 #     75%          100% 
 #  3.281188e-01  1.604297e+01 
 
-
+#           0%          25% 
+#6.044245e-02 3.766676e+00 
+#         50%          75% 
+#  1.357022e+01 4.596767e+01 
+#100% 
+#1.410488e+03 
 
 
 
