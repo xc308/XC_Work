@@ -85,16 +85,34 @@ phi = 0.15
 #===============
 
 I_sps <- I_sparse(size = nrow(H), value = 1)
-sigma_inv <- solve(I_sps - phi * H)
+sigma_inv <- I_sps - phi * H
+#sigma_inv <- solve(I_sps - phi * H)
 str(sigma_inv)
 
 Tst_sym_pd(sigma_inv)
 # [1] "Symmetric: Yes"
 # [1] "p.d.: Yes"
+# [1] "Symmetric: Yes"
+# [1] "p.d.: Yes"
 
-SIGMA_inv <- sigma_inv * I_sparse(size = nrow(H), value = 1)
+
+SIGMA_inv <- sigma_inv %*% I_sparse(size = nrow(H), value = 1/1)
+SIGMA_inv2 <- sigma_inv * I_sparse(size = nrow(H), value = 1/1)
+all(SIGMA_inv == SIGMA_inv2) # [1] TRUE
 
 
+#======
+# SIGMA
+#======
+sigma_inv <- I_sps - phi * H
+sigma <- chol2inv(chol(sigma_inv))
+SIGMA <- sigma %*% I_sparse(size = nrow(H), value = 1) 
+
+Tst_sym_pd(SIGMA)
+# [1] "Symmetric: Yes"
+# [1] "p.d.: Yes"
+
+SIGMA
 
 
 
