@@ -204,6 +204,37 @@ D_vec <- as.double(c(abs(H)))
 str(D_vec) # num [1:400]; num [1:40000]
 
 
+#--------------------------------------
+# Sepration lag based adjacency matrix
+#--------------------------------------
+
+# separation lag
+abs(H)
+
+# radius for definition of neighbourhood
+abs(H) < 0.4 # 3-order
+
+as.numeric(abs(H) < 0.4) # vector
+H_adj <- matrix(as.numeric(abs(H) < 0.4), nrow(H), nrow(H))
+diag(H_adj) <- 0
+
+
+H_adj <- matrix(as.numeric(abs(H) < 0.3), nrow(H), nrow(H))
+diag(H_adj) <- 0 # 2nd-order
+
+
+#---------------------
+# phi and p.d.of H_adj
+#---------------------
+
+eigen_Hadj <- eigen(H_adj, symmetric = T, only.values = T)$val
+1/ max(abs(eigen_Hadj)) # [1] 0.1577773; [1] 0.2249378
+
+phi = 0.15
+phi = 0.22
+
+
+
 #-----------
 # Parameters
 #-----------
@@ -333,7 +364,13 @@ plt_Sig(Sigma = log(as.matrix(SIGMA_inv_Bd_Sps)), p = 6)
     # and cannot be used in the middle of generation process
     # otherwise will sabotash the p.d. of the final SIGMA_inv
 
-  
+ 
+quantile(as.matrix(SIGMA_inv_Bd_Sps))
+#           0%           25%           50% 
+#-6.751524e+02 -9.182212e-07  0.000000e+00 
+#     75%          100% 
+#  9.281085e-07  9.128929e+02  
+
 
 #--------------------
 # Visualise SIGMA
@@ -346,8 +383,11 @@ plt_Sig(Sigma = log(as.matrix(SG_SG_inv_matern$SIGMA)), p = 6)
 # result:
   # no sparse in SIGMA as expected
 
-
-
+quantile(as.matrix(SG_SG_inv_matern$SIGMA))
+#        0%         25%         50% 
+#0.1073797   2.7277925   8.5959904 
+#75%        100% 
+#   28.4796112 884.8273325 
 
 
 
