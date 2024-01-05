@@ -38,8 +38,8 @@ TST10_SpNormPert_SG_SGInv <- function(p, data, chain = F, A_mat, dlt_mat,
   # H: adjacency matrix
   
   I_sps <- I_sparse(size = nrow(H_adj), value = 1)
-  c_inv <- solve(I_sps - phi * H_adj)
-  C11_inv <- c_inv %*% I_sparse(size = nrow(H_adj), value = sig2_mat[1, 1])
+  c_inv <- I_sps - phi * H_adj
+  C11_inv <- c_inv %*% I_sparse(size = nrow(H_adj), value = 1/sig2_mat[1, 1])
   
   C11 <- chol2inv(chol(C11_inv)) 
   n <- nrow(C11)
@@ -60,9 +60,9 @@ TST10_SpNormPert_SG_SGInv <- function(p, data, chain = F, A_mat, dlt_mat,
         #B_rt <- wave_v9(h = h, delta = dlt_mat[r, t], A = A_mat[r, t])
         #B_rt <- wave_v7(h = h, delta = dlt_mat[r, t], A = A_mat[r, t])
         #B_rt <- wave_v6(h = h, delta = dlt_mat[r, t], A = A_mat[r, t])
-        B_rt <- wave_v5(h = h, delta = dlt_mat[r, t], A = A_mat[r, t])
+        #B_rt <- wave_v5(h = h, delta = dlt_mat[r, t], A = A_mat[r, t])
         #B_rt <- wave_v4(h = h, delta = dlt_mat[r, t], A = A_mat[r, t])
-        #B_rt <- WendLd_32(r = h, R = 0.5, dlt = dlt_mat[r, t], A = A_mat[r, t])
+        B_rt <- WendLd_32(r = h, R = 0.5, dlt = dlt_mat[r, t], A = A_mat[r, t])
         
         
         ## spectral normalization of B_rt
@@ -79,7 +79,7 @@ TST10_SpNormPert_SG_SGInv <- function(p, data, chain = F, A_mat, dlt_mat,
       C <- rbind(C, C_cr)
     }
     
-    Drr_inv <- c_inv %*% I_sparse(size = nrow(H_adj), value = sig2_mat[r, r])
+    Drr_inv <- c_inv %*% I_sparse(size = nrow(H_adj), value = 1/sig2_mat[r, r])
     D_rr <- chol2inv(chol(Drr_inv))
       
       
@@ -141,21 +141,6 @@ TST10_SpNormPert_SG_SGInv <- function(p, data, chain = F, A_mat, dlt_mat,
     SG_inv <- forceSymmetric(SIGMA_inv)
     
     
-    ## SG_inv Bandsparse for chain
-    if (chain) {
-      for(bdw in seq(0.5, 0.95, by = 0.05)){
-        SG_inv_bd <- band(SG_inv, -bdw * nrow(SG_inv), bdw * ncol(SG_inv))
-        
-        if (all(eigen(SG_inv_bd, symmetric = T, only.values = T)$val > 0)){
-          SG_inv <- as(SG_inv_bd, "sparseMatrix")
-          
-          cat("bdw：", bdw, "\n")
-          break
-        } 
-      }
-    }
-    
-    
     # early perturb SG_inv if not p.d.
     cat("r", r, "\n")
     #SG_inv <- Pert_Mat(SG_inv)
@@ -166,20 +151,39 @@ TST10_SpNormPert_SG_SGInv <- function(p, data, chain = F, A_mat, dlt_mat,
     Tst_sym_pd(SG_inv)
     
     
-    
-    if (r == p) return(
-      list(SIGMA = as.matrix(SIGMA), 
-           #SIGMA_inv = as.matrix(forceSymmetric(SIGMA_inv))
-           SIGMA_inv = as.matrix(SG_inv)
+    if (r == p){
+      if (chain){
+        for(bdw in seq(0.2, 0.95, by = 0.05)){
+          SG_inv_bd <- band(SG_inv, -bdw * nrow(SG_inv), bdw * ncol(SG_inv))
+          
+          if (all(eigen(SG_inv_bd, symmetric = T, only.values = T)$val > 0)){
+            SG_inv <- as(SG_inv_bd, "sparseMatrix")
+            
+            cat("bdw：", bdw, "\n")
+            break
+          }
+        }
+        return(
+          list(SIGMA = as.matrix(SIGMA), 
+               #SIGMA_inv = as.matrix(forceSymmetric(SIGMA_inv))
+               SIGMA_inv = SG_inv # sparseMatrix formate, easy for inference
+          )
+        )
+      }  
+      
+      return(
+        list(SIGMA = as.matrix(SIGMA), 
+             #SIGMA_inv = as.matrix(forceSymmetric(SIGMA_inv))
+             SIGMA_inv = as.matrix(SG_inv))
       )
-    )
+    }
   }
 }
 
 
-#=======
-# Test
-#=======
+#=========
+# Simulate
+#=========
 
 #---------------
 # data structure
@@ -207,7 +211,7 @@ s <- seq(-10 + ds/2, 10 - ds/2, by = ds)
 # a vector quantity has magnitude and direction
 H <- outer(s, s, FUN = "-")
 H <- t(H)  
-str(H) # num [1:40, 1:40]; num [1:200, 1:200]
+str(H) # num [1:20, 1:20]; num [1:200, 1:200]
 
 # distance
 # a scalar quantity
