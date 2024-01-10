@@ -256,8 +256,8 @@ SG_SG_inv_6_Tap_a01d05_chain <- TST12_UniTap_SG_SGInv(p = 6, data = hierarchy_da
                                                 sig2_mat = sig2_mat_1, kappa_mat = kappa_mat_2,
                                                 d_vec = D_vec, h = H, chain = T)
 
-No need to perturb. 
-SG_inv 
+#No need to perturb. 
+#SG_inv 
 #[1] "Symmetric: Yes"
 #[1] "p.d.: Yes"
 #bdw： 0.25 
