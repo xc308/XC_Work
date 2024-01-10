@@ -359,8 +359,60 @@ quantile(as.matrix(SG_SG_inv_6_Wend_bd_chain$SIGMA))
 #1.410488e+03 
 
 
+Plot_SG_Main_Wend <- function(Sigma, p) {
+  
+  # to reverse order of cols in Sigma
+  rev_Sigma <- Sigma[, ncol(Sigma):1]
+  
+  # Plot the matrix with reversed y-axis scale
+  par(mar = c(3, 3, 4.8, 1), cex.main = 2)
+  image(1:nrow(Sigma), 1:ncol(Sigma), rev_Sigma, 
+        #main = expression(atop(Sigma~ (log), atop("Tri-wave; p = 6")))
+        main = expression(atop(Sigma~ (log), atop("Wendland; p = 6")))
+  )
+}
 
 
+Plot_SG_Inv_Main_Wend_bd02 <- function(Sigma, p) {
+  
+  # to reverse order of cols in Sigma
+  rev_Sigma <- Sigma[, ncol(Sigma):1]
+  
+  # Plot the matrix with reversed y-axis scale
+  par(mar = c(3, 3, 4.8, 1), cex.main = 2)
+  image(1:nrow(Sigma), 1:ncol(Sigma), rev_Sigma, 
+        #main = expression(atop(Sigma^{-1}~ (log), atop("Tri-wave; p = 6")))
+        main = expression(atop(Sigma^{-1}~ (log), atop("p = 6; bandwidth: 0.2")))
+  )
+}
+
+
+Plot_SG_Inv_Main_Wend_bd03 <- function(Sigma, p) {
+  
+  # to reverse order of cols in Sigma
+  rev_Sigma <- Sigma[, ncol(Sigma):1]
+  
+  # Plot the matrix with reversed y-axis scale
+  par(mar = c(3, 3, 4.8, 1), cex.main = 2)
+  image(1:nrow(Sigma), 1:ncol(Sigma), rev_Sigma, 
+        #main = expression(atop(Sigma^{-1}~ (log), atop("Tri-wave; p = 6")))
+        main = expression(atop(Sigma^{-1}~ (log), atop("p = 6; bandwidth: 0.3")))
+  )
+}
+
+
+image.path <- "./Results/"
+# [1] "./Results/"
+jpeg(paste0(image.path, "CAR_Chain.jpeg"), 
+     width = 13, height = 7, res = 300, units = "in")
+
+par(mfrow = c(1, 3))
+
+Plot_SG_Main_Wend(log(SG_SG_inv_6_Wend_bd_chain$SIGMA), p = 6)
+Plot_SG_Inv_Main_Wend_bd02(log(abs(as.matrix(SG_SG_inv_6_Wend_bd_chain$SIGMA_inv))), p = 6)
+Plot_SG_Inv_Main_Wend_bd03(log(abs(as.matrix(SG_SG_inv_6_Wend_bd_chain$SIGMA_inv))), p = 6)
+
+dev.off()
 
 
 
