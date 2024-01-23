@@ -55,7 +55,7 @@ str(D_vec) # num [1:400]; num [1:40000]
   # Z: observations for all processes
 
 
-neg_logL <- function(theta, p, data_str, all_pars_lst, Z){
+neg_logL <- function(theta, p, data_str, all_pars_lst, Z, obs_ind){
   
   #? Z1 ? 
   
@@ -107,7 +107,7 @@ neg_logL <- function(theta, p, data_str, all_pars_lst, Z){
   }
   tau2_mat <- diag(THETA)
   
-  n1 <- length(Z1) # total # of locations of univariate process
+  #n1 <- length(Z1) # total # of locations of univariate process
   I_sp_mat <- I_sparse(size = n1, value = 1)
   SG_Ng <- kronecker(tau2_mat, I_sp_mat)
   SG_Ng_inv <- solve(SG_Ng)
@@ -171,17 +171,16 @@ for (i in 1:length(all_pars_lst)){
 }
 
 # Vals
-# [1] 1.0 1.0 1.0 1.0 1.0 1.0
-# [7] 0.1 0.1 0.1 0.1 0.1 0.1
-# [13] 1.0 1.0 1.0 1.0 1.0 2.0
-# [19] 2.0 2.0 2.0 2.0
+#[1] 1.0 1.0 1.0 0.1 0.1 0.1
+#[7] 1.0 1.0 1.0 2.0 2.0 2.0
 
 ## lower bound for each parameters, 
   # NA: no lower bound
+  # kappa: must > 0
 lower_bound <- c(rep(NA, sum(is.na(all_pars_lst[[1]]))),
                  rep(0.05, sum(is.na(all_pars_lst[[2]]))),
                  rep(0.001, sum(is.na(all_pars_lst[[3]]))),
-                 rep(NA, sum(is.na(all_pars_lst[[4]]))),
+                 rep(0.001, sum(is.na(all_pars_lst[[4]]))),
                  rep(0.001, p)
                  )
 #  [1]    NA    NA    NA    NA
