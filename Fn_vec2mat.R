@@ -13,9 +13,9 @@
 
 vec_2_mat <- function(vector, all_pars_lst) {
   
-  if(!all(is.na(all_pars_lst[[1]])))
-    stop("all_pars_lst must consist of NA's")
-
+  if(!all(is.na(all_pars_lst[[1]]) | all_pars_lst[[1]] == 0)){
+    stop("all_pars_lst must consist of NA's and 0")
+  }
   
   vec_indx <- 1
   
