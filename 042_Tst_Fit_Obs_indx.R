@@ -3,12 +3,13 @@
 #=============
 
 # Aim:
-  # want to experiment how to select and iterate over Tst_indx and Fit_indx
-  # for C.V.
+  # To select and iterate over Tst_indx and Fit_indx for C.V.
+  # and Obs_indx for co-kring
 
 
 # Create a sequence of numbers from 1 to 200
-sequence <- 1:200
+n1 <- nrow(df)
+sequence <- 1:n1
 
 # Define the number of folds
 num_folds <- 4
@@ -16,9 +17,10 @@ num_folds <- 4
 # Use cut to create folds based on equal intervals
 folds <- cut(sequence, breaks = seq(1, max(sequence), length.out = num_folds + 1), 
              labels = F, include.lowest = TRUE)
+folds 
+# 50 1's, 50 2's, 50 3's, 50 4's
 
 
-folds
 fold_indx <- which(folds == 1)
 # [1]  1  2  3  4  5  6  7  8  9
 # [10] 10 11 12 13 14 15 16 17 18
@@ -63,6 +65,35 @@ for (i in 1:num_folds){
 
 Obs_indx[[1]]
 Obs_indx[[2]]
+
+
+#=================
+# Update Obs_indx 
+#=================
+# Aim:
+  # to expand the Obs_indx as p grows
+n1
+
+Tst_indx <- list()
+Fit_index <- list()
+Obs_indx <- list()
+for (i in 1:num_folds){
+  Tst_indx[[i]] <- which(folds == i)
+  Fit_indx[[i]] <- seq(1:n1)[-Tst_indx[[i]]]
+  
+  obs_indx <- list(Fit_indx[[i]]) # append new things on Fit_index use list is efficient
+  for(l in 1:(p-1)){
+    obs_indx[[l+1]] <- ((l*n1 + 1): ((l+1)*n1))
+  }
+  
+  Obs_indx[[i]] <- unlist(obs_indx)
+}
+
+
+Obs_indx[[1]]
+
+
+
 
 
 
