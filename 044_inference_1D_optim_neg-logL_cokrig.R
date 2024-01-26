@@ -189,3 +189,170 @@ optm_pars
 # [13] 0.2044648 0.2717899
 # [15] 0.2973535
 
+
+#============
+# Cokriging
+#============
+# Aim:
+  # use the above optimized parameters to construct
+    # 1. the corresponding estimated SIGMA_Y
+    # 2. the corresponding estimated tau2_mat, and SIGMA_Ng
+    # 3. the corresponding estimated obs SIGMA_Z
+
+  # then apply cokriging formula
+
+
+# Arg:
+  # optm_pars_vec: optimized pars vector
+  # all_pars_lst: with NA at corresponding position
+  # p: # of variate fields
+  # data_str: hierachy data structure
+  # h: displacement matrix, univariate
+  # d_vec: vectorized abs(h)
+  # chain: logical, data_str chain-structured?
+  # obs_indx: indices of observations
+  # df: data frame, collecting s, samples of Y's, noisy data Z's, to be add more
+
+
+
+source("Fn_para_mat_construct.R")
+all_pars_lst <- All_paras(p = p, data = data_str)
+obs_indx <- Obs_indx[[1]]
+
+h = H
+d_vec = D_vec
+Z # see 043 true process and noisy data generation
+str(Z) # num [1:600]
+
+cokrig <- function(optm_pars_vec = optm_pars, all_pars_lst, p, data_str, d_vec, h, 
+                   chain = F, obs_indx, df, Z){
+  
+  source("Fn_I_sparse.R")
+  source("Fn_vec2mat.R")
+  optm_pars_lst <- vec_2_mat(vector = optm_pars_vec, all_pars_lst = all_pars_lst)
+  
+  optm_SG_SG_inv <- TST11_Matern_Chain(p = p, data = data_str, 
+                     A_mat = optm_pars_lst[[1]],
+                     dlt_mat = optm_pars_lst[[2]],
+                     sig2_mat = optm_pars_lst[[3]],
+                     kappa_mat = optm_pars_lst[[4]],
+                     d_vec = d_vec, h = h, chain = F)
+  
+  
+  optm_SG_Y <- optm_SG_SG_inv$SIGMA
+  # str(optm_SG_Y) # num [1:600, 1:600]
+  optm_SG_Y_obs <- optm_SG_Y[obs_indx, obs_indx]
+  #str(optm_SG_Y_obs) # num [1:550, 1:550]
+  
+  # construct SG_Ng_obs
+  tau2_optm <- optm_pars_vec[-(1:length(Vals))]
+  tau2_optm_mat <- diag(tau2_optm)
+  
+  n1 <- nrow(df)
+  I_mat <- I_sparse(size = n1, value = 1)
+  SG_Ng <- kronecker(tau2_optm_mat, I_mat)
+  SG_Ng_obs <- SG_Ng[obs_indx, obs_indx]
+  
+  
+  # construct SG_Z_obs
+  SG_Z_obs <- optm_SG_Y_obs + SG_Ng_obs
+  
+  
+  # construct SG_Z_obs_inv
+  SG_Z_obs_chol <- chol(SG_Z_obs)
+  SG_Z_obs_inv <- chol2inv(SG_Z_obs_chol)
+  
+  # cokring
+  all_true_mu <- optm_SG_Y[, obs_indx] %*% SG_Z_obs_inv %*% Z[obs_indx]
+  #str(all_true_mu) # Formal class 'dgeMatrix', but can still sub-selection
+  all_true_var <- diag(optm_SG_Y - optm_SG_Y[, obs_indx] %*% SG_Z_obs_inv %*% optm_SG_Y[obs_indx, ])
+  
+  
+  # save true mu
+  sub_vec <- length(all_true_mu) %/% p 
+  each_true_mu_lst <- lapply(1:p, function(i) all_true_mu[((i-1)*sub_vec + 1) : (i*sub_vec)])
+  
+  for(i in 1:p){
+    df[paste0("true_mu", i)] <- each_true_mu_lst[[i]]
+  }
+  
+  # save true var
+  sub_vec <- length(all_true_var) %/% p
+  each_var_lst <- lapply(1:p, function(i) all_true_var[((i-1)*sub_vec + 1):(i*sub_vec)])
+  
+  for (i in 1:p){
+    df[paste0("true_var", i)] <- each_var_lst[[i]]
+  }
+  
+  
+  # return df to preserve the above changes
+  return(df)
+}
+
+
+df_cokrig <- cokrig(optm_pars_vec = optm_pars, all_pars_lst = all_pars_lst,
+       p = p, data_str = hierarchy_data_3, d_vec = D_vec, h = H, 
+       chain = F, obs_indx = obs_indx, df, Z)
+
+
+head(df_cokrig)
+
+Y_pred <- df_cokrig$true_mu1[Tst_indx[[1]]]
+Y_true <- df_cokrig$smp_Y1[Tst_indx[[1]]]
+
+m <- length(Y_pred)
+
+#============
+# C.V.Metric
+#============
+# Mean Absolute Error (MAE)
+MAE <- sum(abs(Y_pred - Y_true))/m # [1] 0.2646896
+
+# Root Mean Square Error (RMSE): penalize large errors more heavily than MAE
+RMSE <- sqrt(sum((Y_pred - Y_true)^2) / m) # [1] 0.3055528 
+
+# Mean Absolute Percentage Error (MAPE)
+#MAPE <- (1/m) * sum(abs((Y_pred - Y_true)/Y_true)) *100
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#~~~~~~
+# draft
+#~~~~~~
+sub_vec <- length(all_true_mu) %/% p # 200
+
+each_true_mu_lst <- lapply(1:p, function(i) all_true_mu[((i-1)*sub_vec + 1) : (i*sub_vec)])
+str(each_true_mu_lst)
+
+mu_try <- sapply(1:p, function(i) each_true_mu_lst[[i]])
+str(mu_try) # num [1:200, 1:3]
+head(mu_try)
+
+for(i in 1:p){
+  df[paste0("true_mu", i)] <- each_true_mu_lst[[p]]
+  
+}
+
+head(df)
+head(df[-ncol(df)])
+
+df <- df[-ncol(df)]
+
+true_mu1 <- all_true_mu[1:n1, ]
+str(true_mu1) # num [1:200]
+
+
+
+
