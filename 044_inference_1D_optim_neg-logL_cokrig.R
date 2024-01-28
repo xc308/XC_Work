@@ -73,7 +73,7 @@ neg_logL <- function(theta, ..., p, data_str, all_pars_lst, df, fit_indx){
   
   
   SG_Y_ft <- SG_SG_inv_Y_ft$SIGMA
-  SG_Y_inv_ft <- SG_SG_inv_Y_ft$SIGMA_inv
+  SG_Y_ft_inv <- SG_SG_inv_Y_ft$SIGMA_inv
   str(SG_Y_ft) # num [1:450, 1:450]
   
   # calculate SG_Ng
@@ -113,7 +113,7 @@ neg_logL <- function(theta, ..., p, data_str, all_pars_lst, df, fit_indx){
   
   
   # SG_Z_inv = SG_Ng_inv - SG_Ng_inv(SG_Y_inv +SG_Ng_inv)^{-1}SG_Ng_inv
-  SG_Y_Ng_ft <- SG_Y_inv_ft + SG_Ng_inv_ft
+  SG_Y_Ng_ft <- SG_Y_ft_inv + SG_Ng_inv_ft
   SG_Y_Ng_inv_ft <- chol2inv(chol(SG_Y_Ng_ft))
   
   SG_Z_inv_ft <- SG_Ng_inv_ft - SG_Ng_inv_ft %*% SG_Y_Ng_inv_ft %*% SG_Ng_inv_ft
