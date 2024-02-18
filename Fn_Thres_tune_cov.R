@@ -79,7 +79,7 @@ Thres_tune_cov <- function(thres_ini, cov_mat_thres, cov_mat = SG_inv){
 #sg_inv_ini <- sg_inv * (abs(sg_inv) > 1e-3)
 #SG_SG_inv_thres <- Thres_tune_cov(thres_ini = thres_ini, 
 #                                  cov_mat_thres = sg_inv_ini, 
-#                                  cov_mat = sg_inv)
+#                                 cov_mat = sg_inv)
 # ini thres: 0.001 
 # new thres: 1e-04 
 #[1] "Symmetric: Yes"
