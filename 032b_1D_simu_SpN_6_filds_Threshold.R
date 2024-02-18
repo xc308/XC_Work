@@ -156,8 +156,11 @@ TST9b_SpNormPert_SG_SGInv <- function(p, data, A_mat, dlt_mat, sig2_mat, kappa_m
       # 2. cov_mat construct with new thres
       # 3. check p.d. until cov_mat is p.d. with the updated largest possible thres
       # 4. return the thresholded and p.d. SIMGA_inv and SIGMA
-      Thres_tune_cov(thres_ini = thres_ini, cov_mat_thres = SG_inv_ini,
+      SG_SG_inv_thres <- Thres_tune_cov(thres_ini = thres_ini, cov_mat_thres = SG_inv_ini,
                      cov_mat = SG_inv) 
+      
+      return(list(SIGMA = as.matrix(SIGMA),
+                  SIGMA_inv = SG_SG_inv_thres$SIGMA_inv))
       
     }
   }
@@ -221,12 +224,31 @@ kappa_mat_2 <- Fn_set_ini_vals(pars_mat = all_pars_lst_6[[4]], ini_vals = 2)
     # tune the thresholding value for SG_inv to ensure both
     # its sparsity and p.d.
 
+#----------
+# Tri-Wave
+#----------
+SG_SG_inv_6_a01d05_TriWave_Thres <- TST9b_SpNormPert_SG_SGInv(p = 6, data = hierarchy_data6, 
+                                                           A_mat = A_mat_0.1, dlt_mat = dlt_mat_0.5, 
+                                                           sig2_mat = sig2_mat_1, kappa_mat = kappa_mat_2,
+                                                           d_vec = D_vec, h = H, thres_ini = 1e-3)
 
+# r 6 
+#No need to perturb. 
+#SG_inv 
+#[1] "Symmetric: Yes"
+#[1] "p.d.: Yes"
+#ini thres: 0.001
+
+#length(SG_SG_inv_6_a01d05_TriWave_Thres$SIGMA) # [1] 14400
+
+
+#---------
+# Wendland
+#---------
 SG_SG_inv_6_a01d05_Wend_Thres <- TST9b_SpNormPert_SG_SGInv(p = 6, data = hierarchy_data6, 
                           A_mat = A_mat_0.1, dlt_mat = dlt_mat_0.5, 
                           sig2_mat = sig2_mat_1, kappa_mat = kappa_mat_2,
                           d_vec = D_vec, h = H, thres_ini = 1e-3)
-
 
 
 # r 6 
@@ -238,6 +260,107 @@ SG_SG_inv_6_a01d05_Wend_Thres <- TST9b_SpNormPert_SG_SGInv(p = 6, data = hierarc
 #new thres: 1e-04 
 #[1] "Symmetric: Yes"
 #[1] "p.d.: Yes"
+
+#length(SG_SG_inv_6_a01d05_Wend_Thres$SIGMA) # [1] 14400
+
+
+#========
+# Plot
+#========
+
+#---------
+# Tri-Wave
+#---------
+
+plt_Sig(SG_SG_inv_6_a01d05_TriWave_Thres$SIGMA_inv, p = 6)
+plt_Sig(log(abs(SG_SG_inv_6_a01d05_TriWave_Thres$SIGMA_inv)), p = 6)
+
+
+
+#----------
+# Wendland
+#----------
+plt_Sig(Sigma = SG_SG_inv_6_a01d05_Wend_Thres$SIGMA_inv, p = 6)
+plt_Sig(log(abs(SG_SG_inv_6_a01d05_Wend_Thres$SIGMA_inv)), p = 6)
+
+
+#------------------------------------------------------
+# Functions for SIGMA, SIGMA_Inv side by side with main
+#------------------------------------------------------
+
+Plot_SG_Main <- function(Sigma, p) {
+  
+  # to reverse order of cols in Sigma
+  rev_Sigma <- Sigma[, ncol(Sigma):1]
+  
+  # Plot the matrix with reversed y-axis scale
+  par(mar = c(3, 3, 4.5, 1), cex.main = 2)
+  image(1:nrow(Sigma), 1:ncol(Sigma), rev_Sigma, 
+        main = expression(atop(Sigma~ (log), atop("Tri-wave; p = 6")))
+        #main = expression(atop(Sigma^{-1}~ (log), atop("Wendland; p = 6")))
+  )
+}
+
+
+
+Plot_SG_Inv_Main <- function(Sigma, p) {
+  
+  # to reverse order of cols in Sigma
+  rev_Sigma <- Sigma[, ncol(Sigma):1]
+  
+  # Plot the matrix with reversed y-axis scale
+  par(mar = c(3, 3, 4.5, 1), cex.main = 2)
+  image(1:nrow(Sigma), 1:ncol(Sigma), rev_Sigma, 
+        main = expression(atop(Sigma^{-1}~ (log), atop("Tri-wave; p = 6; Threshold = 1e-3")))
+        #main = expression(atop(Sigma^{-1}~ (log), atop("Wendland; p = 6")))
+  )
+}
+
+
+Plot_SG_Main_Wend <- function(Sigma, p) {
+  
+  # to reverse order of cols in Sigma
+  rev_Sigma <- Sigma[, ncol(Sigma):1]
+  
+  # Plot the matrix with reversed y-axis scale
+  par(mar = c(3, 3, 4.5, 1), cex.main = 2)
+  image(1:nrow(Sigma), 1:ncol(Sigma), rev_Sigma, 
+        #main = expression(atop(Sigma~ (log), atop("Tri-wave; p = 6")))
+        main = expression(atop(Sigma~ (log), atop("Wendland; p = 6")))
+  )
+}
+
+
+Plot_SG_Inv_Main_Wend <- function(Sigma, p) {
+  
+  # to reverse order of cols in Sigma
+  rev_Sigma <- Sigma[, ncol(Sigma):1]
+  
+  # Plot the matrix with reversed y-axis scale
+  par(mar = c(3, 3, 4.5, 1), cex.main = 2)
+  image(1:nrow(Sigma), 1:ncol(Sigma), rev_Sigma, 
+        #main = expression(atop(Sigma^{-1}~ (log), atop("Tri-wave; p = 6")))
+        main = expression(atop(Sigma^{-1}~ (log), atop("Wendland; p = 6; Threshold = 1e-4")))
+  )
+}
+
+
+## Side by side with main 
+jpeg(paste0(image.path, "SG_SGinv_Wave_WL_SpN_SBS_Thres.jpeg"), 
+     width = 10, height = 9, units = "in", res = 300)
+par(mfrow = c(2, 2))
+
+
+#Plot_SG_Main(SG_SG_inv_6_a01d05_TriWave_Thres$SIGMA, p = 6)
+
+Plot_SG_Main(log(SG_SG_inv_6_a01d05_TriWave_Thres$SIGMA), p = 6)
+Plot_SG_Inv_Main(log(abs(SG_SG_inv_6_a01d05_TriWave_Thres$SIGMA_inv)), p = 6)
+
+Plot_SG_Main_Wend(Sigma = log(SG_SG_inv_6_a01d05_Wend$SIGMA), p = 6)
+Plot_SG_Inv_Main_Wend(Sigma = log(abs(SG_SG_inv_6_a01d05_Wend$SIGMA_inv)), p = 6)
+
+dev.off()
+
 
 
 #============================================
@@ -265,6 +388,25 @@ length(sg_inv_ini) # 120*120 = 14400
 
 length(which(sg_inv_ini == 0)) / length(sg_inv_ini) *100
 # 5.708% sparse 
+
+
+#====================
+# Sparsity percentage
+#====================
+
+length(which(SG_SG_inv_6_a01d05_Wend_Thres$SIGMA_inv == 0)) 
+# [1] 822
+
+length(which(SG_SG_inv_6_a01d05_TriWave_Thres$SIGMA_inv == 0)) 
+# [1] 418
+
+120*120 # 14400
+
+418/14400 * 100 #  2.902778%
+822 / 14400 * 100 # 5.708333%
+
+
+
 
 
 
