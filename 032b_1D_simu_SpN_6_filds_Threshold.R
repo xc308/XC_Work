@@ -175,22 +175,25 @@ TST9b_SpNormPert_SG_SGInv <- function(p, data, A_mat, dlt_mat, sig2_mat, kappa_m
 #------------------------------------
 # Location, displacements, distance
 #------------------------------------
-ds <- 0.1
+ds <- 0.1 # for with SpN plts
+ds <- 0.05 # for w/o SpN plts, esp. SIGMA; also try for plts with SpN
+# ds = 0.05 has better visualization effect for both with, w/o SpN
+
 s <- seq(-1 + ds/2, 1 - ds/2, by = ds)
-str(s) # num [1:20]
+str(s) # num [1:20]; num [1:40]
 
 
 # displacements between pairs of points
 # a vector quantity has magnitude and direction
 H <- outer(s, s, FUN = "-")
 H <- t(H)  
-str(H) # num [1:20, 1:20]
+str(H) # num [1:20, 1:20]; num [1:40, 1:40]
 
 
 # distance
 # a scalar quantity
 D_vec <- as.double(c(abs(H))) 
-str(D_vec) # num [1:400]
+str(D_vec) # num [1:400]; num [1:1600]
 
 
 #----------------
@@ -227,6 +230,7 @@ kappa_mat_2 <- Fn_set_ini_vals(pars_mat = all_pars_lst_6[[4]], ini_vals = 2)
 #----------
 # Tri-Wave
 #----------
+# With SpN
 SG_SG_inv_6_a01d05_TriWave_Thres <- TST9b_SpNormPert_SG_SGInv(p = 6, data = hierarchy_data6, 
                                                            A_mat = A_mat_0.1, dlt_mat = dlt_mat_0.5, 
                                                            sig2_mat = sig2_mat_1, kappa_mat = kappa_mat_2,
@@ -242,9 +246,25 @@ SG_SG_inv_6_a01d05_TriWave_Thres <- TST9b_SpNormPert_SG_SGInv(p = 6, data = hier
 #length(SG_SG_inv_6_a01d05_TriWave_Thres$SIGMA) # [1] 14400
 
 
+## Without SpN
+SG_SG_inv_6_a01d05_TriWave_Thres_NoSpN <- TST9b_SpNormPert_SG_SGInv(p = 6, data = hierarchy_data6, 
+                                                              A_mat = A_mat_0.1, dlt_mat = dlt_mat_0.5, 
+                                                              sig2_mat = sig2_mat_1, kappa_mat = kappa_mat_2,
+                                                              d_vec = D_vec, h = H, thres_ini = 1e-3)
+
+# r 6 
+#No need to perturb. 
+#SG_inv 
+#[1] "Symmetric: Yes"
+#[1] "p.d.: Yes"
+#ini thres: 0.001 
+
+
+
 #---------
 # Wendland
 #---------
+# with SpN
 SG_SG_inv_6_a01d05_Wend_Thres <- TST9b_SpNormPert_SG_SGInv(p = 6, data = hierarchy_data6, 
                           A_mat = A_mat_0.1, dlt_mat = dlt_mat_0.5, 
                           sig2_mat = sig2_mat_1, kappa_mat = kappa_mat_2,
@@ -263,6 +283,21 @@ SG_SG_inv_6_a01d05_Wend_Thres <- TST9b_SpNormPert_SG_SGInv(p = 6, data = hierarc
 
 #length(SG_SG_inv_6_a01d05_Wend_Thres$SIGMA) # [1] 14400
 
+# without SpN
+SG_SG_inv_6_a01d05_Wend_Thres_NOSpN <- TST9b_SpNormPert_SG_SGInv(p = 6, data = hierarchy_data6, 
+                                                           A_mat = A_mat_0.1, dlt_mat = dlt_mat_0.5, 
+                                                           sig2_mat = sig2_mat_1, kappa_mat = kappa_mat_2,
+                                                           d_vec = D_vec, h = H, thres_ini = 1e-3)
+
+
+#r 6 
+#No need to perturb. 
+#SG_inv 
+#[1] "Symmetric: Yes"
+#[1] "p.d.: Yes"
+#ini thres: 0.001 
+
+
 
 #========
 # Plot
@@ -271,17 +306,34 @@ SG_SG_inv_6_a01d05_Wend_Thres <- TST9b_SpNormPert_SG_SGInv(p = 6, data = hierarc
 #---------
 # Tri-Wave
 #---------
-
+# With SpN
 plt_Sig(SG_SG_inv_6_a01d05_TriWave_Thres$SIGMA_inv, p = 6)
 plt_Sig(log(abs(SG_SG_inv_6_a01d05_TriWave_Thres$SIGMA_inv)), p = 6)
+
+
+# Without SpN
+plt_Sig(SG_SG_inv_6_a01d05_TriWave_Thres_NoSpN$SIGMA, p = 6)
+plt_Sig(log(abs(SG_SG_inv_6_a01d05_TriWave_Thres_NoSpN$SIGMA_inv)), p = 6)
 
 
 
 #----------
 # Wendland
 #----------
+# With SpN
+plt_Sig(Sigma = SG_SG_inv_6_a01d05_Wend_Thres$SIGMA, p = 6)
+plt_Sig(Sigma = log(SG_SG_inv_6_a01d05_Wend_Thres$SIGMA), p = 6)
+
+
 plt_Sig(Sigma = SG_SG_inv_6_a01d05_Wend_Thres$SIGMA_inv, p = 6)
 plt_Sig(log(abs(SG_SG_inv_6_a01d05_Wend_Thres$SIGMA_inv)), p = 6)
+
+
+# Without SpN
+plt_Sig(SG_SG_inv_6_a01d05_Wend_Thres_NOSpN$SIGMA, p = 6)
+plt_Sig(Sigma = SG_SG_inv_6_a01d05_Wend_Thres_NOSpN$SIGMA_inv, p = 6)
+plt_Sig(log(abs(SG_SG_inv_6_a01d05_Wend_Thres_NOSpN$SIGMA_inv)), p = 6)
+
 
 
 #------------------------------------------------------
