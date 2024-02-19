@@ -52,9 +52,8 @@ Thres_tune_cov <- function(thres_ini, cov_mat_thres, cov_mat = SG_inv){
     cat("new thres:", thres_new, "\n")
     
     if (thres_new < 1e-15) {
-      break  # Exit loop if threshold becomes 0
       cat("no threshold can make SG_inv p.d.", "\n")
-      return(NULL)  # Return NULL if the threshold becomes too small
+      break  # Exit loop if threshold becomes 0
     }
     
     cov_mat_thres <- spress_cov(cov_mat, threshold = thres_new)
