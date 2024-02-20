@@ -125,7 +125,7 @@ TST9c_SpNormPert_SG_SGInv <- function(p, data, A_mat, dlt_mat, sig2_mat, kappa_m
       if (!check_pd(SG_inv)) {
         restart <- T
         SIGMA_inv_pd <- F
-        cat("New reg_num need.")
+        cat("New reg_num need.", "\n")
         
         if (reg_num < 1){
           reg_num <- reg_num * 10 # update regularize number
