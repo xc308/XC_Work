@@ -140,13 +140,12 @@ TST9c_SpNormPert_SG_SGInv <- function(p, data, A_mat, dlt_mat, sig2_mat, kappa_m
       }
       
       cat("r", r, "\n")
-      cat("Final reg_num:", reg_num, "\n")
-      
       cat("SG_inv", "\n")
       Tst_sym_pd(SG_inv)
       
     }
     
+    cat("Final reg_num:", reg_num, "\n")
     
     # Check if SIGMA_inv is positive definite for all r
     if (SIGMA_inv_pd) {
