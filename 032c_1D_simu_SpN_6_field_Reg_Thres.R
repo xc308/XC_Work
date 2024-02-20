@@ -233,11 +233,13 @@ kappa_mat_2 <- Fn_set_ini_vals(pars_mat = all_pars_lst_6[[4]], ini_vals = 2)
 # Aim: 
   # To see if the newly added regularize tuning works well in the function
 
+#----------------
 # With SpN + Reg
+#----------------
 SG_SG_inv_6_a01d05_Wend_SpNReg_Thres <- TST9c_SpNormPert_SG_SGInv(p = 6, data = hierarchy_data6, 
                                                            A_mat = A_mat_0.1, dlt_mat = dlt_mat_0.5, 
                                                            sig2_mat = sig2_mat_1, kappa_mat = kappa_mat_2,
-                                                           d_vec = D_vec, h = H, reg_ini = 1e-5, thres_ini = 1e-3)
+                                                           d_vec = D_vec, h = H, reg_ini = 1e-9, thres_ini = 1e-3)
 
 
 
@@ -245,23 +247,59 @@ SG_SG_inv_6_a01d05_Wend_SpNReg_Thres <- TST9c_SpNormPert_SG_SGInv(p = 6, data = 
 #SG_inv 
 #[1] "Symmetric: Yes"
 #[1] "p.d.: Yes"
-#final reg_num: 1e-05 
+#final reg_num: 1e-09  
 #ini thres: 0.001 
 
 
-SG_SG_inv_6_a09d08_Wend_SpNReg_Thres <- TST9c_SpNormPert_SG_SGInv(p = 6, data = hierarchy_data6, 
-                                                                  A_mat = A_mat_0.9, dlt_mat = dlt_mat_0.8, 
+SG_SG_inv_6_a01d05_TriWave_SpNReg_Thres <- TST9c_SpNormPert_SG_SGInv(p = 6, data = hierarchy_data6, 
+                                                                  A_mat = A_mat_0.1, dlt_mat = dlt_mat_0.5, 
                                                                   sig2_mat = sig2_mat_1, kappa_mat = kappa_mat_2,
                                                                   d_vec = D_vec, h = H, reg_ini = 1e-9, thres_ini = 1e-3)
 
 
-
-#r 6 
+# r 6 
+#reg_num: 1e-09 
 #SG_inv 
 #[1] "Symmetric: Yes"
 #[1] "p.d.: Yes"
-#final reg_num: 1e-09 
 #ini thres: 0.001 
+
+
+
+#------------------
+# Without SpN + Reg
+#------------------
+# 
+SG_SG_inv_6_a01d05_TriWave_Orig_Thres <- TST9c_SpNormPert_SG_SGInv(p = 6, data = hierarchy_data6, 
+                                                                     A_mat = A_mat_0.1, dlt_mat = dlt_mat_0.5, 
+                                                                     sig2_mat = sig2_mat_1, kappa_mat = kappa_mat_2,
+                                                                     d_vec = D_vec, h = H, reg_ini = NULL, thres_ini = 1e-3)
+
+
+# r 6 
+# reg_num: 
+#SG_inv 
+#[1] "Symmetric: Yes"
+#[1] "p.d.: Yes"
+#ini thres: 0.001
+
+
+SG_SG_inv_6_a01d05_Wend_Orig_Thres <- TST9c_SpNormPert_SG_SGInv(p = 6, data = hierarchy_data6, 
+                                                                  A_mat = A_mat_0.1, dlt_mat = dlt_mat_0.5, 
+                                                                  sig2_mat = sig2_mat_1, kappa_mat = kappa_mat_2,
+                                                                  d_vec = D_vec, h = H, reg_ini = NULL, thres_ini = 1e-3)
+
+
+
+# r 6 
+#reg_num: 
+#  SG_inv 
+#[1] "Symmetric: Yes"
+#[1] "p.d.: Yes"
+#ini thres: 0.001
+
+
+
 
 
 #===============
