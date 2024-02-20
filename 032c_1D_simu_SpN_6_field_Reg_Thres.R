@@ -26,6 +26,7 @@ TST9c_SpNormPert_SG_SGInv <- function(p, data, A_mat, dlt_mat, sig2_mat, kappa_m
   source("Fn_Waves.R")
   source("Fn_Wendland_32.R") # R = 0.5
   source("Fn_Pert_Mat.R")
+  source("Fn_I_sparse.R")
   source("Fn_Tst_sym_pd.R")
   source("Fn_check_set_SpNorm_Reg.R") # SpN + tune regularize number
   source("Fn_Thres_tune_cov.R") # thresholding SIGMA_inv and return SIGMA and SIGMA_inv
