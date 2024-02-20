@@ -19,7 +19,7 @@
 
 
 TST9c_SpNormPert_SG_SGInv <- function(p, data, A_mat, dlt_mat, sig2_mat, kappa_mat,
-                                      d_vec, h, reg_ini = 1e-5, thres_ini = 1e-3) {
+                                      d_vec, h, reg_ini = 1e-9, thres_ini = 1e-3) {
   
   source("Fn_Matern_32.R")
   source("Fn_Check_par_node.R")
@@ -124,18 +124,22 @@ TST9c_SpNormPert_SG_SGInv <- function(p, data, A_mat, dlt_mat, sig2_mat, kappa_m
       if (!check_pd(SG_inv)) {
         restart <- T
         SIGMA_inv_pd <- F
+        cat("New reg_num need.")
         
         if (reg_num < 1){
           reg_num <- reg_num * 10 # update regularize number
+          cat("Reg_num updated to:", reg_num, "\n")
+          
         } else {
           reg_num <- reg_num + 0.1
+          cat("Reg_num updated to:", reg_num, "\n")
         }
         
         break
       }
       
       cat("r", r, "\n")
-      cat("reg_num:", reg_num, "\n")
+      cat("Final reg_num:", reg_num, "\n")
       
       cat("SG_inv", "\n")
       Tst_sym_pd(SG_inv)
