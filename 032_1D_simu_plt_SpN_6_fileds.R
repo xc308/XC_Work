@@ -15,6 +15,9 @@
 # Settings:
     # D = [-1, 1], ds = 0.1
 
+Check_par_node(Node = 5, hierarchy_data6) #[1] 4
+str(c(Check_par_node(Node = 5, hierarchy_data6)))
+
 
 TST9_SpNormPert_SG_SGInv <- function(p, data, A_mat, dlt_mat, sig2_mat, kappa_mat, d_vec, h) {
   
@@ -324,8 +327,11 @@ plt_Sig(Sigma = log(abs(SG_SG_inv_6_a01d05$SIGMA_inv)), p = 6)
 #--------------
 
 plt_Sig(Sigma = log(SG_SG_inv_6_a01d05_Wend$SIGMA), p = 6)
-plt_Sig(Sigma = log(abs(SG_SG_inv_6_a01d05_Wend$SIGMA_inv)), p = 6)
+plt_Sig(Sigma = log(SG_SG_inv_6_a01d05_Wend$SIGMA_inv), p = 6)
+plt_Sig(Sigma = SG_SG_inv_6_a01d05_Wend$SIGMA_inv, p = 6)
 
+
+plt_Sig(Sigma = log(abs(SG_SG_inv_6_a01d05_Wend$SIGMA_inv)), p = 6)
 
 
 
@@ -358,7 +364,7 @@ Plot_SG_Inv_Main <- function(Sigma, p) {
   # Plot the matrix with reversed y-axis scale
   par(mar = c(3, 3, 4.5, 1), cex.main = 2)
   image(1:nrow(Sigma), 1:ncol(Sigma), rev_Sigma, 
-        main = expression(atop(Sigma^{-1}~ (log), atop("Tri-wave; p = 6")))
+        main = expression(atop(Sigma^{-1}~ (log), atop("Tri-wave; p = 6; ; Threshold = 1e-3")))
         #main = expression(atop(Sigma^{-1}~ (log), atop("Wendland; p = 6")))
   )
 }
@@ -410,6 +416,7 @@ Plot_SG_Inv_Main(Sigma = log(abs(SG_SG_inv_6_a01d05_Wend$SIGMA_inv)), p = 6)
 jpeg(paste0(image.path, "SG_SGinv_Wave_WL_SpN_sbs.jpeg"), 
      width = 10, height = 9, units = "in", res = 300)
 par(mfrow = c(2, 2))
+
 
 Plot_SG_Main(log(SG_SG_inv_6_a01d05$SIGMA), p = 6)
 Plot_SG_Inv_Main(log(abs(SG_SG_inv_6_a01d05$SIGMA_inv)), p = 6)
