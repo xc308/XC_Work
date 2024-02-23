@@ -56,8 +56,8 @@ TST9c_SpNormPert_SG_SGInv <- function(p, data, A_mat, dlt_mat, sig2_mat, kappa_m
         BT <- NULL
         C_rc <- 0
         for(t in c(PN)){
-          #B_rt <- wave_v5(h = h, delta = dlt_mat[r, t], A = A_mat[r, t])
-          B_rt <- WendLd_32(r = h, R = 0.5, dlt = dlt_mat[r, t], A = A_mat[r, t])
+          B_rt <- wave_v5(h = h, delta = dlt_mat[r, t], A = A_mat[r, t])
+          #B_rt <- WendLd_32(r = h, R = 0.5, dlt = dlt_mat[r, t], A = A_mat[r, t])
           
           ## spectral normalization of B_rt
           B_rt <- check_set_SpNorm_Reg(B_rt, reg_num = reg_num)
