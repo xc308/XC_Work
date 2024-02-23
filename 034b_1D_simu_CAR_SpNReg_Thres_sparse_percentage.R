@@ -62,8 +62,8 @@ TST10b_SpNReg_Thres_SG_SGInv <- function(p, data, A_mat, dlt_mat, sig2_mat,
         BT <- NULL
         C_rc <- 0
         for(t in c(PN)){
-          #B_rt <- wave_v5(h = h, delta = dlt_mat[r, t], A = A_mat[r, t])
-          B_rt <- WendLd_32(r = h, R = 0.5, dlt = dlt_mat[r, t], A = A_mat[r, t])
+          B_rt <- wave_v5(h = h, delta = dlt_mat[r, t], A = A_mat[r, t])
+          #B_rt <- WendLd_32(r = h, R = 0.5, dlt = dlt_mat[r, t], A = A_mat[r, t])
           
           
           ## spectral normalization of B_rt
@@ -287,6 +287,21 @@ SG_SGinv_CAR_SpNReg_thres_WL_a01d05 <- TST10b_SpNReg_Thres_SG_SGInv(p = 6, data 
 #ini thres: 0.001 
 
 
+SG_SGinv_CAR_SpNReg_thres_TW_a01d05 <- TST10b_SpNReg_Thres_SG_SGInv(p = 6, data = hierarchy_data6, A_mat = A_01,
+                                                                    dlt_mat = dlt_05, sig2_mat = sig2_mat_1, 
+                                                                    phi = phi, H_adj = H_adj, h = H, reg_ini = 1e-9,
+                                                                    thres_ini = 1e-3)
+
+
+# r 6 
+#SG_inv 
+#[1] "Symmetric: Yes"
+#[1] "p.d.: Yes"
+#Final reg_num: 1e-09 
+#ini thres: 0.001
+
+
+
 #========
 # Plots
 #========
@@ -299,6 +314,9 @@ plt_Sig(log(abs(SG_SGinv_CAR_SpNReg_thres_WL_a01d05$SIGMA_inv)), p = 6)
 #===================================
 # exact zero percentage in SIGMA_inv
 #===================================
+
+
+## Wendland
 length(which(SG_SGinv_CAR_SpNReg_thres_WL_a01d05$SIGMA_inv == 0))
 # [1] 32914
 
@@ -308,10 +326,20 @@ length(SG_SGinv_CAR_SpNReg_thres_WL_a01d05$SIGMA_inv)
 32914 / 57600 * 100
 # [1] 57.14236%
 
+
+## Tri-Wave
+length(which(SG_SGinv_CAR_SpNReg_thres_TW_a01d05$SIGMA_inv == 0))
+# [1] 24572
+
+24572 / 57600 * 100
+# 42.65972%
+
+
 #--------------------------------
 # compare with Uni Matern in 032c
 #--------------------------------
 
+## Wendland
 length(which(SG_SG_inv_6_a01d05_Wend_SpNReg_Thres$SIGMA_inv == 0))
 # [1] 30766
 
@@ -322,18 +350,20 @@ length(SG_SG_inv_6_a01d05_Wend_SpNReg_Thres$SIGMA_inv)
 # [1] 53.41319
 
 
+## Tri-Wave
+length(which(SG_SG_inv_6_a01d05_TriWave_SpNReg_Thres$SIGMA_inv == 0))
+# [1] 21250
+21250 / 57600 * 100
+# 36.89236%
+
+
 ##-----------
 # Conclusion
 ##-----------
 # 1. there is indeed a different percentage of exact zero
   # in the SG_inv generated via uniCAR and uniMatern
 
-# 2. but the difference is not dramtic
-# 3. we significantly feel the generation speed is super fast
-# 4. this indicates the when SG_inv is constructed col-wisely, 
-  # the sparse in the sp location mainly devoted to the speed 
-  # up the SG_inv generation, although it still contribute to
-  # the further sparsity of the SG_inv, but not significantly. 
+# 2. we significantly feel the generation speed is super fast
 
 
 
