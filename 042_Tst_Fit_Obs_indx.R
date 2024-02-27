@@ -8,13 +8,14 @@
 
 
 # Create a sequence of numbers from 1 to 200
-n1 <- nrow(df)
+n1 <- nrow(df) # 200
 sequence <- 1:n1
 
 # Define the number of folds
 num_folds <- 4
 
 # Use cut to create folds based on equal intervals
+# 4 folds require 5 cuts
 folds <- cut(sequence, breaks = seq(1, max(sequence), length.out = num_folds + 1), 
              labels = F, include.lowest = TRUE)
 folds 
@@ -75,7 +76,7 @@ Obs_indx[[2]]
 n1
 
 Tst_indx <- list()
-Fit_index <- list()
+Fit_indx <- list()
 Obs_indx <- list()
 for (i in 1:num_folds){
   Tst_indx[[i]] <- which(folds == i)
@@ -89,10 +90,31 @@ for (i in 1:num_folds){
   Obs_indx[[i]] <- unlist(obs_indx)
 }
 
+str(Tst_indx)
+# List of 4
+#$ : int [1:50] 1 2 3 4 5 6 7 8 9 10 ...
+#$ : int [1:50] 51 52 53 54 55 56 57 58 59 60 ...
+#$ : int [1:50] 101 102 103 104 105 106 107 108 109 110 ...
+#$ : int [1:50] 151 152 153 154 155 156 157 158 159 160 ...
+
+str(Fit_indx)
+# List of 4
+#$ : int [1:150] 51 52 53 54 55 56 57 58 59 60 ...
+#$ : int [1:150] 1 2 3 4 5 6 7 8 9 10 ...
+#$ : int [1:150] 1 2 3 4 5 6 7 8 9 10 ...
+#$ : int [1:150] 1 2 3 4 5 6 7 8 9 10 ...
+
+
+str(Obs_indx) # 1 Fit_indx together with the rest of 5 fields
+# List of 4
+#$ : int [1:1150] 51 52 53 54 55 56 57 58 59 60 ...
+#$ : int [1:1150] 1 2 3 4 5 6 7 8 9 10 ...
+#$ : int [1:1150] 1 2 3 4 5 6 7 8 9 10 ...
+#$ : int [1:1150] 1 2 3 4 5 6 7 8 9 10 ...
+
 
 Obs_indx[[1]]
-
-
+Tst_indx[[1]]
 
 
 
