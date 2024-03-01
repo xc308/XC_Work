@@ -39,7 +39,7 @@
 #--------
 # wave_v8 (faster decay: phi = 2.5, narrower suppt // < 1/2 //)
 #--------
-wave_v9 <- function(h, delta, A = 1) {
+wave_v9 <- function(h, delta, A ) {
   
   A * (1 - 2.5 * (abs(h - delta) / abs(delta))^2) * (abs(h-delta) <= 1/2 *abs(delta)) 
 }
@@ -48,7 +48,7 @@ wave_v9 <- function(h, delta, A = 1) {
 #--------
 # wave_v8 (faster decay: phi = 2, // < 1/2 //)
 #--------
-wave_v8 <- function(h, delta, A = 1) {
+wave_v8 <- function(h, delta, A ) {
   
   A * (1 - 2 * (abs(h - delta) / abs(delta))^2) * (abs(h-delta) <= 1/2 * abs(delta)) 
 }
@@ -60,7 +60,7 @@ wave_v8 <- function(h, delta, A = 1) {
 #---------
 # wave_v7 (fast decay phi = 2, larger suppt)
 #---------
-wave_v7 <- function(h, delta, A = 1) {
+wave_v7 <- function(h, delta, A) {
   A * (1- 2*(abs(h - delta) / abs(delta))^2)*(abs(h - delta) <= 2 * abs(delta))
 }
 
@@ -70,7 +70,7 @@ wave_v7 <- function(h, delta, A = 1) {
 #---------
 # wave_v6 (slow decay phi = 1/2)
 #---------
-wave_v6 <- function(h, delta, A = 1) {
+wave_v6 <- function(h, delta, A) {
   A * (1- (1/2)*(abs(h - delta) / abs(delta))^2)*(abs(h - delta) <= abs(delta))
 }
 
@@ -79,7 +79,7 @@ wave_v6 <- function(h, delta, A = 1) {
 #--------
 # wave_v5 (fast decay: phi = 2)
 #--------
-wave_v5 <- function(h, delta, A = 1) {
+wave_v5 <- function(h, delta, A) {
   
   A * (1 - 2 * (abs(h - delta) / abs(delta))^2) * (abs(h-delta) <= abs(delta)) 
 }
@@ -89,7 +89,7 @@ wave_v5 <- function(h, delta, A = 1) {
 #---------
 # Wave_v4
 #--------
-wave_v4 <- function(h, delta, A = 1) {
+wave_v4 <- function(h, delta, A) {
   A * (1- (1/2)*(abs(h - delta) / abs(delta))^2)*(abs(h - delta) <= 2*abs(delta))
 }
 
@@ -97,7 +97,7 @@ wave_v4 <- function(h, delta, A = 1) {
 #---------
 # Wave_v3
 #---------
-wave_v3 <- function(h, delta, A = 1) {
+wave_v3 <- function(h, delta, A) {
   A * (1- 0.25*(abs(h - delta) / abs(delta)))*(abs(h - delta) <= 8 * abs(delta))
 }
 
