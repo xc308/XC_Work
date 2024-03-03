@@ -38,7 +38,7 @@ all_pars_lst <- all_pars_lst_CAR_6
 # ini vals for run the neg_logL
 #-----
 
-ini <- c(1, 0.1, 1) # A, dlt, sig2, kappa
+ini <- c(1, 0.1, 1) # A, dlt, sig2, 
 Vals <- c()
 for (i in 1:length(all_pars_lst)){
   value <- rep(ini[i], sum(is.na(all_pars_lst[[i]])))
