@@ -29,7 +29,6 @@ all_pars_lst <- all_pars_lst_CAR_6
 #==================
 # neg_logL function
 #==================
-source("034c_1D_simu_CAR_SpNReg_Thres_b_choice.R")
 
 neg_logL_CAR <- function(theta, ..., p, data_str, all_pars_lst, b = "Wendland", 
                          df, Nb_radius = 0.4, fit_indx){
