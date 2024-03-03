@@ -186,3 +186,20 @@ for (i in 1:length(each_smp_Y_true_lst)){
 head(df)
 
 
+##--------------------------------------
+# Alternative way to generate noisy data
+##--------------------------------------
+
+Zi <- rnorm(n1, mean = each_smp_Y_true_lst[[i]], sd = sqrt(tau2s[i]))
+
+
+
+
+
+
+
+
+
+
+
+
