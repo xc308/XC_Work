@@ -20,6 +20,8 @@
   # 7. neg_logL
 
 
+# df true processes use 046b_generate true processes 
+
 #=========
 # settings
 #=========
