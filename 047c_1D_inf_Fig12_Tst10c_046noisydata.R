@@ -8,7 +8,7 @@
   # to do the optimization use neg_logL in 047b
 
 # Method:
-  # neg_logL uses cross-MRF Tst10c
+  # neg_logL uses cross-MRF Tst10c with b choice
 
 
 #===========
@@ -158,9 +158,9 @@ for(i in 1:length(all_pars_lst)){
 all_ini_Vals <- c(Vals, rep(1, p))
 
 
-#---------------
-# lower boundary
-#---------------
+#-----------
+# boundary
+#-----------
 
 # lower bd:
 # A: NA
@@ -174,6 +174,20 @@ lower_bd <- c(rep(NA, sum(is.na(all_pars_lst[[1]]))),
               rep(0.001, p))
 
 
+
+# upper bd:
+# A: NA
+# dlt: 20, i.e., dlt <= max(abs(H)); reason see 034d investigate
+# sig2: NA
+# tau2: NA
+upper_bd <- c(rep(NA, sum(is.na(all_pars_lst[[1]]))),
+              rep(20, sum(is.na(all_pars_lst[[2]]))),
+              rep(NA, sum(is.na(all_pars_lst[[3]]))),
+              rep(NA, p))
+
+
+
+
 #------
 # optm
 #------
@@ -184,6 +198,7 @@ optm_pars_WL <- optim(par = all_ini_Vals,
                    fit_indx = fit_indx, b = "Wendland", Nb_radius = 0.4,
                    method = "L-BFGS-B",
                    lower = lower_bd,
+                   upper = upper_bd,
                    control = list(trace = 1, 
                                   pgtol = 1e-5, 
                                   maxit = 1000))
