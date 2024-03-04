@@ -47,11 +47,11 @@ spec <- 1 / max(abs(eig)) # [1] 0.06666361
 phi <- trunc(spec * 100)/100 # trunc only preserves integer part 6
 # [1] 0.14
 
-df <- data.frame(s)
-n1 <- n2 <- n3 <- n4 <- n5 <- n6 <- nrow(df)
+df_TW <- data.frame(s)
+n1 <- n2 <- n3 <- n4 <- n5 <- n6 <- nrow(df_TW)
 
 p <- 6
-n <- p * n1  # [1] 2400
+n <- p * n1  # [1] 1200
 
 #================
 # graph structure: 6 fields
@@ -179,11 +179,11 @@ str(each_smp_Y_true_lst)
 
 
 for (i in 1:length(each_smp_Y_true_lst)){
-  #df[paste("smp_Y", i, sep = "")] <- each_smp_Y_true_lst[[i]]
-  df[paste("Z", i, sep = "")] <- each_smp_Y_true_lst[[i]] + tau2s[i] * rnorm(n1)
+  #df_TW[paste("smp_Y", i, sep = "")] <- each_smp_Y_true_lst[[i]]
+  df_TW[paste("Z", i, sep = "")] <- each_smp_Y_true_lst[[i]] + tau2s[i] * rnorm(n1)
 }
 
-head(df)
+head(df_TW)
 
 
 ##--------------------------------------
