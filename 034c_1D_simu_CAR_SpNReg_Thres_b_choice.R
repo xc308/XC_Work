@@ -294,6 +294,34 @@ for (dlt in seq(10, 20, by = 1)){
 ## results: all p.d.
 
 
+## Try on Tri-Wave
+for (dlt in seq(10, 20, by = 1)){
+  cat("dlt:", dlt, "\n")
+  dlt_mat_d <- Fn_set_ini_vals(pars_mat = all_pars_lst_6[[2]], ini_vals = dlt)
+  
+  for (a in seq(0.5, 1, by = 0.1)){
+    cat("A:", a, "\n")
+    A_mat_a <- Fn_set_ini_vals(pars_mat = all_pars_lst_6[[1]], ini_vals = a)
+    
+    SG_SG_inv_tst_6_TW <- TST10c_SpNReg_Thres_SG_SGInv(p = 6, data = hierarchy_data6, 
+                                                    A_mat = A_mat_a, dlt_mat = dlt_mat_d, 
+                                                    sig2_mat = sig2_mat_1,
+                                                    phi = phi, H_adj, h = H, 
+                                                    b = "Tri-Wave",
+                                                    reg_ini = 1e-9, thres_ini = 1e-3) 
+    
+    Tst_sym_pd(SG_SG_inv_tst_6_TW$SIGMA_inv)
+    cat("SIGMA:", "\n")
+    Tst_sym_pd(SG_SG_inv_tst_6$SIGMA)
+    
+  }
+}
+
+
+
+#================
+# Problematic dlt
+#================
 for (dlt in seq(20, 30, by = 1)){
   cat("dlt:", dlt, "\n")
   dlt_mat_d <- Fn_set_ini_vals(pars_mat = all_pars_lst_6[[2]], ini_vals = dlt)
