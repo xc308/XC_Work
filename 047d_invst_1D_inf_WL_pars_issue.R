@@ -16,7 +16,7 @@ optm_pars_WL <- function(all_ini_Vals, p, hierarchy_data6, all_pars_lst_CAR_6, d
   }
   
   # Define the negative log-likelihood function
-  neg_logL_CAR <- (theta, ..., p, data_str, all_pars_lst, b = "Wendland", 
+  neg_logL_CAR <- function(theta, ..., p, data_str, all_pars_lst, b = "Wendland", 
                    df, Nb_radius = 0.4, fit_indx) {
     #
     
