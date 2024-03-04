@@ -27,11 +27,11 @@ check_set_SpNorm_Reg <- function(A_mat, reg_num) {
   # with the same position element of the last row
   # to ensure B is not low-rank or singular
   
-  for(i in 1:nrow(A_mat)){
-    if(all(A_mat[i, ] == 0)){
-      A_mat[i, ncol(A_mat)] <- A_mat[i-1, ncol(A_mat)]
-    }
-  }
+  #for(i in 1:nrow(A_mat)){
+   # if(all(A_mat[i, ] == 0)){
+   #   A_mat[i, ncol(A_mat)] <- A_mat[i-1, ncol(A_mat)]
+   # }
+  #}
   
   # spectral normalization
   singular_val <- svd(A_mat)$d
