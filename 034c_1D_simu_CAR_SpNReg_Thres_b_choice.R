@@ -220,7 +220,7 @@ SG_SG_inv_wl_try <- TST10c_SpNReg_Thres_SG_SGInv(p = 6, data = hierarchy_data6,
 #ini thres: 0.001 
 
 
-SG_SG_inv_wl_try <- TST10c_SpNReg_Thres_SG_SGInv(p = 6, data = hierarchy_data6, 
+SG_SG_inv_TW_try <- TST10c_SpNReg_Thres_SG_SGInv(p = 6, data = hierarchy_data6, 
                                                  A_mat = A_01, dlt_mat = dlt_05, 
                                                  sig2_mat = sig2_mat_1,
                                                  phi = phi, H_adj, h = H, 
@@ -235,5 +235,116 @@ SG_SG_inv_wl_try <- TST10c_SpNReg_Thres_SG_SGInv(p = 6, data = hierarchy_data6,
 #[1] "p.d.: Yes"
 #Final reg_num: 1e-09 
 #ini thres: 0.001  
+
+
+
+#===================================
+# More parameters combination check
+#===================================
+
+
+for (dlt in seq(0.5, 10, by = 1)){
+  cat("dlt:", dlt, "\n")
+  dlt_mat_d <- Fn_set_ini_vals(pars_mat = all_pars_lst_6[[2]], ini_vals = dlt)
+  
+  for (a in seq(0.5, 1, by = 0.1)){
+    cat("A:", a, "\n")
+    A_mat_a <- Fn_set_ini_vals(pars_mat = all_pars_lst_6[[1]], ini_vals = a)
+    
+    SG_SG_inv_tst_6 <- TST10c_SpNReg_Thres_SG_SGInv(p = 6, data = hierarchy_data6, 
+                                                A_mat = A_mat_a, dlt_mat = dlt_mat_d, 
+                                                sig2_mat = sig2_mat_1,
+                                                phi = phi, H_adj, h = H, 
+                                                b = "Wendland",
+                                                reg_ini = 1e-9, thres_ini = 1e-3) 
+    
+    Tst_sym_pd(SG_SG_inv_tst_6$SIGMA_inv)
+    cat("SIGMA:", "\n")
+    Tst_sym_pd(SG_SG_inv_tst_6$SIGMA)
+    
+  }
+}
+
+## Results:
+  # all p.d.
+
+
+for (dlt in seq(10, 20, by = 1)){
+  cat("dlt:", dlt, "\n")
+  dlt_mat_d <- Fn_set_ini_vals(pars_mat = all_pars_lst_6[[2]], ini_vals = dlt)
+  
+  for (a in seq(0.5, 1, by = 0.1)){
+    cat("A:", a, "\n")
+    A_mat_a <- Fn_set_ini_vals(pars_mat = all_pars_lst_6[[1]], ini_vals = a)
+    
+    SG_SG_inv_tst_6 <- TST10c_SpNReg_Thres_SG_SGInv(p = 6, data = hierarchy_data6, 
+                                                    A_mat = A_mat_a, dlt_mat = dlt_mat_d, 
+                                                    sig2_mat = sig2_mat_1,
+                                                    phi = phi, H_adj, h = H, 
+                                                    b = "Wendland",
+                                                    reg_ini = 1e-9, thres_ini = 1e-3) 
+    
+    Tst_sym_pd(SG_SG_inv_tst_6$SIGMA_inv)
+    cat("SIGMA:", "\n")
+    Tst_sym_pd(SG_SG_inv_tst_6$SIGMA)
+    
+  }
+}
+
+## results: all p.d.
+
+
+for (dlt in seq(20, 30, by = 1)){
+  cat("dlt:", dlt, "\n")
+  dlt_mat_d <- Fn_set_ini_vals(pars_mat = all_pars_lst_6[[2]], ini_vals = dlt)
+  
+  for (a in seq(0.5, 1, by = 0.1)){
+    cat("A:", a, "\n")
+    A_mat_a <- Fn_set_ini_vals(pars_mat = all_pars_lst_6[[1]], ini_vals = a)
+    
+    SG_SG_inv_tst_6 <- TST10c_SpNReg_Thres_SG_SGInv(p = 6, data = hierarchy_data6, 
+                                                    A_mat = A_mat_a, dlt_mat = dlt_mat_d, 
+                                                    sig2_mat = sig2_mat_1,
+                                                    phi = phi, H_adj, h = H, 
+                                                    b = "Wendland",
+                                                    reg_ini = 1e-9, thres_ini = 1e-3) 
+    
+    Tst_sym_pd(SG_SG_inv_tst_6$SIGMA_inv)
+    cat("SIGMA:", "\n")
+    Tst_sym_pd(SG_SG_inv_tst_6$SIGMA)
+    
+  }
+}
+
+
+# result:
+# dlt: 21 
+# A: 0.5 
+# r: 2 
+#Error in qr.default(if (d[1L] < d[2L]) t(z) else z) : 
+#  NA/NaN/Inf in foreign function call (arg 1)
+
+## conjecture:
+  # dlt has upper bound: 
+    # dlt <= max(abs(H))
+
+  # i.e., dlt can only shift within the domain
+
+
+## Investigate: see 034d
+
+quantile(H)
+#   0%   25%   50%   75%  100% 
+# -19.9  -5.9   0.0   5.9  19.9
+
+
+
+
+
+
+
+
+
+
 
 
