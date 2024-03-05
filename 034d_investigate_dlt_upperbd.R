@@ -36,7 +36,19 @@ range(H) #  -19.9  19.9
 # conclusion:
   # dlt has upper bound max(abs(H))
 
+#========
+# updates: 5 Mar. 2024
+#========
+# the above strategy is NOT fundamentally, as there still exist other
+  # dlt, A combinations such the the resulting Brt is an all zero matrix
 
+# so the fundamental problem is not the upper bound of dlt as even below such bound
+  # there still exist dlt, A combination resulting Brt all zero
+
+# so we need to tackle the scenario when Brt is all zero. 
+
+## solution: assign an identity matrix if it's all zero. 
+# see Fn_check_set_SpNorm_Reg.R
 
 
 
