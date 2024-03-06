@@ -4,12 +4,14 @@
 
 # Aim:
   # generate true processes and noisy data for 1D-simu using graph in Fig12 in paper
-  # using TST10b_SpNReg_Thres_SG_SGInv in 034b
+  # using TST10c_SpNReg_Thres_SG_SGInv in 034c
+
+  # b function Wendland for df_WL; b function Tri-Wave for df_TW
 
   # with such a df, one can use for neg-logL, optm, cokrig
 
 
-library(dplyr)
+
 
 #=============================
 # 6-field processes parameters 
@@ -49,6 +51,10 @@ phi <- trunc(spec * 100)/100 # trunc only preserves integer part 6
 
 df_TW <- data.frame(s)
 n1 <- n2 <- n3 <- n4 <- n5 <- n6 <- nrow(df_TW)
+
+df_WL <- data.frame(s)
+n1 <- n2 <- n3 <- n4 <- n5 <- n6 <- nrow(df_WL)
+
 
 p <- 6
 n <- p * n1  # [1] 1200
@@ -145,8 +151,13 @@ SG_SG_inv_Y_true_TW <- TST10c_SpNReg_Thres_SG_SGInv(p = 6, data = hierarchy_data
 ## SG_inv using Tri-Wave is sparser than those using Wendland
 
 
-## True processes
+## True processes Tri-Wave
 SG_Y_true <- SG_SG_inv_Y_true_TW$SIGMA
+str(SG_Y_true) # num [1:1200, 1:1200]
+
+
+## True processes Wendland
+SG_Y_true <- SG_SG_inv_Y_true_WL$SIGMA
 str(SG_Y_true) # num [1:1200, 1:1200]
 
 
@@ -178,12 +189,28 @@ str(each_smp_Y_true_lst)
 #$ : num [1:200] -1.069922 -3.293922 -0.02897 -0.000217 0.979236 ...
 
 
+#----------
+# Tri-Wave
+#----------
 for (i in 1:length(each_smp_Y_true_lst)){
   #df_TW[paste("smp_Y", i, sep = "")] <- each_smp_Y_true_lst[[i]]
   df_TW[paste("Z", i, sep = "")] <- each_smp_Y_true_lst[[i]] + tau2s[i] * rnorm(n1)
 }
 
 head(df_TW)
+
+
+#---------
+# Wendland
+#---------
+
+for (i in 1:length(each_smp_Y_true_lst)){
+  #df_WL[paste("smp_Y", i, sep = "")] <- each_smp_Y_true_lst[[i]]
+  df_WL[paste("Z", i, sep = "")] <- each_smp_Y_true_lst[[i]] + tau2s[i] * rnorm(n1)
+}
+
+head(df_WL)
+
 
 
 ##--------------------------------------

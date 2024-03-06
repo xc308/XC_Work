@@ -33,6 +33,14 @@ check_set_SpNorm_Reg <- function(A_mat, reg_num) {
    # }
   #}
   
+  
+  # check if a matrix is all zero, if yes, assign an identity matrix
+  if (all(A_mat == 0)) {
+    A_mat <- I_sparse(size = nrow(A_mat), value = 1)
+    
+  }
+  
+  
   # spectral normalization
   singular_val <- svd(A_mat)$d
   max_sg_val <- max(singular_val)
