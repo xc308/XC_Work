@@ -32,10 +32,19 @@ spec <- 1 / max(abs(eig)) # [1] 0.06666361
 phi <- trunc(spec * 100)/100 # trunc only preserves integer part 6
 
 
-#-------
-# Indx
-#-------
-source("042_Tst_Fit_Obs_indx.R")
+#-----------------------------
+# Generate Tst, Fit, Obs indx
+#-----------------------------
+# Ref: 042_Tst_Fit_Obs_indx.R"
+source("Fn_Tst_Fit_Obs_indx.R") # generate indx
+
+Tst_Fit_Obs_indx <- Fn_Tst_Fit_Obs_indx(df = df_TW, num_folds = 4)
+
+Tst_indx <- Tst_Fit_Obs_indx$Tst_indx # lst
+Fit_indx <- Tst_Fit_Obs_indx$Fit_indx
+Obs_indx <- Tst_Fit_Obs_indx$Obs_indx
+
+
 fit_indx <- Fit_indx[[1]]
 tst_indx <- Tst_indx[[1]]
 obs_indx <- Obs_indx[[1]]
