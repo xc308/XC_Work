@@ -112,7 +112,8 @@ all_pars_lst_CAR_6_true <- vec_2_mat(vector = pars_true, all_pars_lst = all_pars
 #=========================
 # Construct true processes
 #=========================
-source("034c_1D_simu_CAR_SpNReg_Thres_b_choice.R")
+# Ref: source("034c_1D_simu_CAR_SpNReg_Thres_b_choice.R")
+source("Fn_TST10c_SpNReg_Thres_SG_SGInv_b_choice.R") # for TST
 
 SG_SG_inv_Y_true_WL <- TST10c_SpNReg_Thres_SG_SGInv(p = 6, data = hierarchy_data6, 
                              A_mat = all_pars_lst_CAR_6_true[[1]],
@@ -198,7 +199,7 @@ for (i in 1:length(each_smp_Y_true_lst)){
 }
 
 head(df_TW)
-
+df_TW[1:2,]
 
 #---------
 # Wendland
