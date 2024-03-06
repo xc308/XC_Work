@@ -26,7 +26,7 @@ str(H) # num [1:200, 1:200]
 Nb_radius <- 0.4
 
 H_adj <- matrix(as.numeric(abs(H) < Nb_radius), nrow(H), nrow(H))
-diag(H_adj)
+diag(H_adj) <- 0
 H_adj
 str(H_adj)
 
