@@ -36,36 +36,30 @@ spec <- 1/max(abs(eig))
 phi <- trunc(spec * 100)/100
 
 
+#---------
+# Obs_indx
+#---------
+# Ref: 042_Tst_Fit_Obs_indx.R"
+source("Fn_Tst_Fit_Obs_indx.R") # generate indx
+
+Tst_Fit_Obs_indx <- Fn_Tst_Fit_Obs_indx(df = df_TW, num_folds = 4)
+
+Obs_indx <- Tst_Fit_Obs_indx$Obs_indx #lst
 obs_indx <- Obs_indx[[1]]
 
-#Z <- c(df$Z1, df$Z2, df$Z3, df$Z4, df$Z5, df$Z6)
-#str(Z) # num [1:1200]
-
-
-#-----
-## ini
-#-----
-# A, del, sig2
-ini <- c(1, 0.1, 1)
-Vals <- c()
-for(i in 1:length(all_pars_lst)){
-  vals <- rep(ini[i], sum(is.na(all_pars_lst[[i]])))
-  Vals <- c(Vals, vals)
-}
-
-# together with tau2's
-all_ini_Vals <- c(Vals, rep(1, p))
 
 
 
-#-------
+#========
 # Cokrig
-#-------
+#========
 cokrig <- function(optm_pars_vec = optm_pars, all_pars_lst, p, data_str, 
                    phi, H_adj, h, b = "Wendland", obs_indx, df){
   
   source("Fn_I_sparse.R")
   source("Fn_vec2mat.R")
+  source("Fn_TST10c_SpNReg_Thres_SG_SGInv_b_choice.R") # for TST
+  
   optm_pars_lst <- vec_2_mat(vector = optm_pars_vec, all_pars_lst = all_pars_lst)
   
   
