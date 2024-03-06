@@ -25,9 +25,22 @@
 #=========
 # settings
 #=========
-source("042_Tst_Fit_Obs_indx.R")
+
+#---------
+# fit indx
+#---------
+# Ref: source("042_Tst_Fit_Obs_indx.R")
+source("Fn_Tst_Fit_Obs_indx.R") # generate indx
+
+Tst_Fit_Obs_indx <- Fn_Tst_Fit_Obs_indx(df = df_TW, num_folds = 4)
+
+Fit_indx <- Tst_Fit_Obs_indx$Fit_indx # lst
 fit_indx <- Fit_indx[[1]]
 
+
+#-----
+# pars
+#-----
 p = 6
 data_str <- hierarchy_data6
 
@@ -59,7 +72,7 @@ theta <- vals_ini_vec
 #==================
 # neg_logL function
 #==================
-source("034c_1D_simu_CAR_SpNReg_Thres_b_choice.R")
+# Ref: source("034c_1D_simu_CAR_SpNReg_Thres_b_choice.R")
 
 neg_logL_CAR <- function(theta, ..., p, data_str, all_pars_lst, b = "Tri-Wave", 
          df, Nb_radius = 0.4, fit_indx){
