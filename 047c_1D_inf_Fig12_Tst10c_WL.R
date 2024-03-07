@@ -15,8 +15,12 @@
 # settings
 #===========
 
-source("042_Tst_Fit_Obs_indx.R")
+# Ref:"042_Tst_Fit_Obs_indx.R"
+source("Fn_Tst_Fit_Obs_indx.R")
+Tst_Fit_Obs_lst <- Fn_Tst_Fit_Obs_indx(df = df_WL, num_folds = 4)
+Fit_indx <- Tst_Fit_Obs_lst$Fit_indx
 fit_indx <- Fit_indx[[1]]
+
 
 p = 6
 data_str <- hierarchy_data6
@@ -260,10 +264,23 @@ optm_pars_WL <- custom_optim(par = all_ini_Vals,
 optm_pars_WL_converged <- optm_pars_WL$par
 optm_pars_WL$convergence #[1] 0
 optm_pars_WL$message
+optm_pars_WL$counts 
+# function gradient 
+#
+#108      108 
 
 
-
-
+optm_pars_WL_converged
+# [1] 0.2999997 0.2999999 0.2999999
+#[4] 0.3000001 0.3000001 0.3000000
+#[7] 0.3000000 0.3000000 0.3000000
+#[10] 0.1908242 0.3056953 0.4228101
+#[13] 0.3731729 0.4684762 0.4904502
+#[16] 0.1115371 0.5658871 0.5311577
+#[19] 0.6307438 0.8018036 0.4783926
+#[22] 0.8275809 0.6521290 0.7524731
+#[25] 0.4679805 0.6683368 0.6326358
+#[28] 0.6003878 0.5977174 0.6497580
 
 
 
