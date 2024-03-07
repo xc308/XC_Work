@@ -1,6 +1,9 @@
 # XC_Work
 
 ## Contents
+- 034b: SG_inv construction, sparse percentage comparison among crs-MRF and non-crs-MRF for Tri-Wave and Wendland  <br><br> 
+
+
 - 046b: generate true processes and noisy data, Tri-Wave and Wendland <br><br>
 
 - 047b: optimization, Tri-Wave, Tst10c (crs-MRF)
