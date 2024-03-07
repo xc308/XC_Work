@@ -7,9 +7,18 @@
 
 
 # Method:
-  # 
+  # cokrig: function source("Fn_cokrig")
+  # optm_pars:  optm_pars_WL_converged in 047c_WL
+  
+  # C.V. metric: Mean Absolute Error (MAE); Root Mean Square Error (RMSE)
+  
 
 
+#========
+# cokrig
+#========
+
+source("Fn_cokrig.R")
 df_cokrig <- cokrig(optm_pars_vec = optm_pars_WL_converged, 
                     all_pars_lst = all_pars_lst_CAR_6,
                     p = p, data_str = hierarchy_data6, 
@@ -23,6 +32,10 @@ df_cokrig <- cokrig(optm_pars_vec = optm_pars_WL_converged,
 #Final reg_num: 1e-09 
 #ini thres: 0.001     
 
+
+#============
+# 1 fold C.V.
+#============
 
 source("Fn_Tst_Fit_Obs_indx.R")
 Tst_Fit_Obs_lst <- Fn_Tst_Fit_Obs_indx(df = df_WL, num_folds = 4)
