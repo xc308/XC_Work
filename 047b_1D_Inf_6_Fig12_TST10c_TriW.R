@@ -9,7 +9,7 @@
 
 
 # Method:
-  # fit_indx obtained from source("042_Tst_Fit_Obs_indx.R")
+  # fit_indx obtained from source("Fn_Tst_Fit_Obs_indx.R")
 
   # 1. vector theta to mat for Tst10c function
   # 2. df_ft, H_ft, H_adj_ft, phi
@@ -19,8 +19,8 @@
   # 6. SG_Z_ft_inv
   # 7. neg_logL
 
+# df_TW: obtained from 046b_generate 
 
-# df true processes use 046b_generate true processes 
 
 #=========
 # settings
@@ -220,7 +220,7 @@ lower_bd <- c(rep(NA, sum(is.na(all_pars_lst[[1]]))),
   rep(0.001, sum(is.na(all_pars_lst[[3]]))),
   rep(0.001, p))
 
-str(df)
+
 
 
 #------------------------
@@ -229,7 +229,7 @@ str(df)
 optm_pars <- optim(par = all_ini_Vals,
       fn = neg_logL_CAR,
       p = p, data_str= hierarchy_data6,
-      all_pars_lst = all_pars_lst_CAR_6, df = df, 
+      all_pars_lst = all_pars_lst_CAR_6, df = df_TW, 
       fit_indx = fit_indx, b = "Tri-Wave", Nb_radius = 0.4,
       method = "L-BFGS-B",
       lower = lower_bd,
