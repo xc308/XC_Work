@@ -1,6 +1,9 @@
 # XC_Work
 
 ## Contents
+- 032c: Tst9c, Matern, non-crs-MRF,  SpN + Reg, thres = 1e-3, reg_num = 1e-9
+- 032d: 1D simu plots functions for non-crs-MRF, in paper only C.I. among p <br><br>
+
 - 034b: SG_inv construction, sparse percentage comparison among crs-MRF and non-crs-MRF for Tri-Wave and Wendland  
 - 034c: 1D SG_inv construction, crs-MRF, with SpNorm + Reg for b function, b can be chosen <br><br>
 
