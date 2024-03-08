@@ -2,7 +2,20 @@
 # 28 Feb.2024
 #============
 # Aim:
-  # function for parallelization source.
+  # Function for generating SG, SG_inv using cross-MRF (CAR+DAG).
+
+# Args:
+  # p : variate field number
+  # data: data structure reflecting DAG
+  # A_mat: matrix of par A, amplitude in b function (TW, WL)
+  # dlt_mat: matrix of par dlt, shift in b function
+  # sig2_mat: matrix of par sig2 in UniCAR
+  # h: matrix of displacement
+  # H_adj: adjcency matrix reflecting spatial neighbourhood structure for UniCAR
+  # phi: spatial decay parameter ensuring p.d. of UniCAR
+  # b: b function, Wendland or Tri-Wave
+  # reg_ini: regularization initial value to ensure matrix B numerically stable
+  # thres_ini: the ini value to threshold the value of SG_inv to exact zero
 
 
 
