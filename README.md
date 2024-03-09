@@ -14,4 +14,7 @@
 - 047c: optimization, Wendland, Tst10c (crs-MRF) <br><br>
 
 - 048b: cokrig, Tri-Wave, 1 fold C.V. results
-- 048d: cokrig, Wendland, 1 fold C.V. results
+- 048d: cokrig, Wendland, 1 fold C.V. results <br><br>
+
+- 049: neg_logL function of non-crs-MRF, TST9d
+- 049b: optimization using 049, Tri-Wave, Wendland
