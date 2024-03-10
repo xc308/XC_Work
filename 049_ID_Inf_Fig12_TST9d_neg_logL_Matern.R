@@ -80,7 +80,7 @@ b = "Tri-Wave"
 # neg_logL
 #==========
 
-neg_logL_Matern <- function(theta, ..., p, data_str, all_pars_lst, df, b = "Tri-Wave",
+neg_logL_Matern <- function(theta, ..., p, data_str, all_pars_lst, df, b = b,
                      fit_indx){
   
   source("Fn_TST9d_SpNReg_Thres_Matern_SG_SGInv.R")
