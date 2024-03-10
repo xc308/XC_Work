@@ -368,9 +368,42 @@ quantile(H)
 
 
 
+for (dlt in seq(0.5, 5, by = 1)){
+  cat("dlt:", dlt, "\n")
+  dlt_mat_d <- Fn_set_ini_vals(pars_mat = all_pars_lst_6[[2]], ini_vals = dlt)
+  
+  for (a in seq(3, 8, by = 0.2)){
+    cat("A:", a, "\n")
+    A_mat_a <- Fn_set_ini_vals(pars_mat = all_pars_lst_6[[1]], ini_vals = a)
+    
+    SG_SG_inv_tst_6 <- TST10c_SpNReg_Thres_SG_SGInv(p = 6, data = hierarchy_data6, 
+                                                    A_mat = A_mat_a, dlt_mat = dlt_mat_d, 
+                                                    sig2_mat = sig2_mat_1,
+                                                    phi = phi, H_adj, h = H, 
+                                                    b = "Wendland",
+                                                    reg_ini = 1e-9, thres_ini = 1e-3) 
+    
+    Tst_sym_pd(SG_SG_inv_tst_6$SIGMA_inv)
+    cat("SIGMA:", "\n")
+    Tst_sym_pd(SG_SG_inv_tst_6$SIGMA)
+    
+  }
+}
 
-
-
+# r 6 
+#SG_inv 
+#[1] "Symmetric: Yes"
+#[1] "p.d.: Yes"
+#Final reg_num: 1e-09 
+#ini thres: 0.001 
+#new thres: 1e-04 
+#[1] "Symmetric: Yes"
+#[1] "p.d.: Yes"
+#[1] "Symmetric: Yes"
+#[1] "p.d.: Yes"
+#SIGMA: 
+#  [1] "Symmetric: Yes"
+#[1] "p.d.: Yes"
 
 
 
