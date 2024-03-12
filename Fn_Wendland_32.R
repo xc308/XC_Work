@@ -1,6 +1,8 @@
-#============
-# 3 Dec. 2023
-#============
+#==========================
+# 3 Dec. 2023; 12 Mar. 2024
+#===========================
+
+
 
 # Function:
   # Wendland function 
@@ -23,6 +25,32 @@
     # A: amplitude
     # dlt: translation horizontally
 
+
+#===============
+# 2D Wendland_32
+#===============
+
+WendLd32_2D <- function(shft_dst_mat, A){
+  
+  R <- round(quantile(shft_dst_mat)[3], 1) # find the 50% quantile of shft_dst
+  ifelse(shft_dst_mat <= R, A*(1 - shft_dst_mat/R)^4 * (1 + 4 * shft_dst_mat/R), 0)
+  
+}
+
+
+#WL_2D_dlt_0204 <- WendLd32_2D(shft_dst_mat = Shft_dst_mat_0204, A = 1)
+#quantile(WL_2D_dlt_0204)
+
+#    0%          25%          50%          75%         100% 
+#0.000000e+00 0.000000e+00 1.838579e-05 1.913940e-01 8.219221e-01
+
+
+
+
+
+#===============
+# 1D Wendland_32
+#===============
 
 WendLd_32 <- function(r, R, dlt, A){
   
