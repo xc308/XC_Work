@@ -1,6 +1,11 @@
-#===============================
-# Wave Functions (23 Nov. 2023)
-#===============================
+#==============================================
+# Wave Functions (23 Nov. 2023) (12 Mar. 2024)
+#==============================================
+
+# Aim:
+  # add Tri-Wave_2D 
+
+
 
 # wave_v5: a further modified tri-wave 
   # modifications:
@@ -33,6 +38,36 @@
       # and can capture different shape of asymmetry that changes with locations
         # 1. an intrinsic anisotropic stationary 
         # 2. more pertinent to real cross-correlation
+
+
+
+#===========
+# TriWave_2D
+#===========
+# Args:
+  # shft_dst_mat: a matrix containing shifted distances using Fn_shft_dist_mat.R
+  # A: amplitude
+  
+TriWave_2D <- function(shft_dst_mat, A) {
+  
+  R <- round(quantile(shft_dst_mat)[3], 1) # find the 50% quantile of shft_dst
+  A * (1 - 2 * (shft_dst_mat / R)^2) * (shft_dst_mat <= R) 
+}
+
+
+#TriWave_2D_dlt0204 <- TriWave_2D(shft_dst = Shft_dst_mat_0204, A = 1)
+
+#quantile(TriWave_2D_dlt0204)
+#0%        25%        50%        75%       100% 
+#-0.8271605  0.0000000  0.0000000  0.5061728  0.9506173 
+
+
+
+
+
+
+
+
 
 
 
