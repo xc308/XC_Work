@@ -159,7 +159,7 @@ for (f in 1:num_folds){
 
 
 
-
+print(optm_pars)
 
 
 
