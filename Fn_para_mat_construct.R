@@ -38,6 +38,34 @@ Para_Dlt_mat <- function(p, data){
 }
 
 
+Para_Dlt_lon_mat <- function(p, data){
+  Dlt_lon <- matrix(0, p, p)
+  for (r in 2 : p) {
+    PN = Check_par_node(r, data = data)
+    for (t in c(PN)){
+      #Dlt[r, t] <- paste0("dlt", r, t)
+      Dlt_lon[r, t] <- NA
+    }
+  }
+  Dlt_lon
+}
+
+
+Para_Dlt_lat_mat <- function(p, data){
+  Dlt_lat <- matrix(0, p, p)
+  for (r in 2 : p) {
+    PN = Check_par_node(r, data = data)
+    for (t in c(PN)){
+      #Dlt[r, t] <- paste0("dlt", r, t)
+      Dlt_lat[r, t] <- NA
+    }
+  }
+  Dlt_lat
+}
+
+
+
+
 Para_sig2_mat <- function(p) {
   
   sig2_D <- matrix(0, p, p)
@@ -94,10 +122,22 @@ All_paras_CAR <- function(p, data){
 }
 
 
-#All_paras(p = 5, data = hierarchy_data)
-#All_paras(p = 6, data = hierarchy_data2)
 
-#All_paras_CAR(p = 5, data = hierarchy_data)
+All_paras_CAR_2D <- function(p, data){
+  
+  #All_pars_mat <- rbind(Para_A_mat(p, data), Para_Dlt_mat(p, data), 
+  #Para_sig2_mat(p), Para_kappa_mat(p))
+  
+  All_pars_lst <- list(Para_A_mat(p, data), Para_Dlt_lon_mat(p, data), 
+                       Para_Dlt_lon_mat(p, data), Para_sig2_mat(p))
+  
+  names(All_pars_lst) <- c("A_mat", "dlt_lon_mat", "dlt_lat_mat", "sig2_mat")
+  
+  return(All_pars_lst)
+}
+
+
+
 
 
 #-----
@@ -124,5 +164,10 @@ All_paras_CAR <- function(p, data){
 
 
 
+#All_paras(p = 5, data = hierarchy_data)
+#All_paras(p = 6, data = hierarchy_data2)
 
+#All_paras_CAR(p = 5, data = hierarchy_data)
+
+#All_paras_CAR_2D(p = 6, data = hierarchy_data6)
 
