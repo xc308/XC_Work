@@ -314,6 +314,28 @@ file.exists("df_2D_TW.rds")
 # [1] TRUE
 
 
+#==========
+# Discover: consistent relationship btw sparcity in uni SG_inv and in joint SG_inv
+#==========
+
+# When we set the Nb_radius correspond to a tighter
+  # Nb structure and sparser Univariate SG_inv
+
+  # the threshold to set the value of joint SG_inv to 
+  # exact zero is more aggressive 1e-3 (lag 4) vs 1e-5 (lag 5)
+
+# This reflects the consistency between the sparsity of univariate SG_inv
+# and the sparcicty of the joint SG_inv, 
+
+# Further reflect that the cross-MRF does indeed account for 
+# not only the C.I. among p variate fields, but also the C.I. 
+  # among n spatial locations. 
+
+
+
+
+
+
 
 
 
