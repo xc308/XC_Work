@@ -49,7 +49,8 @@ DSP[, , 2] # all Lat DSP
 Dist <- as.matrix(dist(coords, diag = T, upper = T))
 str(Dist) # num [1:200, 1:200]
 
-Nb_radius <- 0.8 # lag-5
+#Nb_radius <- 0.8 # lag-5
+Nb_radius <- 0.6 # lag-4
 H_adj <- matrix(as.numeric(Dist < Nb_radius), nrow(Dist), nrow(Dist))
 diag(H_adj) <- 0
 H_adj
@@ -59,7 +60,7 @@ eig <- eigen(H_adj, symmetric = T, only.values = T)$val
 spec <- 1/max(abs(eig))
 
 phi <- trunc(spec * 100)/100
-# 0.1
+# [1] 0.12
 
 
 #-------
@@ -168,6 +169,17 @@ SG_SG_inv_Y_true_TW_2D <- TST12_SG_SGInv_CAR_2D(p = p, data = hierarchy_data6,
 
 
 
+# When Nb_radius = 0.6
+# r 6 
+#SG_inv 
+#[1] "Symmetric: Yes"
+#[1] "p.d.: Yes"
+#Final reg_num: 1e-09 
+#ini thres: 0.001 
+
+
+
+# When Nb_radius = 0.8
 #r 6 
 #SG_inv 
 #[1] "Symmetric: Yes"
@@ -182,6 +194,7 @@ SG_SG_inv_Y_true_TW_2D <- TST12_SG_SGInv_CAR_2D(p = p, data = hierarchy_data6,
 #[1] "p.d.: Yes"
 
 
+
 ## Wendland
 SG_SG_inv_Y_true_WL_2D <- TST12_SG_SGInv_CAR_2D(p = p, data = hierarchy_data6, 
                       A_mat = all_pars_lst_CAR_6_true_2D[[1]],
@@ -194,7 +207,17 @@ SG_SG_inv_Y_true_WL_2D <- TST12_SG_SGInv_CAR_2D(p = p, data = hierarchy_data6,
                       sig2_mat = all_pars_lst_CAR_6_true_2D[[4]],
                       reg_ini = 1e-9, thres_ini = 1e-3)
 
+# When Nb_radius = 0.6
+#r 6 
+#SG_inv 
+#[1] "Symmetric: Yes"
+#[1] "p.d.: Yes"
+#Final reg_num: 1e-09 
+#ini thres: 0.001 
 
+
+
+# When Nb_radius = 0.8
 # r 6 
 #SG_inv 
 #[1] "Symmetric: Yes"
@@ -273,8 +296,6 @@ for (i in 1:length(each_smp_Y_true_lst)){
 head(df_2D_WL)
 tail(df_2D_WL)
 
-str(df_2D_TW)
-# 'data.frame':	200 obs. of  14 variables:
 
 
 #-----------------------------
@@ -283,6 +304,8 @@ str(df_2D_TW)
 saveRDS(df_2D_TW, file = "df_2D_TW.rds")
 loaded_df <- readRDS("df_2D_TW.rds")
 head(loaded_df)
+
+
 saveRDS(df_2D_WL, file = "df_2D_WL.rds")
 loaded_df_WL <- readRDS("df_2D_WL.rds")
 head(loaded_df_WL)
