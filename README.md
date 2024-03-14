@@ -8,7 +8,9 @@
 - 034c: Tst10c, 1D SG_inv construction, crs-MRF, with SpNorm + Reg for b function, b can be chosen <br><br>
 
 
-- 046b: generate true processes and noisy data, Tri-Wave and Wendland <br><br>
+- 046b: generate 1D true processes and noisy data, Tri-Wave and Wendland
+- 046c: generate 2D true processes and noisy data, Tri-Wave and Wendland;<br><br>
+      - discover consistent relationship between sparsity in uni-SG_inv and joint SG_inv <br><br>
 
 - 047b: optimization, Tri-Wave, Tst10c (crs-MRF)
 - 047c: optimization, Wendland, Tst10c (crs-MRF) <br><br>
