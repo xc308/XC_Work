@@ -37,17 +37,17 @@ Vals <- c(0.7, 0.8, 0.8, 0.65, 0.65, 0.5, rep(0.6, 3),
                rep(1, 6)) # w/o tau2s
 
 
-theta <- c(Vals, rep(1, p)) # with tau2s
+#theta <- c(Vals, rep(1, p)) # with tau2s
 
 
-dsp_lon_mat <- DSP[, , 1]
-dsp_lat_mat <- DSP[, , 2]
+#dsp_lon_mat <- DSP[, , 1]
+#dsp_lat_mat <- DSP[, , 2]
 
 
 # H_adj and phi from 046c
-b <- "Tri-Wave"
+#b <- "Tri-Wave"
 
-df <- df_2D_TW
+#df <- df_2D_TW
 
 
 #=========
@@ -170,18 +170,50 @@ neg_logL_CAR_2D <- function(theta, ..., p, data_str, all_pars_lst,
 
 
 
+#========
+# Optim
+#========
+
+ini <- c(0.2, 0.1, 0.1, 0.5) # A, dlt_lon, dlt_lat, sig2
+Vals <- c()
+for (i in 1:length(all_pars_lst)){
+  value <- rep(ini[i], sum(is.na(all_pars_lst[[i]])))
+  Vals <- c(Vals, value)
+}
+
+
+all_ini_Vals <- c(Vals, rep(0.1, p)) # with tau2s
+
+
+## lower bound for each parameters, 
+# NA: no lower bound
+lower_bound <- c(rep(NA, sum(is.na(all_pars_lst[[1]]))),  # A
+                 rep(0.05, sum(is.na(all_pars_lst[[2]]))), # dlt_lon
+                 rep(0.05, sum(is.na(all_pars_lst[[3]]))), # dlt_lat
+                 rep(0.001, sum(is.na(all_pars_lst[[4]]))), # sig2
+                 rep(0.001, p)) # tau2
 
 
 
+optm_pars_CAR_2D_TW <- optim(par = all_ini_Vals, # ini guess
+                   fn = neg_logL_CAR_2D,
+                   p = p, data_str = hierarchy_data6, 
+                   all_pars_lst = all_pars_lst, 
+                   dsp_lon_mat = DSP[, , 1], 
+                   dsp_lat_mat = DSP[, , 2], 
+                   b = "Tri-Wave", 
+                   phi = phi, H_adj = H_adj,
+                   df = df_2D_TW,
+                   method = "L-BFGS-B",
+                   lower = lower_bound,
+                   control = list(trace = 0, 
+                                  maxit = 300,
+                                  pgtol = 1e-4))
 
 
 
-
-
-
-
-
-
+#str(DSP[, , 1])
+# num [1:200, 1:200]
 
 
 
