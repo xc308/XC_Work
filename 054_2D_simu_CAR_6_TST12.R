@@ -282,7 +282,8 @@ sig2_mat_1 <- Fn_set_ini_vals(pars_mat = all_pars_lst_CAR_2D_6[[4]], ini_vals = 
 # TST12
 #------
 
-SG_SGinv_CAR_6_2D <- TST12_SG_SGInv_CAR_2D(p = 6, data = hierarchy_data6, 
+## Tri-Wave
+SG_SGinv_CAR_6_2D_TW <- TST12_SG_SGInv_CAR_2D(p = 6, data = hierarchy_data6, 
                       A_mat = A_1, dsp_lon_mat = DSP[, , 1], dsp_lat_mat = DSP[, , 2],
                       dlt_lon_mat = dlt_lon_02, dlt_lat_mat = dlt_lat_04, 
                       b = "Tri-Wave", phi =  phi, H_adj = H_adj,
@@ -296,6 +297,25 @@ SG_SGinv_CAR_6_2D <- TST12_SG_SGInv_CAR_2D(p = 6, data = hierarchy_data6,
 #[1] "p.d.: Yes"
 #Final reg_num: 1e-09 
 #ini thres: 0.001 
+
+
+## Wendland
+SG_SGinv_CAR_6_2D_WL <- TST12_SG_SGInv_CAR_2D(p = 6, data = hierarchy_data6,
+                      A_mat = A_1, 
+                      dsp_lon_mat = DSP[, , 1], dsp_lat_mat = DSP[, , 2], 
+                      dlt_lon_mat = dlt_lon_02, 
+                      dlt_lat_mat = dlt_lat_04,
+                      b = "Wendland", 
+                      phi = phi, H_adj = H_adj, sig2_mat = sig2_mat_1,
+                      reg_ini = 1e-9, thres_ini = 1e-3)
+
+# r 6 
+#SG_inv 
+#[1] "Symmetric: Yes"
+#[1] "p.d.: Yes"
+#Final reg_num: 1e-09 
+#ini thres: 0.001 
+
 
 
 
