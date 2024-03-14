@@ -94,7 +94,7 @@ neg_logL_CAR_2D <- function(theta, ..., p, data_str, all_pars_lst,
   
   SG_Y <- SG_SG_inv_Y$SIGMA
   SG_Y_inv <- SG_SG_inv_Y$SIGMA_inv
-  str(SG_Y) # num [1:1200, 1:1200]
+  #str(SG_Y) # num [1:1200, 1:1200]
   
   # calculate SG_Ng
   ## 1st calcuate the # of parameters accumulated so far, 
@@ -198,7 +198,7 @@ lower_bound <- c(rep(NA, sum(is.na(all_pars_lst[[1]]))),  # A
 optm_pars_CAR_2D_TW <- optim(par = all_ini_Vals, # ini guess
                    fn = neg_logL_CAR_2D,
                    p = p, data_str = hierarchy_data6, 
-                   all_pars_lst = all_pars_lst, 
+                   all_pars_lst = all_pars_lst_CAR_6_2D, 
                    dsp_lon_mat = DSP[, , 1], 
                    dsp_lat_mat = DSP[, , 2], 
                    b = "Tri-Wave", 
@@ -216,5 +216,20 @@ optm_pars_CAR_2D_TW <- optim(par = all_ini_Vals, # ini guess
 # num [1:200, 1:200]
 
 
+
+optm_pars_CAR_2D_WL <- optim(par = all_ini_Vals, # ini guess
+                             fn = neg_logL_CAR_2D,
+                             p = p, data_str = hierarchy_data6, 
+                             all_pars_lst = all_pars_lst_CAR_6_2D, 
+                             dsp_lon_mat = DSP[, , 1], 
+                             dsp_lat_mat = DSP[, , 2], 
+                             b = "Wendland", 
+                             phi = phi, H_adj = H_adj,
+                             df = df_2D_WL,
+                             method = "L-BFGS-B",
+                             lower = lower_bound,
+                             control = list(trace = 0, 
+                                            maxit = 300,
+                                            pgtol = 1e-4))
 
 
