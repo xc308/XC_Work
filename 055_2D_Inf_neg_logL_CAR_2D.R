@@ -194,11 +194,14 @@ lower_bound <- c(rep(NA, sum(is.na(all_pars_lst[[1]]))),  # A
                  rep(0.001, p)) # tau2
 
 
+#---------
+# Tri-Wave
+#---------
 
 optm_pars_CAR_2D_TW <- optim(par = all_ini_Vals, # ini guess
                    fn = neg_logL_CAR_2D,
                    p = p, data_str = hierarchy_data6, 
-                   all_pars_lst = all_pars_lst, 
+                   all_pars_lst = all_pars_lst_CAR_6_2D, 
                    dsp_lon_mat = DSP[, , 1], 
                    dsp_lat_mat = DSP[, , 2], 
                    b = "Tri-Wave", 
@@ -221,6 +224,7 @@ optm_pars_CAR_2D_TW$counts
 # function gradient 
 # 68       68 
 
+
 optm_pars_CAR_2D_TW$value
 # [1] 1950.922
 
@@ -235,3 +239,24 @@ optm_pars_CAR_2D_TW$par
 #[29] 1.0237316 1.1203088 0.7785809 0.9711005
 #[33] 0.8338323 0.1133995 0.3171200 0.1632951
 #[37] 0.6098001 0.5982997 0.5836794
+
+
+
+#---------
+# Wendland
+#---------
+optm_pars_CAR_2D_WL <- optim(par = all_ini_Vals, # ini guess
+                             fn = neg_logL_CAR_2D,
+                             p = p, data_str = hierarchy_data6, 
+                             all_pars_lst = all_pars_lst_CAR_6_2D, 
+                             dsp_lon_mat = DSP[, , 1], 
+                             dsp_lat_mat = DSP[, , 2], 
+                             b = "Wendland", 
+                             phi = phi, H_adj = H_adj,
+                             df = df_2D_WL,
+                             method = "L-BFGS-B",
+                             lower = lower_bound,
+                             control = list(trace = 0, 
+                                            maxit = 300,
+                                            pgtol = 1e-4))
+

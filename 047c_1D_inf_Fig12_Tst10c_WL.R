@@ -204,8 +204,8 @@ optm_pars_WL <- optim(par = all_ini_Vals,
                    method = "L-BFGS-B",
                    lower = lower_bd,
                    control = list(trace = 1, 
-                                  pgtol = 1e-5, 
-                                  maxit = 500))
+                                  maxit = 500,
+                                  pgtol = 1e-5))
 
 optm_pars_WL$message
 # [1] "ERROR: ABNORMAL_TERMINATION_IN_LNSRCH"
@@ -281,6 +281,23 @@ optm_pars_WL_converged
 #[22] 0.8275809 0.6521290 0.7524731
 #[25] 0.4679805 0.6683368 0.6326358
 #[28] 0.6003878 0.5977174 0.6497580
+
+
+
+#========================
+# Try run optim only once
+#========================
+
+optm_pars_WL <- optim(par = all_ini_Vals,
+                      fn = neg_logL_CAR,
+                      p = p, data_str= hierarchy_data6,
+                      all_pars_lst = all_pars_lst_CAR_6, df = df_WL, 
+                      fit_indx = fit_indx, b = "Wendland", Nb_radius = 0.4,
+                      method = "L-BFGS-B",
+                      lower = lower_bd,
+                      control = list(trace = 1, 
+                                     maxit = 1,
+                                     pgtol = 1e-5))
 
 
 
