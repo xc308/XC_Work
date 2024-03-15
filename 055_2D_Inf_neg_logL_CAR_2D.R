@@ -228,7 +228,7 @@ optm_pars_CAR_2D_TW$counts
 optm_pars_CAR_2D_TW$value
 # [1] 1950.922
 
-optm_pars_CAR_2D_TW$par
+optm_pars_2D_TW <- optm_pars_CAR_2D_TW$par
 #[1] 0.2000000 0.2000000 0.2000000 0.2000000
 #[5] 0.2000000 0.2000000 0.2000000 0.2000000
 #[9] 0.2000000 0.1806144 0.1948287 0.1348977
@@ -239,6 +239,11 @@ optm_pars_CAR_2D_TW$par
 #[29] 1.0237316 1.1203088 0.7785809 0.9711005
 #[33] 0.8338323 0.1133995 0.3171200 0.1632951
 #[37] 0.6098001 0.5982997 0.5836794
+
+#getwd()
+
+saveRDS(optm_pars_2D_TW, file = "optm_pars_2D_TW.rds")
+readRDS("optm_pars_2D_TW.rds")
 
 
 
