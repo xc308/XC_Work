@@ -21,4 +21,4 @@
 - 049: neg_logL function of non-crs-MRF, TST9d
 - 049b: optimization using 049, Tri-Wave, Wendland <br><br>
 
-- 055: 2D inference, Tri-Wave (converged), Wendland 
+- 055: 2D inference (neg_logL_2D, optim) for 6 fields in Fig12, Tri-Wave (converged), Wendland 
