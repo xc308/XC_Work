@@ -19,6 +19,6 @@
 - 048d: cokrig, Wendland, 1 fold C.V. results <br><br>
 
 - 049: neg_logL function of non-crs-MRF, TST9d
-- 049b: optimization using 049, Tri-Wave, Wendland <br><be>
+- 049b: optimization using 049, Tri-Wave, Wendland <br><br>
 
 - 055: 2D inference, Tri-Wave (converged), Wendland 
