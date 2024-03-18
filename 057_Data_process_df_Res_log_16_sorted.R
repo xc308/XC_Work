@@ -207,6 +207,28 @@ str(df_Res_log_16_sorted)
 
 
 
+#=======================================================
+# Re-organize the BC,DU,etc.order to align with the DAG
+#=======================================================
+
+# 1: DU; 2: SU; 3: BC; 4: OM; 5:SS
+
+
+df_Res_log_16_sorted_DAG_V1 <- data.frame(Lon = df_Res_log_16_sorted$Lon,
+           Lat = df_Res_log_16_sorted$Lat, 
+           Year = df_Res_log_16_sorted$Year, 
+           Z1 = df_Res_log_16_sorted$DU_Residuals_log, 
+           Z2 = df_Res_log_16_sorted$SU_Residuals_log, 
+           Z3 = df_Res_log_16_sorted$BC_Residuals_log, 
+           Z4 = df_Res_log_16_sorted$OM_Residuals_log, 
+           Z5 = df_Res_log_16_sorted$SS_Residuals_log, 
+           PM25_res = df_Res_log_16_sorted$PM25_Residuals_log, 
+           Lat_div_indx = df_Res_log_16_sorted$Lat_div_indx,
+           Lon_div_indx = df_Res_log_16_sorted$Lon_div_indx)
+
+
+
+
 #======
 # Save
 #======
@@ -216,6 +238,7 @@ saveRDS(df_Res_log_16_sorted, file = "df_Res_log_16_sorted.rds")
 
 #head(try)
 
+saveRDS(df_Res_log_16_sorted_DAG_V1, file = "df_Res_log_16_sorted_DAG_V1.rds")
 
 
 
