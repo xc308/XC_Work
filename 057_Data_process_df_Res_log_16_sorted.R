@@ -119,15 +119,41 @@ df_Res_log_16 <- df_Res_log_16 %>%
   mutate(Lon_div_indx = cut(Lon, breaks = breaks_lon, labels = F))
 
 
+#--------------------------------
+# check NA for the boundary cut
+#--------------------------------
+
+which(is.na(df_Res_log_16$Lon_div_indx)) 
+# [1] 1772 2782 3114 3474
+
+df_Res_log_16[1770:1779,]
+df_Res_log_16[2780:2784, ]
+df_Res_log_16[3112:3116, ]
+df_Res_log_16[3472:3475,]
+## all corresponds to Lon: -179.25
+# so shall categorize to Lon_div_indx = 1
+
+df_Res_log_16$Lon_div_indx[1772] <- 1
+df_Res_log_16$Lon_div_indx[2782] <- 1
+df_Res_log_16$Lon_div_indx[3114] <- 1
+df_Res_log_16$Lon_div_indx[3474] <- 1
+
+nrow(df_Res_log_16) # [1] 27384
+
 df_div_Lon_lst <- split(df_Res_log_16, df_Res_log_16$Lon_div_indx)
 str(df_div_Lon_lst)
 
 # List of 4
-# $ 1:'data.frame':	3789 obs. of  11 variables:
+# $ 1:'data.frame':	3793 obs. of  11 variables:
 # $ 2:'data.frame':	6581 obs. of  11 variables:
 # $ 3:'data.frame':	10155 obs. of  11 variables:
 # $ 4:'data.frame':	6855 obs. of  11 variables:
 
+
+
+#-----
+# sort
+#-----
 
 # Within each Lon list, sort the data frame 
   # Lon from small to large (ascending), -180 ~ -90, -90~0, 0~90, 90~180
@@ -142,10 +168,11 @@ for (i in 1:length(df_div_Lon_lst)) {
 
 str(df_div_Lon_lst_sorted)
 # List of 4
-#$ :'data.frame':	3789 obs. of  11 variables:
-#  ..$ Lon               : num [1:3789] -178 -178 -178 -178 -178 ...
-#  ..$ Lat               : num [1:3789] 71.2 68.2 67.5 66.8 66 ...
-#  ..$ Lon_div_indx      : int [1:3789] 1 1 1 1 1 1 1 1 1 1 ...
+#$ :'data.frame':	3793 obs. of  11 variables:
+# $ :'data.frame':	3793 obs. of  11 variables:
+#..$ Lon               : num [1:3793] -179 -179 -179 -179 -178 ...
+#..$ Lat               : num [1:3793] 71.2 68.2 67.5 66.8 71.2 ...
+#..$ Lon_div_indx      : int [1:3793] 1 1 1 1 1 1 1 1 1 1 ...
 
 #$ :'data.frame':	6581 obs. of  11 variables:
 #  ..$ Lon               : num [1:6581] -89.2 -89.2 -89.2 -89.2 -89.2 ...
@@ -165,7 +192,7 @@ str(df_div_Lon_lst_sorted)
 
 df_Res_log_16_sorted <- do.call(rbind, df_div_Lon_lst_sorted)
 str(df_Res_log_16_sorted)
-# 'data.frame':	27380 obs. of  11 variables:
+# 'data.frame':	27384 obs. of  11 variables:
 #$ Lon               : num  -178 -178 -178 -178 -178 ...
 #$ Lat               : num  71.2 68.2 67.5 66.8 66 ...
 #$ Year              : num  2016 2016 2016 2016 2016 ...
