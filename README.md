@@ -19,4 +19,9 @@
 - 048d: cokrig, Wendland, 1 fold C.V. results <br><br>
 
 - 049: neg_logL function of non-crs-MRF, TST9d
-- 049b: optimization using 049, Tri-Wave, Wendland
+- 049b: optimization using 049, Tri-Wave, Wendland <br><br>
+
+- 055: 2D inference (neg_logL_2D, optim) for 6 fields in Fig12, Tri-Wave (converged), Wendland
+- 056: 2D cokrig (pure denoising) <br><be>
+
+- 057: Data processing, generate df_Res_log_16_sorted, sorted by Lon (asc), then by Lat (desc); 4 Lon strips

@@ -121,7 +121,7 @@ neg_logL_CAR_2D <- function(theta, ..., p, data_str, all_pars_lst,
   }
   tau2_mat <- diag(THETA)
   
-  #n1 <- length(Z1) # total # of locations of univariate process
+  # total # of locations of univariate process
   n1 <- nrow(df) # 200
   I_sp_mat <- I_sparse(size = n1, value = 1)
   SG_Ng <- kronecker(tau2_mat, I_sp_mat)
@@ -147,7 +147,7 @@ neg_logL_CAR_2D <- function(theta, ..., p, data_str, all_pars_lst,
   #str(log_SG_Z_det) # num 987
   
   
-  # # construct joint Z, stack each Zi in df
+  # construct joint Z, stack each Zi in df
   Z <- c()
   for (i in 1:p) {
     Z <- c(Z, df[[paste0("Z", i)]])
@@ -194,6 +194,9 @@ lower_bound <- c(rep(NA, sum(is.na(all_pars_lst[[1]]))),  # A
                  rep(0.001, p)) # tau2
 
 
+#---------
+# Tri-Wave
+#---------
 
 optm_pars_CAR_2D_TW <- optim(par = all_ini_Vals, # ini guess
                    fn = neg_logL_CAR_2D,
@@ -212,11 +215,41 @@ optm_pars_CAR_2D_TW <- optim(par = all_ini_Vals, # ini guess
 
 
 
-#str(DSP[, , 1])
-# num [1:200, 1:200]
+optm_pars_CAR_2D_TW$message
+# [1] "CONVERGENCE: REL_REDUCTION_OF_F <= FACTR*EPSMCH"
+optm_pars_CAR_2D_TW$convergence
+# [1] 0
+
+optm_pars_CAR_2D_TW$counts
+# function gradient 
+# 68       68 
+
+
+optm_pars_CAR_2D_TW$value
+# [1] 1950.922
+
+optm_pars_2D_TW <- optm_pars_CAR_2D_TW$par
+#[1] 0.2000000 0.2000000 0.2000000 0.2000000
+#[5] 0.2000000 0.2000000 0.2000000 0.2000000
+#[9] 0.2000000 0.1806144 0.1948287 0.1348977
+#[13] 0.1359586 0.1366735 0.1483079 0.2289421
+#[17] 0.4296537 0.3746224 0.1806144 0.1948287
+#[21] 0.1348977 0.1359586 0.1366735 0.1483079
+#[25] 0.2289421 0.4296537 0.3746224 1.0020573
+#[29] 1.0237316 1.1203088 0.7785809 0.9711005
+#[33] 0.8338323 0.1133995 0.3171200 0.1632951
+#[37] 0.6098001 0.5982997 0.5836794
+
+#getwd()
+
+saveRDS(optm_pars_2D_TW, file = "optm_pars_2D_TW.rds")
+readRDS("optm_pars_2D_TW.rds")
 
 
 
+#---------
+# Wendland
+#---------
 optm_pars_CAR_2D_WL <- optim(par = all_ini_Vals, # ini guess
                              fn = neg_logL_CAR_2D,
                              p = p, data_str = hierarchy_data6, 
@@ -232,6 +265,7 @@ optm_pars_CAR_2D_WL <- optim(par = all_ini_Vals, # ini guess
                                             maxit = 300,
                                             pgtol = 1e-4))
 
+<<<<<<< HEAD
 
 # 1st run results:
 optm_pars_CAR_2D_WL$message
@@ -322,3 +356,5 @@ optm_pars_CAR_2D_WL$par
 #[37] 0.58066433 0.47573630 0.19098267
 
 
+=======
+>>>>>>> bd02a041e6b53361e1379afec30e273ecc80741c
