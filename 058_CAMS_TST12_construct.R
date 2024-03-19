@@ -13,14 +13,18 @@
 
   # TST12:source("Fn_TST12_SG_SGInv_CAR_2D.R")
 
+install.packages("dplyr")
+library(dplyr)
 
 #==========
 # Settings
 #==========
+df_Res_log_16_sorted_DAG_V1 <- readRDS("df_Res_log_16_sorted_DAG_V1.rds")
+
 df_Res_log_16_sorted_V1_Lon1 <- df_Res_log_16_sorted_DAG_V1 %>%
   filter(Lon_div_indx == 1)
 
-str(df_Res_log_16_sorted_V1_Lon1)
+#str(df_Res_log_16_sorted_V1_Lon1)
 # 'data.frame':	3793 obs. of  11 variables:
 # $ Lon         : num  -179 -179 -179 -179 -178 ...
 #$ Lat         : num  71.2 68.2 67.5 66.8 71.2 ...
@@ -41,7 +45,7 @@ str(df_Res_log_16_sorted_V1_Lon1)
 # 2D coords
 #----------
 coords_Lon_1 <- cbind(df_Res_log_16_sorted_V1_Lon1$Lon, df_Res_log_16_sorted_V1_Lon1$Lat)
-str(coords_Lon_1)
+#str(coords_Lon_1)
 # num [1:3793, 1:2]
 
 
@@ -54,12 +58,12 @@ str(coords_Lon_1)
 
 source("Fn_make_DSP_mat.R")
 DSP_Lon1 <- make_DSP_mat(crds = coords_Lon_1)
-str(DSP_Lon1)
+#str(DSP_Lon1)
 # num [1:3793, 1:3793, 1:2]
-DSP_Lon1[, , 1] # all DSP_Lon
-DSP_Lon1[, , 2] # all DSP_Lat
+#DSP_Lon1[, , 1] # all DSP_Lon
+#DSP_Lon1[, , 2] # all DSP_Lat
 
-str(DSP_Lon1[, , 1]) # num [1:3793, 1:3793]
+#str(DSP_Lon1[, , 1]) # num [1:3793, 1:3793]
 
 
 #---------------------------
@@ -69,10 +73,10 @@ str(DSP_Lon1[, , 1]) # num [1:3793, 1:3793]
 # for H_adj and phi for UniCAR
 
 DIST <- as.matrix(dist(coords_Lon_1, diag = T, upper = T))
-quantile(DIST)
+#quantile(DIST)
 #       0%       25%       50%       75%      100% 
 # 0.00000  16.65270  27.17651  40.83886 126.01116 
-str(DIST) # num [1:3793, 1:3793]
+#str(DIST) # num [1:3793, 1:3793]
 
 ## set Nb_radius = 5
 Nb_radius <- 10
@@ -92,8 +96,8 @@ phi <- 1/max(abs(spec)) # [1] 0.002062418  0.00763647
 phi <- trunc(phi * 1000)/1000  # [1] 0.002 0.007
 
 
-c_inv <- (I_sparse(size = nrow(H_adj), value = 1) - phi * H_adj)
-Tst_sym_pd(c_inv)
+#c_inv <- (I_sparse(size = nrow(H_adj), value = 1) - phi * H_adj)
+#Tst_sym_pd(c_inv)
 # [1] "Symmetric: Yes"
 # [1] "p.d.: Yes"
 
@@ -125,7 +129,8 @@ sig2_mat_1 <- Fn_set_ini_vals(pars_mat = all_pars_lst_CAR_2D_CAMS[[4]], ini_vals
 
 ## Tri-Wave
 SG_SGinv_CAR_2D_CAMS_TW <- TST12_SG_SGInv_CAR_2D(p = 5, data = hierarchy_data_CAMS_V1, 
-                                              A_mat = A_1, dsp_lon_mat = DSP_Lon1[, , 1], 
+                                              A_mat = A_1, 
+                                              dsp_lon_mat = DSP_Lon1[, , 1], 
                                               dsp_lat_mat = DSP_Lon1[, , 2],
                                               dlt_lon_mat = dlt_lon_02, 
                                               dlt_lat_mat = dlt_lat_04, 
@@ -135,7 +140,7 @@ SG_SGinv_CAR_2D_CAMS_TW <- TST12_SG_SGInv_CAR_2D(p = 5, data = hierarchy_data_CA
                                               reg_ini = 1e-9, thres_ini = 1e-3)
 
 
-
+# Result on Laptop
 # r: 2 
 #condition number of C 4.774764e+13 
 #condition number of CDinv 6.572813e+12 
@@ -166,4 +171,43 @@ SG_SGinv_CAR_2D_CAMS_TW <- TST12_SG_SGInv_CAR_2D(p = 5, data = hierarchy_data_CA
 #  sparse->dense coercion: allocating vector of size 1.7 GiB
 #2: In asMethod(object) :
 #  sparse->dense coercion: allocating vector of size 1.7 GiB
+
+
+# Result on GPU:
+#r: 2 
+#condition number of C 4.774772e+13 
+#condition number of CDinv 6.572811e+12 
+#r 2 
+#SG_inv 
+#[1] "Symmetric: Yes"
+#[1] "p.d.: Yes"
+#r: 3 
+#condition number of C 8.296721e+13 
+#condition number of CDinv 1.420727e+13 
+#r 3 
+#SG_inv 
+#[1] "Symmetric: Yes"
+#[1] "p.d.: Yes"
+#r: 4 
+#condition number of C 1.148135e+14 
+#condition number of CDinv 2.024515e+13 
+#r 4 
+#SG_inv 
+#[1] "Symmetric: Yes"
+#[1] "p.d.: Yes"
+#r: 5 
+#condition number of C 1.359934e+14 
+#condition number of CDinv 2.204805e+13 
+#r 5 
+#SG_inv 
+#[1] "Symmetric: Yes"
+#[1] "p.d.: Yes"
+#Final reg_num: 1e-09 
+#ini thres: 0.001 
+#> 
+
+
+
+
+
 
