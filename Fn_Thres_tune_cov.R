@@ -17,7 +17,7 @@
             # cov_mat = SG_inv: orignially constructed w/o thres 1e-3
 
 
-thres_ini <- 1e-3
+#thres_ini <- 1e-3
 #thres_lst <- 10^-(0:5)
 
 
@@ -53,7 +53,8 @@ Thres_tune_cov <- function(thres_ini, cov_mat_thres, cov_mat = SG_inv){
     
     if (thres_new < 1e-15) {
       cat("no threshold can make SG_inv p.d.", "\n")
-      break  # Exit loop if threshold becomes 0
+      thres_new <- 0 # no value is set to exact zero, no threshold
+      #break  # Exit loop if threshold becomes 0
     }
     
     cov_mat_thres <- spress_cov(cov_mat, threshold = thres_new)
