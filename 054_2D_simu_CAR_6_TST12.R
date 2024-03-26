@@ -19,7 +19,7 @@ TST12_SG_SGInv_CAR_2D <- function(p, data, A_mat, dsp_lon_mat, dsp_lat_mat,
                                   phi, H_adj, sig2_mat,
                                   reg_ini = 1e-9, thres_ini = 1e-3) {
   
-  source("Fn_Matern_32.R")
+  #source("Fn_Matern_32.R")
   source("Fn_Check_par_node.R")
   source("Fn_Waves.R")
   source("Fn_Wendland_32.R") # R = 0.5
