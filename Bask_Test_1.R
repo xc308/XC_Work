@@ -34,6 +34,12 @@ crds <- cbind(s, s)
 source("Fn_make_DSP_mat.R")
 DSP <- make_DSP_mat(crds = crds)
 
+# DSP[, , 1] # all Lon DSP
+# DSP[, , 2] # all Lat DSP
+
+
+
+
 
 #---------------------------
 # Construct distance matrix 
