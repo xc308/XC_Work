@@ -5,9 +5,12 @@
 # Aim:
   # This is to test if inference works on Bask
 
+#install.packages("Matrix")
+#library(Matrix)
+
 
 df_2D_TW <- readRDS("df_2D_TW.rds")
-#head(df_2D_TW)
+head(df_2D_TW)
 
 
 #=============
@@ -36,9 +39,13 @@ all_pars_lst <- all_pars_lst_CAR_6_2D
 #----------
 # 2D coords
 #----------
-ds <- 0.1
-s <- seq(-1 + ds/2, 1 - ds/2, by = ds)
-crds <- cbind(s, s)
+
+#ds <- 0.1
+#s <- seq(-10 + ds/2, 10 - ds/2, by = ds)
+#str(s) # num [1:200]
+
+crds <- cbind(df_2D_TW$lon, df_2D_TW$lat)
+#str(crds)# num [1:200, 1:2]
 
 
 #----------------------------------------
@@ -52,7 +59,7 @@ DSP <- make_DSP_mat(crds = crds)
 
 # DSP[, , 1] # all Lon DSP
 # DSP[, , 2] # all Lat DSP
-
+#str(DSP[, , 1]) # num [1:200, 1:200]
 
 #---------------------------
 # Construct distance matrix 
@@ -70,10 +77,9 @@ diag(H_adj) <- 0
 
 
 spec <- eigen(H_adj, symmetric = T, only.values = T)$val
-phi <- 1/max(abs(spec)) # [1] 0.1344431
+phi <- 1/max(abs(spec)) # [1] 0.1251127
 
-phi <- trunc(phi * 100)/100  # [1] 0.13
-
+phi <- trunc(phi * 100)/100  # [1] 0.12
 
 
 
