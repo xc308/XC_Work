@@ -94,4 +94,9 @@ SG_SGinv_CAR_6_2D_TW <- TST12_SG_SGInv_CAR_2D(p = 6, data = hierarchy_data6,
                                               sig2_mat = sig2_mat_1, 
                                               reg_ini = 1e-9, thres_ini = 1e-3)
 
-saveRDS(SG_SGinv_CAR_6_2D_TW, file = "SG_SGinv_CAR_6_2D_TW.rds")
+#saveRDS(SG_SGinv_CAR_6_2D_TW, file = "SG_SGinv_CAR_6_2D_TW.rds")
+
+#saveRDS(SG_SGinv_CAR_6_2D_TW$SG, file = "SG_SGinv_CAR_6_2D_TW.rds")
+str(SG_SGinv_CAR_6_2D_TW$SG_inv)
+
+
