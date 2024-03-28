@@ -10,7 +10,7 @@
 
 
 df_2D_TW <- readRDS("df_2D_TW.rds")
-head(df_2D_TW)
+#head(df_2D_TW)
 
 
 #=============
@@ -248,6 +248,6 @@ optm_pars_CAR_2D_TW <- optim(par = all_ini_Vals, # ini guess
 
 
 
-
+saveRDS(optm_pars_CAR_2D_TW, file = "optm_pars_CAR_2D_TW.rds")
 
 
