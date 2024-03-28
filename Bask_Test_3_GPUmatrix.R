@@ -12,15 +12,12 @@
 #library(bit64)
 install.packages("torch")
 library(torch)
-
+Yes
 
 install.packages("GPUmatrix")
 library(GPUmatrix)
-Yes
-# Not torch or tensorflow installed
 
-install.packages("dplyr")
-library(dplyr)
+# Not torch or tensorflow installed
 
 
 #====================
