@@ -6,6 +6,7 @@
   # Test R packages installation
 
 
-install.packages("devtools")
-library(devtools)
+
+install.packages("remotes", lib="/bask/projects/v/vjgo8416-xchen")
+library(remotes)
 
