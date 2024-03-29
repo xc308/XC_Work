@@ -10,12 +10,14 @@
   # cuDNN (a version compatible with your CUDA version)
 
 
-install.packages("torch")
+install.packages("torch", lib="/bask/projects/v/vjgo8416-xchen")
+.libPaths("/bask/projects/v/vjgo8416-xchen")
 library(torch)
 Yes
 
 
-install.packages("GPUmatrix")
+install.packages("GPUmatrix", lib="/bask/projects/v/vjgo8416-xchen")
+.libPaths("/bask/projects/v/vjgo8416-xchen")
 library(GPUmatrix)
 
 
