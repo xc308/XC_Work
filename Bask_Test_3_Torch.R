@@ -13,6 +13,8 @@
 install.packages("torch", lib="/bask/projects/v/vjgo8416-xchen")
 .libPaths("/bask/projects/v/vjgo8416-xchen")
 library(torch)
+
+Sys.setenv(LD_LIBRARY_PATH = "/bask/projects/v/vjgo8416-xchen/torch/lib")
 install_torch(timeout = 6000)
 
 
