@@ -13,6 +13,7 @@
 install.packages("torch", lib="/bask/projects/v/vjgo8416-xchen")
 .libPaths("/bask/projects/v/vjgo8416-xchen")
 library(torch)
+install_torch()
 
 
 install.packages("GPUmatrix", lib="/bask/projects/v/vjgo8416-xchen")
