@@ -10,7 +10,7 @@
   # cuDNN (a version compatible with your CUDA version)
 
 
-install.packages("torch", lib="/bask/projects/v/vjgo8416-xchen")
+install.packages("torch", lib="/bask/projects/v/vjgo8416-xchen", force = TRUE)
 .libPaths("/bask/projects/v/vjgo8416-xchen")
 library(torch)
 
