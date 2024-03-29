@@ -18,11 +18,14 @@
 
 # first get python 3.10 installed
 
+install.packages("devtools")
 
-install.packages("remotes")
-library(remotes)
+devtools::install_github("rstudio/tensorflow")
 
-remotes::install_github("rstudio/tensorflow")
+#install.packages("remotes")
+#library(remotes)
+
+#remotes::install_github("rstudio/tensorflow")
 1
 
 
