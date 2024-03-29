@@ -8,5 +8,11 @@
 
 
 install.packages("remotes", lib="/bask/projects/v/vjgo8416-xchen")
+.libPaths("/bask/projects/v/vjgo8416-xchen")
 library(remotes)
+
+
+
+
+
 
