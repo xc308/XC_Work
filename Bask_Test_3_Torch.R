@@ -14,8 +14,10 @@ install.packages("torch", lib="/bask/projects/v/vjgo8416-xchen", force = TRUE)
 .libPaths("/bask/projects/v/vjgo8416-xchen")
 library(torch)
 
-Sys.setenv(LD_LIBRARY_PATH = "/bask/projects/v/vjgo8416-xchen/torch/lib")
+Sys.setenv(LD_LIBRARY_PATH = "/bask/projects/v/vjgo8416-xchen/torch/lib") # share objs in lib
+Sys.setenv(TORCH_INSTALL = "1") #automatic installation of LibTorch and LibLantern in non-interactive 
 install_torch(timeout = 6000)
+
 
 
 install.packages("GPUmatrix", lib="/bask/projects/v/vjgo8416-xchen")
