@@ -30,7 +30,19 @@
 # Set TORCH_HOME environment variable to the desired path
 Sys.setenv(TORCH_HOME = "/bask/projects/v/vjgo8416-xchen")
 Sys.setenv(TORCH_INSTALL_DEBUG = 1)
-# Install the torch package
+
+## try binary versioin
+options(timeout = 6000) # increasing timeout is recommended since we will be downloading a 2GB file.
+# For Windows and Linux: "cpu", "cu117" are the only currently supported
+# For MacOS the supported are: "cpu-intel" or "cpu-m1"
+kind <- "cu117"
+version <- available.packages()["torch","Version"]
+options(repos = c(
+  torch = sprintf("https://storage.googleapis.com/torch-lantern-builds/packages/%s/%s/", kind, version),
+  CRAN = "https://cloud.r-project.org" # or any other from which you want to install the other R dependencies.
+))
+
+#Install the torch package
 install.packages("torch", lib="/bask/projects/v/vjgo8416-xchen", force = TRUE)
 
 # Set the library path to the desired directory
@@ -41,7 +53,7 @@ library(torch)
 
 # Install torch with the specified environment variable
 
-torch::install_torch(timeout = 6000)
+#torch::install_torch(timeout = 6000)
 
 
 install.packages("GPUmatrix", lib="/bask/projects/v/vjgo8416-xchen")
