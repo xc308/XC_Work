@@ -32,7 +32,7 @@ library(Rcpp)
 
 
 # Use the loaded Python module
-reticulate::use_python("Python/3.9.5")
+reticulate::use_python("Python/3.9")
 
 
 #remotes::install_github("rstudio/tensorflow")
