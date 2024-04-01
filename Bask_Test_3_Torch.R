@@ -29,7 +29,7 @@
 
 # Set TORCH_HOME environment variable to the desired path
 Sys.setenv(TORCH_HOME = "/bask/projects/v/vjgo8416-xchen")
-
+Sys.setenv(TORCH_INSTALL_DEBUG = 1)
 # Install the torch package
 install.packages("torch", lib="/bask/projects/v/vjgo8416-xchen", force = TRUE)
 
@@ -40,6 +40,7 @@ install.packages("torch", lib="/bask/projects/v/vjgo8416-xchen", force = TRUE)
 library(torch)
 
 # Install torch with the specified environment variable
+
 torch::install_torch(timeout = 6000)
 
 
