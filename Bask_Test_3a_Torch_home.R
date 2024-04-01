@@ -5,23 +5,23 @@
 # Aim:
   # try torch installation
 
-# TORCH_HOME only include the torch additional dependencies
-Sys.setenv(TORCH_HOME = "/bask/projects/v/vjgo8416-xchen/torch-lantern")
 
 #Install the torch package
 install.packages("torch", lib="/bask/projects/v/vjgo8416-xchen", force = TRUE)
 
 # Set the library path to the desired directory
-.libPaths("/bask/projects/v/vjgo8416-xchen")
+#.libPaths("/bask/projects/v/vjgo8416-xchen")
 
 # Load the torch library
 library(torch)
 
+# TORCH_HOME only include the torch additional dependencies
+Sys.setenv(TORCH_HOME = "/bask/projects/v/vjgo8416-xchen/torch-lantern")
 torch::install_torch(timeout = 6000)
 
 
 install.packages("GPUmatrix", lib="/bask/projects/v/vjgo8416-xchen")
-.libPaths("/bask/projects/v/vjgo8416-xchen")
+#.libPaths("/bask/projects/v/vjgo8416-xchen")
 library(GPUmatrix)
 
 
