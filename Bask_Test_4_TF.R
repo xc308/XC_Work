@@ -36,7 +36,7 @@ remotes::install_github("rstudio/tensorflow", lib = "/bask/projects/v/vjgo8416-x
 
 .libPaths("/bask/projects/v/vjgo8416-xchen/TF")
 library(tensorflow)
-install_tensorflow(envname = "/bask/projects/v/vjgo8416-xchen/TF")
+#install_tensorflow(envname = "/bask/projects/v/vjgo8416-xchen/TF")
 
 
 hello <- tf$constant("Hello TensorFlow!")
