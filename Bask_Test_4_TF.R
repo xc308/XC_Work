@@ -49,7 +49,7 @@ print(hello)
 #===================
 # install GPUmatrix
 #===================
-#install.packages("GPUmatrix", lib="/bask/projects/v/vjgo8416-xchen")
+install.packages("GPUmatrix", lib="/bask/projects/v/vjgo8416-xchen")
 .libPaths("/bask/projects/v/vjgo8416-xchen")
 library(GPUmatrix)
 
