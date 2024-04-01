@@ -18,15 +18,17 @@
 
 # first get python 3.10 installed
 
-install.packages("devtools")
+#install.packages("devtools")
 
-devtools::install_github("rstudio/tensorflow")
+#devtools::install_github("rstudio/tensorflow")
 
 #install.packages("remotes")
-#library(remotes)
+.libPaths("/bask/projects/v/vjgo8416-xchen")
+library(remotes)
 
 #remotes::install_github("rstudio/tensorflow")
-1
+remotes::install_github("rstudio/tensorflow", lib = "/bask/projects/v/vjgo8416-xchen/TF")
+
 
 
 # The current release version of TensorFlow requires 
@@ -35,9 +37,9 @@ devtools::install_github("rstudio/tensorflow")
 #reticulate::install_python('3.10:latest')
 # or mannually install python 
 
-
+.libPaths("/bask/projects/v/vjgo8416-xchen/TF")
 library(tensorflow)
-install_tensorflow(version = "2.11.1")
+install_tensorflow(envname = "/bask/projects/v/vjgo8416-xchen/TF")
 
 
 hello <- tf$constant("Hello TensorFlow!")
@@ -47,7 +49,8 @@ print(hello)
 #===================
 # install GPUmatrix
 #===================
-install.packages("GPUmatrix")
+#install.packages("GPUmatrix", lib="/bask/projects/v/vjgo8416-xchen")
+.libPaths("/bask/projects/v/vjgo8416-xchen")
 library(GPUmatrix)
 
 # Torch tensors allowed
