@@ -25,16 +25,14 @@
 .libPaths("/bask/projects/v/vjgo8416-xchen")
 library(remotes)
 
+
+install.packages("Rcpp", lib = "/bask/projects/v/vjgo8416-xchen/TF")
+.libPaths("/bask/projects/v/vjgo8416-xchen/TF")
+library(Rcpp)
+
+
 #remotes::install_github("rstudio/tensorflow")
 remotes::install_github("rstudio/tensorflow", lib = "/bask/projects/v/vjgo8416-xchen/TF")
-
-
-
-# The current release version of TensorFlow requires 
-# a Python version between 3.8 and 3.11. 
-# Python versions >=3.12 are not supported.
-#reticulate::install_python('3.10:latest')
-# or mannually install python 
 
 .libPaths("/bask/projects/v/vjgo8416-xchen/TF")
 library(tensorflow)
@@ -96,4 +94,12 @@ tf$config$list_physical_devices("GPU")
 #devtools::install_github("rstudio/tensorflow")
 #1
 
+
+
+
+# The current release version of TensorFlow requires 
+# a Python version between 3.8 and 3.11. 
+# Python versions >=3.12 are not supported.
+#reticulate::install_python('3.10:latest')
+# or mannually install python 
 
