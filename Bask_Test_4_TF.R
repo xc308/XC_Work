@@ -31,8 +31,13 @@ install.packages("Rcpp", lib = "/bask/projects/v/vjgo8416-xchen/TF")
 library(Rcpp)
 
 
+# Use the loaded Python module
+reticulate::use_python("Python/3.9.5-GCCcore-10.3.0")
+
+
 #remotes::install_github("rstudio/tensorflow")
 remotes::install_github("rstudio/tensorflow", lib = "/bask/projects/v/vjgo8416-xchen/TF")
+
 
 .libPaths("/bask/projects/v/vjgo8416-xchen/TF")
 library(tensorflow)
