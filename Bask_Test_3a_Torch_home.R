@@ -17,6 +17,8 @@ install.packages("torch", lib="/bask/projects/v/vjgo8416-xchen", force = TRUE)
 # Load the torch library
 library(torch)
 
+torch::install_torch(timeout = 6000)
+
 
 install.packages("GPUmatrix", lib="/bask/projects/v/vjgo8416-xchen")
 .libPaths("/bask/projects/v/vjgo8416-xchen")
