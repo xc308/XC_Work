@@ -20,7 +20,9 @@ library(torch)
 #Sys.setenv(TORCH_INSTALL = 1) #automatic installation of LibTorch and LibLantern in non-interactive 
 
 
-get_install_libs_url()
+
+Sys.setenv(LANTERN_URL="/bask/projects/v/vjgo8416-xchen/https://storage.googleapis.com/torch-lantern-builds/binaries/refs/heads/cran/v0.12.0/latest/lantern-0.12.0+cpu+x86_64-Linux.zip
+")
 torch::install_torch(timeout = 6000, 
                      TORCH_INSTALL_DEBUG = 1)
 
