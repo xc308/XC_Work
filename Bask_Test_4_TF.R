@@ -26,17 +26,22 @@
 library(remotes)
 
 
-install.packages("Rcpp", lib = "/bask/projects/v/vjgo8416-xchen/TF")
+#install.packages("Rcpp", lib = "/bask/projects/v/vjgo8416-xchen/TF")
 .libPaths("/bask/projects/v/vjgo8416-xchen/TF")
 library(Rcpp)
 
 
-# Use the loaded Python module
-reticulate::use_python("Python/3.9")
+# Specify the path to the Python executable
+python_executable <- "/bask/apps/live/EL8-ice/software/Python/3.9.5-GCCcore-10.3.0/bin/python"
+
+# Use the specified Python executable
+reticulate::use_python(python_executable)
+
 
 
 #remotes::install_github("rstudio/tensorflow")
 remotes::install_github("rstudio/tensorflow", lib = "/bask/projects/v/vjgo8416-xchen/TF")
+
 
 
 .libPaths("/bask/projects/v/vjgo8416-xchen/TF")
