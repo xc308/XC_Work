@@ -20,12 +20,10 @@ library(torch)
 #Sys.setenv(TORCH_INSTALL = 1) #automatic installation of LibTorch and LibLantern in non-interactive 
 
 
-
-Sys.setenv(LANTERN_URL="/bask/projects/v/vjgo8416-xchen/https://storage.googleapis.com/torch-lantern-builds/binaries/refs/heads/cran/v0.12.0/latest/lantern-0.12.0+cpu+x86_64-Linux.zip
-")
+Sys.setenv(TORCH_URL="/bask/projects/v/vjgo8416-xchen/https://download.pytorch.org/libtorch/cpu/libtorch-cxx11-abi-shared-with-deps-2.0.1%2Bcpu.zip")
+Sys.setenv(LANTERN_URL="/bask/projects/v/vjgo8416-xchen/https://storage.googleapis.com/torch-lantern-builds/binaries/refs/heads/cran/v0.12.0/latest/lantern-0.12.0+cpu+x86_64-Linux.zip")
 torch::install_torch(timeout = 6000, 
                      TORCH_INSTALL_DEBUG = 1)
-
 
 
 install.packages("GPUmatrix", lib="/bask/projects/v/vjgo8416-xchen")
