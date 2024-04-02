@@ -43,8 +43,8 @@ library(Rcpp)
 remotes::install_github("rstudio/tensorflow", lib = "/bask/projects/v/vjgo8416-xchen/TF", force = T)
 
 
-reticulate::virtualenv_create('r-reticulate')
-py_config()
+#reticulate::virtualenv_create('r-reticulate')
+#py_config()
 
 
 .libPaths("/bask/projects/v/vjgo8416-xchen/TF")
