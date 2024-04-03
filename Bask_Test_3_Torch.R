@@ -14,8 +14,7 @@
 #.libPaths("/bask/projects/v/vjgo8416-xchen")
 #library(torch)
 
-#Sys.setenv(LD_LIBRARY_PATH = "/bask/projects/v/vjgo8416-xchen/torch/lib") # share objs in lib
-#Sys.setenv(LD_LIBRARY_PATH = "/bask/projects/v/vjgo8416-xchen/torch") # share objs in lib
+#Sys.setenv(LD_LIBRARY_PATH = "/bask/projects/v/vjgo8416-xchen/torch/lib") # share objs in lib (not necessary)
 
 #Sys.setenv(TORCH_INSTALL = 1) #automatic installation of LibTorch and LibLantern in non-interactive 
 
@@ -28,14 +27,14 @@
 
 
 # Set TORCH_HOME environment variable to the desired path
-Sys.setenv(TORCH_HOME = "/bask/projects/v/vjgo8416-xchen")
-Sys.setenv(TORCH_INSTALL_DEBUG = 1)
+#Sys.setenv(TORCH_HOME = "/bask/projects/v/vjgo8416-xchen")
+#Sys.setenv(TORCH_INSTALL_DEBUG = 1)
 
 ## try binary versioin
 options(timeout = 6000) # increasing timeout is recommended since we will be downloading a 2GB file.
 # For Windows and Linux: "cpu", "cu117" are the only currently supported
 # For MacOS the supported are: "cpu-intel" or "cpu-m1"
-kind <- "cu117"
+kind <- "cpu"
 version <- available.packages()["torch","Version"]
 options(repos = c(
   torch = sprintf("https://storage.googleapis.com/torch-lantern-builds/packages/%s/%s/", kind, version),
@@ -51,8 +50,7 @@ install.packages("torch", lib="/bask/projects/v/vjgo8416-xchen", force = TRUE)
 # Load the torch library
 library(torch)
 
-# Install torch with the specified environment variable
-
+# dependencies
 #torch::install_torch(timeout = 6000)
 
 
