@@ -30,6 +30,9 @@
 #Sys.setenv(TORCH_HOME = "/bask/projects/v/vjgo8416-xchen")
 #Sys.setenv(TORCH_INSTALL_DEBUG = 1)
 
+system("nvidia-smi")
+
+
 ## try binary versioin
 options(timeout = 6000) # increasing timeout is recommended since we will be downloading a 2GB file.
 # For Windows and Linux: "cpu", "cu117" are the only currently supported
