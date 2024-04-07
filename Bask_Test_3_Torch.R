@@ -10,54 +10,43 @@
   # cuDNN (a version compatible with your CUDA version)
 
 
-#install.packages("torch", lib="/bask/projects/v/vjgo8416-xchen", force = TRUE)
-#.libPaths("/bask/projects/v/vjgo8416-xchen")
-#library(torch)
-
-#Sys.setenv(LD_LIBRARY_PATH = "/bask/projects/v/vjgo8416-xchen/torch/lib") # share objs in lib (not necessary)
-
-#Sys.setenv(TORCH_INSTALL = 1) #automatic installation of LibTorch and LibLantern in non-interactive 
-
-
-#Sys.setenv(TORCH_URL="/bask/projects/v/vjgo8416-xchen/torch/https://download.pytorch.org/libtorch/cpu/libtorch-cxx11-abi-shared-with-deps-2.0.1%2Bcpu.zip")
-#Sys.setenv(LANTERN_URL="/bask/projects/v/vjgo8416-xchen/torch/https://storage.googleapis.com/torch-lantern-builds/binaries/refs/heads/cran/v0.12.0/latest/lantern-0.12.0+cpu+x86_64-Linux.zip")
-#torch::install_torch(timeout = 6000, 
- #                    LANTERN_BASE_URL = "/bask/projects/v/vjgo8416-xchen/torch",
- #                    TORCH_INSTALL_DEBUG = 1)
-
-
-# Set TORCH_HOME environment variable to the desired path
-#Sys.setenv(TORCH_HOME = "/bask/projects/v/vjgo8416-xchen")
-#Sys.setenv(TORCH_INSTALL_DEBUG = 1)
-
 system("nvidia-smi")
 
+#==============================
+# binary versioin installation
+#==============================
 
-## try binary versioin
-options(timeout = 6000) # increasing timeout is recommended since we will be downloading a 2GB file.
-# For Windows and Linux: "cpu", "cu117" are the only currently supported
-# For MacOS the supported are: "cpu-intel" or "cpu-m1"
-kind <- "cu118"
-version <- available.packages()["torch","Version"]
-options(repos = c(
-  torch = sprintf("https://storage.googleapis.com/torch-lantern-builds/packages/%s/%s/", kind, version),
-  CRAN = "https://cloud.r-project.org" # or any other from which you want to install the other R dependencies.
-))
+#----------------
+# Only done once, download from binary source
+#----------------
 
-#Install the torch package
-install.packages("torch", lib="/bask/projects/v/vjgo8416-xchen", force = TRUE)
+#options(timeout = 6000) 
+#kind <- "cu118"
+#version <- available.packages()["torch","Version"]
+#options(repos = c(
+#  torch = sprintf("https://storage.googleapis.com/torch-lantern-builds/packages/%s/%s/", kind, version),
+#  CRAN = "https://cloud.r-project.org" # or any other from which you want to install the other R dependencies.
+#))
 
+#install.packages("torch", lib="/bask/projects/v/vjgo8416-xchen", force = TRUE)
+
+
+#---------------------
+# Need to do each time
+#---------------------
 # Set the library path to the desired directory
 .libPaths("/bask/projects/v/vjgo8416-xchen")
 
 # Load the torch library
 library(torch)
 
-# dependencies
-#torch::install_torch(timeout = 6000)
 
 
-install.packages("GPUmatrix", lib="/bask/projects/v/vjgo8416-xchen")
+#-------------------
+# Install GPUmatrix
+#-------------------
+
+#install.packages("GPUmatrix", lib="/bask/projects/v/vjgo8416-xchen")
 .libPaths("/bask/projects/v/vjgo8416-xchen")
 library(GPUmatrix)
 
