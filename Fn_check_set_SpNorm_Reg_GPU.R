@@ -3,8 +3,13 @@
 #============
 
 # Aim:
-  # To modify the TST12 for GPUmatrix
+  # To modify check_set_SpNorm_Reg function for GPU matrix
 
+
+# Arg:
+  # A_mat_pgu: a gpu matrix to be Spectral normalized
+  # reg_num: the regularize number
+  
 
 check_set_SpNorm_Reg_gpu <- function(A_mat_gpu, reg_num) {
   
