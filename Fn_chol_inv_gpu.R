@@ -8,6 +8,9 @@
 # Arg:
   # A_gpu: a matrix of GPUmatrix class, real, symmetry, p.d.
 
+# Return:
+  # an inversed GPU matrix obtained using cholesky solve
+
 
 chol_inv_gpu <- function(A_gpu) {
   require(GPUmatrix)
@@ -36,7 +39,7 @@ chol_inv_gpu <- function(A_gpu) {
 #0.0000  1.0000
 #[ CPUDoubleType{2,2} ]
 
-
+#str(nrow(a.gpu))
 
 
 
