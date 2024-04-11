@@ -5,8 +5,38 @@
 # Aim:
   # GPU version of TST12 function
 
+# Method:
+  # use package torch and GPUmatrix
 
-# 
+
+#=============
+# GPU settings
+#=============
+
+#------
+# torch
+#------
+# Set the library path to the desired directory
+.libPaths("/bask/projects/v/vjgo8416-xchen")
+
+# Load the torch library
+library(torch)
+
+
+#-----------
+# GPUmatrix
+#------------
+
+#install.packages("GPUmatrix", lib="/bask/projects/v/vjgo8416-xchen")
+.libPaths("/bask/projects/v/vjgo8416-xchen")
+library(GPUmatrix)
+
+system("nvidia-smi")
+
+
+#====================
+# TST12 GPU function
+#====================
 
 TST12_SG_SGInv_CAR_2D_GPU <- function(p, data, A_mat, dsp_lon_mat, dsp_lat_mat, 
                                   dlt_lon_mat, dlt_lat_mat, b = "Wendland",
@@ -218,6 +248,7 @@ TST12_SG_SGInv_CAR_2D_GPU <- function(p, data, A_mat, dsp_lon_mat, dsp_lat_mat,
 }
 
 
+
 #===========================
 # Test on 2D simulated data
 #===========================
@@ -231,9 +262,9 @@ s <- seq(-10 + ds/2, 10 - ds/2, by = ds)
 
 
 crds <- cbind(s, s)
-head(crds)
-nrow(crds) # [1] 20. [1] 200
-str(crds) # num [1:20, 1:2]# num [1:200, 1:2] 
+#head(crds)
+#nrow(crds) # [1] 20. [1] 200
+#str(crds) # num [1:20, 1:2]# num [1:200, 1:2] 
 
 
 #----------------------------------------
@@ -244,9 +275,9 @@ str(crds) # num [1:20, 1:2]# num [1:200, 1:2]
 
 source("Fn_make_DSP_mat.R")
 DSP <- make_DSP_mat(crds = crds)
-str(DSP[, , 1]) # all Lon displacement
+#str(DSP[, , 1]) # all Lon displacement
 # num [1:20, 1:20]; num [1:200, 1:200]
-str(DSP[, , 2]) # all Lat displacement
+#str(DSP[, , 2]) # all Lat displacement
 # num [1:20, 1:20] ; num [1:200, 1:200]
 
 
@@ -265,10 +296,10 @@ str(DSP[, , 2]) # all Lat displacement
 
 
 DIST <- as.matrix(dist(crds, diag = T, upper = T))
-str(DIST)
+#str(DIST)
 # num [1:20, 1:20]; num [1:200, 1:200]
 
-quantile(DIST)
+#quantile(DIST)
 #       0%       25%       50%       75%      100% 
 # 0.0000000 0.4242641 0.8485281 1.4142136 2.6870058 
 
@@ -277,12 +308,12 @@ quantile(DIST)
 
 
 
-Nb_radius <- 0.8 # 50% of DIST matrix will be set to zero
+#Nb_radius <- 0.8 # 50% of DIST matrix will be set to zero
 Nb_radius <- 8
 
 H_adj <- matrix(as.numeric(abs(DIST) < Nb_radius), nrow(DIST), nrow(DIST))
 diag(H_adj) <- 0
-str(H_adj) #  num [1:200, 1:200]
+#str(H_adj) #  num [1:200, 1:200]
 
 eig_val <- eigen(as.gpu.matrix(H_adj), symmetric = T, only.values = T)$val
 spec <- eig_val@gm$real
@@ -290,7 +321,7 @@ spec <- eig_val@gm$real
 
 phi <- 1/max(abs(spec)) # [1] 0.1344431; 0.0098534
 
-phi <- trunc(phi * 100)/100  # [1] 0.13
+#phi <- trunc(phi * 100)/100  # [1] 0.13
 
 phi <- trunc(phi * 1000)/1000  # [1] 0.009
 
@@ -318,7 +349,7 @@ sig2_mat_1 <- Fn_set_ini_vals(pars_mat = all_pars_lst_CAR_2D_CMS[[4]], ini_vals 
 
 
 ## Tri-Wave
-SG_SGinv_CAR_6_2D_TW_GPU <- TST12_SG_SGInv_CAR_2D_GPU(p = 5, data = hierarchy_data_CAMS, 
+SG_SGinv_CAR_5_2D_TW_GPU <- TST12_SG_SGInv_CAR_2D_GPU(p = 5, data = hierarchy_data_CAMS, 
                                               A_mat = A_1, 
                                               dsp_lon_mat = DSP[, , 1], 
                                               dsp_lat_mat = DSP[, , 2],
@@ -328,6 +359,11 @@ SG_SGinv_CAR_6_2D_TW_GPU <- TST12_SG_SGInv_CAR_2D_GPU(p = 5, data = hierarchy_da
                                               phi =  phi, H_adj = H_adj,
                                               sig2_mat = sig2_mat_1, 
                                               reg_ini = 1e-9, thres_ini = 1e-3)
+
+
+
+saveRDS(SG_SGinv_CAR_5_2D_TW_GPU, file = "SG_SGinv_CAR_5_2D_TW_GPU.rds")
+
 
 
 #---------------
@@ -396,7 +432,7 @@ SG_SGinv_CAR_6_2D_TW_GPU <- TST12_SG_SGInv_CAR_2D_GPU(p = 5, data = hierarchy_da
 
 
 
-SG_SGinv_CAR_6_2D_WL_GPU <- TST12_SG_SGInv_CAR_2D_GPU(p = 5, data = hierarchy_data_CAMS, 
+SG_SGinv_CAR_5_2D_WL_GPU <- TST12_SG_SGInv_CAR_2D_GPU(p = 5, data = hierarchy_data_CAMS, 
                                                       A_mat = A_1, 
                                                       dsp_lon_mat = DSP[, , 1], 
                                                       dsp_lat_mat = DSP[, , 2],
@@ -406,6 +442,10 @@ SG_SGinv_CAR_6_2D_WL_GPU <- TST12_SG_SGInv_CAR_2D_GPU(p = 5, data = hierarchy_da
                                                       phi =  phi, H_adj = H_adj,
                                                       sig2_mat = sig2_mat_1, 
                                                       reg_ini = 1e-9, thres_ini = 1e-3)
+
+
+saveRDS(SG_SGinv_CAR_5_2D_WL_GPU, file = "SG_SGinv_CAR_5_2D_WL_GPU.rds")
+
 
 #---------------
 # 200 locations
@@ -476,10 +516,10 @@ SG_SGinv_CAR_6_2D_WL_GPU <- TST12_SG_SGInv_CAR_2D_GPU(p = 5, data = hierarchy_da
 #======
 # Note
 #======
-as.gpu.matrix(matrix(rnorm(9), 3, 3)) # as.gpu.matrix(matrix obj)
+#as.gpu.matrix(matrix(rnorm(9), 3, 3)) # as.gpu.matrix(matrix obj)
 
-try <- matrix(c(4, 1, 1, 2), 2, 2)
-str(forceSymmetric(try))
+#try <- matrix(c(4, 1, 1, 2), 2, 2)
+#str(forceSymmetric(try))
 # Formal class 'dsyMatrix' [package "Matrix"] with 5 slots
 #..@ Dim     : int [1:2] 2 2
 #..@ Dimnames:List of 2
