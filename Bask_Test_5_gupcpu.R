@@ -201,8 +201,12 @@ R_subset_t
 
 source("Fn_forceSym_Tsr.R")
 
-R_subset_sym <- forceSym_Tsr(R_subset)
-R_subset_sym
+M <- matrix(c(4, 1.003, 1.002, 1), 2, 2)
+M_tsr <- torch_tensor(M, device = device)
+cat("M_tsr:", "\n")
+M_tsr
 
-
+M_tsr_sym <- forceSym_Tsr(M_tsr)
+cat("M_tsr_sym:", "\n")
+M_tsr_sym 
 
