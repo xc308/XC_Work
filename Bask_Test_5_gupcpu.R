@@ -153,5 +153,28 @@ result_lst <- lapply(t, FUN = Subset_cols)
 #R_subset <- do.call(cbind, result_lst)
 R_subset <- torch_cat(result_lst, dim = 2)
 
+cat("R_subset:", "\n")
 R_subset
+# torch_tensor
+#1.0098  1.6499 -0.3109  1.5242
+#-0.0963 -0.3132  1.4742 -0.8559
+#-0.6514 -0.4540 -0.8400  1.4369
+#-0.6229  0.0098 -1.2988 -0.6238
+#[ CUDAFloatType{4,4} ]
+
+
+#=================
+# Tensor transpose
+#=================
+
+R_subset_t <- torch_t(R_subset)
+cat("R_subset_t:", "\n")
+
+R_subset_t
+
+
+
+
+
+
 
