@@ -191,8 +191,9 @@ R_subset
 #-----------------------
 cat("R_subset_t_v2:", "\n")
 
-torch$transpose(R_subset, 1, 2)
+R_subset_t <- R_subset$transpose()
 
+R_subset_t
 
 #==========================
 # forceSymmetric for Tensor
