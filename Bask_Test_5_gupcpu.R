@@ -133,4 +133,25 @@ print(ab)
 # processing or analysis.
 
 
+#=========================================
+# tensor on GPU in combination of lapply
+#=========================================
+
+R_mat <- matrix(rnorm(16), 4, 4)
+R <- torch_tensor(R_mat, device = device)
+
+t <- c(1, 2)
+n <- 2
+Subset_cols <- function(t) {
+  start_col <- (t - 1) * n + 1
+  end_col <- t * n
+  
+  result <- R[, start_col:end_col]
+}
+
+result_lst <- lapply(t, FUN = Subset_cols)
+#R_subset <- do.call(cbind, result_lst)
+R_subset <- torch_cat(result_lst, dim = 2)
+
+R_subset
 
