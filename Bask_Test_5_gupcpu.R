@@ -51,7 +51,7 @@ system("nvidia-smi")
 #==============
 
 device <- torch_device("cuda")
-cat("device:", device, "\n")
+cat("device:", as.character(device), "\n")
 
 a <- matrix(rnorm(9), 3, 3)
 #a.gpu <- as.gpu.matrix(a, device = device)
@@ -106,5 +106,27 @@ print(ab)
 #---------
 # overhead
 #---------
+
+# there is overhead involved in moving data between CPU and GPU memory. 
+# When you create a normal matrix a on the CPU and then convert it to 
+# a tensor using torch_tensor() with a specified GPU device, the data 
+# needs to be transferred from CPU memory to GPU memory. 
+# This transfer operation incurs overhead, which includes the time 
+# it takes to copy the data and the resources used during the transfer process.
+
+
+# The overhead of transferring data between CPU and GPU depends on factors 
+# such as the size of the data, the bandwidth of the system's PCI Express bus, 
+# and the processing capabilities of the GPU. Generally, larger data transfers 
+# incur more overhead, 
+
+# To minimize overhead when working with tensors on the GPU, 
+# it's recommended to perform as much computation as possible 
+# directly on the GPU without unnecessary data transfers between 
+# CPU and GPU memory. This often involves creating tensors directly 
+# on the GPU whenever possible and performing operations on them 
+# without moving them back to CPU memory unless required for further 
+# processing or analysis.
+
 
 
