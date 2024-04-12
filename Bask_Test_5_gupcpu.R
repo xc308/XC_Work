@@ -173,10 +173,10 @@ R_subset
 # Tensor transpose
 #=================
 
-#R_subset_t <- torch_t(R_subset)
-#cat("R_subset_t:", "\n")
+R_subset_t <- torch_t(R_subset)
+cat("R_subset_t:", "\n")
 
-#R_subset_t
+R_subset_t
 
 # torch_tensor
 # -2.0243  0.2032  1.5153  0.1104
@@ -187,19 +187,22 @@ R_subset
 
 
 #-----------------------
-# try: torch$transpose() 
+# try: torch$transpose() (Fail)
 #-----------------------
-cat("R_subset_t_v2:", "\n")
+#cat("R_subset_t_v2:", "\n")
 
-R_subset_t <- R_subset$transpose()
+#R_subset_t <- R_subset$transpose()
 
-R_subset_t
+#R_subset_t
 
 #==========================
 # forceSymmetric for Tensor
 #==========================
 
+source("Fn_forceSym_Tsr.R")
 
+R_subset_sym <- forceSym_Tsr(R_subset)
+R_subset_sym
 
 
 
