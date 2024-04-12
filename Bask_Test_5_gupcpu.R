@@ -53,9 +53,39 @@ system("nvidia-smi")
 device <- torch_device("cuda")
 
 a <- matrix(rnorm(9), 3, 3)
-a.gpu <- as.gpu.matrix(a, device = device)
+#a.gpu <- as.gpu.matrix(a, device = device)
+#a.gpu
 
-a.gpu
+#--------
+# Error
+#--------
+# Error in cpp_torch_device(type, index) : 
+#Expecting a single string value: [type=externalptr; extent=1].
+#Calls: as.gpu.matrix ... <Anonymous> -> <Anonymous> -> <Anonymous> -> cpp_torch_device
+#Execution halted
+
+#------------------
+# Meaning and solo
+#------------------
+# in gpu.matrix package
+# device: It indicates the device to load cuda. If not indicated, ’device’ will be set to ’cuda’
+#if it is available.
+
+# it cannot be assigned to the device value that we obtained
+  # from GPU runing, which is  CUDA Version: 12.2 
+
+#------------------
+# Has to use Tensor
+#------------------
+
+a_tensor <- torch_tensor(a, device = device)
+
+a_tensor
+
+
+
+
+
 
 
 
