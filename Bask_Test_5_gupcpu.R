@@ -206,7 +206,16 @@ M_tsr <- torch_tensor(M, device = device)
 cat("M_tsr:", "\n")
 M_tsr
 
+# torch_tensor
+#4.0000  1.0020
+#1.0030  1.0000
+#[ CUDAFloatType{2,2} ]
+
+
 M_tsr_sym <- forceSym_Tsr(M_tsr)
 cat("M_tsr_sym:", "\n")
 M_tsr_sym 
-
+# torch_tensor
+#4.0000  1.0025
+#1.0025  1.0000
+#[ CUDAFloatType{2,2} ]
