@@ -51,6 +51,7 @@ system("nvidia-smi")
 #==============
 
 device <- torch_device("cuda")
+cat("device:", device, "\n")
 
 a <- matrix(rnorm(9), 3, 3)
 #a.gpu <- as.gpu.matrix(a, device = device)
@@ -82,12 +83,25 @@ a_tensor <- torch_tensor(a, device = device)
 
 a_tensor
 
+# torch_tensor
+#0.8204  0.4109  0.9122
+#0.1312 -1.0588  0.3119
+#0.8899 -0.4120 -1.0433
+#[ CUDAFloatType{3,3} ]
 
 
+#----------------------------
+# move tensor from GPU to CPU
+#----------------------------
 
+a_tsr_cpu <- a_tensor$to("cpu")
 
+a_mat <- as.matrix(a_tsr_cpu)
 
+b_mat <- matrix(rnorm(9), 3, 3)
+ab <- a_mat %*% b_mat
 
+print(ab)
 
 
 
