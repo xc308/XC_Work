@@ -357,8 +357,32 @@ a <- torch_randn(c(5, 3), device = device)
 
 a_svd <- torch_svd(a)
 a_svd
+#[[1]]
+#torch_tensor
+#-0.2079 -0.0886  0.2968
+#0.7005 -0.5243 -0.3773
+#0.3274  0.6936 -0.4111
+#0.1188 -0.3923  0.2472
+#-0.5871 -0.2868 -0.7345
+#[ CUDAFloatType{5,3} ]
 
-#cat("singular vals:", s, "\n")
+#[[2]]
+#torch_tensor
+#3.7027
+#2.0156
+#1.3863
+#[ CUDAFloatType{3} ]
+
+#[[3]]
+#torch_tensor
+#0.9956  0.0809  0.0466
+#-0.0191 -0.3129  0.9496
+#0.0914 -0.9463 -0.3100
+#[ CUDAFloatType{3,3} ]
+
+s <- a_svd[[2]]
+cat("singular vals:", s, "\n")
+
 
 # verify
 
