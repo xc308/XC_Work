@@ -270,11 +270,53 @@ torch_reshape(b, list(-1))
 #============
 # torch_round
 #============
+# torch_round(self, decimals)
+# Returns a new tensor with each of the elements of input rounded 
+# to the closest integer (default deci = 0)
+# 
+
 
 a = torch_randn(c(4))
 a
+# torch_tensor
+#-0.5267
+#0.0806
+#-0.6318
+#-1.8366
+#[ CPUFloatType{4} ]
 torch_round(a)
+# -1
+#0
+#-1
+#-2
+
+
 torch_round(a, 4)
+# torch_tensor
+#-0.5267
+#0.0806
+#-0.6318
+#-1.8366
+#[ CPUFloatType{4} ]
+
+
+
+#===========
+# torch_sum
+#===========
+# torch_sum(self, dim, keepdim = FALSE, dtype = NULL)
+# Returns the sum of each row of the input tensor in the given dimension dim.
+
+a <- torch_randn(c(4, 4))
+a
+cat("dim = 1", "\n")
+torch_sum(a, 1)
+
+cat("dim = 2", "\n")
+torch_sum(a, 2)
+
+
+
 
 
 
