@@ -309,18 +309,63 @@ torch_round(a, 4)
 
 a <- torch_randn(c(4, 4))
 a
+# torch_tensor
+#0.6186  0.1394  1.6781 -0.1519
+#0.7125 -0.7671 -0.3556 -1.3737
+#0.8013  1.2749 -2.0088 -0.1229
+#-1.4502  0.6271 -2.2641 -1.3831
+#[ CPUFloatType{4,4} ]
+ 
+
 cat("dim = 1", "\n")
-torch_sum(a, 1)
+torch_sum(a, 1) # sum across different rows
+# torch_tensor
+#0.6821 = 0.6186 + 0.7125 + 0.8013 + (-1.4502)
+#1.2743
+#-2.9504
+#-3.0316
+#[ CPUFloatType{4} ]
+
+
 
 cat("dim = 2", "\n")
-torch_sum(a, 2)
+torch_sum(a, 2) # sum across different cols
+#  2.2841 = 0.618 + 0.1394 + 1.6781 -0.1519
+#-1.7839
+#-0.0554
+#-4.4704
+#[ CPUFloatType{4} ]
 
 
+#===========
+# torch_svd
+#===========
 
+# torch_svd(self, some = TRUE, compute_uv = TRUE)
 
+# singular value decomposition of a input real matrix
+# input = U  diag(S)  t(V) .
 
+# compute_uv (bool, optional) option whether to compute U and V or not
+# If compute_uv is FALSE, the returned U and V matrices will be zero matrices of 
+# shape (m by m) and
+# (n by n) respectively. some will be ignored he
 
+# The singular values S are returned in descending order.
 
+a <- torch_randn(c(5, 3), device = device)
+
+a_svd <- torch_svd(a)
+u <- a_svd$U
+s <- a_svd$S
+v <- a_svd$V
+
+cat("singular vals:", s, "\n")
+
+# verify
+
+cat("distance between a and svd:", "\n")
+torch_dist(a, torch_mm(torch_mm(u, torch_diag(s)), v$t()))
 
 
 
