@@ -381,12 +381,20 @@ a_svd <- torch_svd(a)
 #[ CUDAFloatType{3,3} ]
 
 s <- a_svd[[2]]
-print(s)
+#print(s)
+# torch_tensor
+#2.7430
+#1.4159
+#1.0300
+#[ CUDAFloatType{3} ]
+
+u <- a_svd[[1]]
+v <- a_svd[[3]]
 
 # verify
 
-#cat("distance between a and svd:", "\n")
-#torch_dist(a, torch_mm(torch_mm(u, torch_diag(s)), v$t()))
+cat("distance between a and svd:", "\n")
+torch_dist(a, torch_mm(torch_mm(u, torch_diag(s)), v$t()))
 
 
 
