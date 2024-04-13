@@ -356,7 +356,7 @@ torch_sum(a, 2) # sum across different cols
 a <- torch_randn(c(5, 3), device = device)
 
 a_svd <- torch_svd(a)
-a_svd
+#a_svd
 #[[1]]
 #torch_tensor
 #-0.2079 -0.0886  0.2968
