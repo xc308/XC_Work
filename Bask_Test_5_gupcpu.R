@@ -420,5 +420,7 @@ torch_dist(a, torch_mm(torch_mm(u, torch_diag(s)), v$t()))
 # device
 
 torch_arange(start = 0, end = 5)
-torch_arange(1, 10, step = 1.5)
+# [ CPUFloatType{6} ]
+
+torch_arange(1, 10, step = 1.5, device = device)
 
