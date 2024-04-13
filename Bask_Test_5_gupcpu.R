@@ -247,7 +247,7 @@ torch_randn(c(2, 3))
 # Repeat_interleave
 #===================
 
-y = torch_tensor(matrix(c(1, 2, 3, 4), ncol = 2, byrow=TRUE))
+y = torch_tensor(matrix(c(1, 2, 3, 4), ncol = 2, byrow=TRUE), device = device)
 torch_repeat_interleave(y, 2)
 
 
