@@ -261,6 +261,22 @@ b <- torch_tensor(matrix(c(0, 1, 2, 3), ncol = 2, byrow=TRUE), device = device)
 torch_reshape(b, list(-1))
 
 
+# -1 means reshaping the tensor b into a one-dimensional tensor, 
+# but you're not explicitly specifying the size of that dimension. 
+# letting PyTorch infer it based on the total number of elements 
+# in the original tensor.
+
+
+#============
+# torch_round
+#============
+
+a = torch_randn(c(4))
+a
+torch_round(a)
+torch_round(a, 4)
+
+
 
 
 
