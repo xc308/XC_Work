@@ -226,6 +226,31 @@ M_tsr_sym
 #==========================
 
 torch_randn(c(4))
+# a vector of 4 elements
+# torch_tensor
+#1.4655
+#0.1317
+#0.8498
+#1.4178
+#[ CPUFloatType{4} ]
+
 torch_randn(c(2, 3))
+# a matrix of 2 rows 3 cols
+#torch_tensor
+#-1.2619 -0.4416 -0.7054
+#-1.2961 -1.6491  0.5342
+#[ CPUFloatType{2,3} ]
+
+
+
+#===================
+# Repeat_interleave
+#===================
+
+y = torch_tensor(matrix(c(1, 2, 3, 4), ncol = 2, byrow=TRUE))
+torch_repeat_interleave(y, 2)
+
+
+
 
 
