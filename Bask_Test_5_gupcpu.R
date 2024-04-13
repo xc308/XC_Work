@@ -381,8 +381,8 @@ a_svd <- torch_svd(a)
 #[ CUDAFloatType{3,3} ]
 
 s <- a_svd[[2]]
-cat("singular vals:", s, "\n")
-
+cat("singular vals:", as.array(s), "\n")
+# as.array can turn tensor object into array that can be handled by cat for printing
 
 # verify
 
