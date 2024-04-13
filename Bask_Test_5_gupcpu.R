@@ -396,6 +396,29 @@ v <- a_svd[[3]]
 cat("distance between a and svd:", "\n")
 torch_dist(a, torch_mm(torch_mm(u, torch_diag(s)), v$t()))
 
+#distance between a and svd: 
+#  torch_tensor
+# 1.36946e-06
 
 
+#==============
+# torch_arrange
+#==============
+# torch_arange(
+#start,
+#end,
+#step = 1,
+#dtype = NULL,
+#layout = NULL,
+#device = NULL,
+#requires_grad = FALSE
+#)
+
+# start: (Number) the starting value for the set of points. Default: 0.
+# end: (Number) the ending value for the set of points
+# step: (Number) the gap between each pair of adjacent points. Default: 1.
+# device
+
+torch_arange(start = 0, end = 5)
+torch_arange(1, 10, step = 1.5)
 
