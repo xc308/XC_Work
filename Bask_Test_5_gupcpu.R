@@ -244,11 +244,24 @@ torch_randn(c(2, 3))
 
 
 #===================
-# Repeat_interleave
+# Repeat_interleave (error encountered)
 #===================
 
-y = torch_tensor(matrix(c(1, 2, 3, 4), ncol = 2, byrow=TRUE), device = device)
-torch_repeat_interleave(y, 2)
+#y = torch_tensor(matrix(c(1, 2, 3, 4), ncol = 2, byrow=TRUE), device = device)
+#torch_repeat_interleave(y, 2)
+
+
+#========
+# reshape
+#========
+
+# torch_reshape(self, shape)
+
+b <- torch_tensor(matrix(c(0, 1, 2, 3), ncol = 2, byrow=TRUE), device = device)
+torch_reshape(b, list(-1))
+
+
+
 
 
 
