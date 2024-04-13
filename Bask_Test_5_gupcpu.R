@@ -356,16 +356,14 @@ torch_sum(a, 2) # sum across different cols
 a <- torch_randn(c(5, 3), device = device)
 
 a_svd <- torch_svd(a)
-u <- a_svd$U
-s <- a_svd$S
-v <- a_svd$V
+a_svd
 
-cat("singular vals:", s, "\n")
+#cat("singular vals:", s, "\n")
 
 # verify
 
-cat("distance between a and svd:", "\n")
-torch_dist(a, torch_mm(torch_mm(u, torch_diag(s)), v$t()))
+#cat("distance between a and svd:", "\n")
+#torch_dist(a, torch_mm(torch_mm(u, torch_diag(s)), v$t()))
 
 
 
