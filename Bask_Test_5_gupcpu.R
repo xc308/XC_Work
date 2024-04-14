@@ -465,11 +465,56 @@ a <- torch_randn(c(4, 4), device = device)
 
 cat("torch_tril(a):", "\n")
 torch_tril(a)
+# torch_tensor
+#0.4209  0.0000  0.0000  0.0000
+#0.5231 -1.0766  0.0000  0.0000
+#-0.3282 -0.2651 -0.2431  0.0000
+#0.5711  0.9287  0.6600 -0.7264
+#[ CUDAFloatType{4,4} ]
+
+
 
 cat("torch_tril(a, diagonal = 1", "\n")
 torch_tril(a, diagonal = 1)
-torch_tril(a, diagonal = -1)
+# torch_tensor
+#0.4209 -0.4726  0.0000  0.0000
+#0.5231 -1.0766  0.5269  0.0000
+#-0.3282 -0.2651 -0.2431  0.8449
+#0.5711  0.9287  0.6600 -0.7264
+#[ CUDAFloatType{4,4} ]
 
+
+torch_tril(a, diagonal = -1)
+# torch_tensor
+# 0.0000  0.0000  0.0000  0.0000
+# 0.5231  0.0000  0.0000  0.0000
+#-0.3282 -0.2651  0.0000  0.0000
+# 0.5711  0.9287  0.6600  0.0000
+#[ CUDAFloatType{4,4} ]
+## pure low tri 
+
+
+#============
+# torch_trunc
+#============
+
+# Returns a new tensor with the truncated integer values of the elements of input
+
+a <- torch_randn(c(4), device = device)
+cat("trunc a:", "\n")
+torch_trunc(a)
+
+
+#=============
+#torch_unbind
+#=============
+
+# Removes a tensor dimension.
+
+a <- torch_randn(c(4, 4), device = device)
+a
+cat("unbind:", "\n")
+torch_unbind(a)
 
 
 
