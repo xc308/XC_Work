@@ -512,8 +512,10 @@ torch_trunc(a)
 # Removes a tensor dimension.
 
 #a <- torch_randn(c(4, 4), device = device)
-a <- torch_tensor(matrix(c(1:9, 3, 3, byrow = T)), device = device)
+a <- torch_tensor(matrix(1:9, nrow = 3, byrow = T), device = device)
+#torch_unbind(torch_tensor(matrix(1:9, ncol = 3, byrow=TRUE)))
 a
+
 cat("unbind:", "\n")
 torch_unbind(a)
 
@@ -529,11 +531,45 @@ torch_unbind(a)
 # var(input, dim, keepdim=False, unbiased=TRUE, out=NULL)
   # Returns the variance of each row of the input tensor in the given dimension dim
 
-a <- torch_randn(c(4, 4), device = device)
-torch_var(a)
+#a <- torch_randn(c(4, 4), device = device)
+#torch_var(a)
+# 0.925266
+# [ CUDAFloatType{} ]
 
-cat("var at dim = 1:", "\n")
-torch_var(a, dim = 1)
+#cat("var at dim = 1:", "\n")
+#torch_var(a, dim = 1)
+
+#var at dim = 1: 
+#  torch_tensor
+#2.1873
+#1.1289
+#0.1728
+#0.7682
+#[ CUDAFloatType{4} ]
 
 
+#===============
+# torch_var_mean
+#===============
+# torch_var_mean(self, dim, unbiased = TRUE, keepdim = FALSE)
+
+
+#==============
+# torch_vstack
+#==============
+
+# Stack tensors in sequence vertically (row wise).
+# torch_vstack(tensors)
+  # tensors: (sequence of Tensors) sequence of tensors to concatenate
+
+a <- torch_tensor(c(1, 3, 4), device = device)
+b <- torch_tensor(c(2, 3, 2), device = device)
+
+cat("vstack a, b:", "\n")
+torch_vstack(list(a, b))
+
+c <- torch_tensor(rbind(1, 2, 3), device = device)
+d <- torch_tensor(rbind(4, 5, 6), device = device)
+cat("vstack c, d:", "\n")
+torch_vstack(list(c, d))
 
