@@ -738,7 +738,7 @@ torch_nonzero(a)
 # check symmetricity of a tensor matrix
 #======================================
 
-a <- torch_tensor(matrix(c(4, 1, 1, 2), 2, 2), device = device)
+a <- torch_tensor(matrix(1:9, 3, 3), device = device)
 cat("dim a:", "\n")
 dim(a)
 # [1] 2 2
@@ -749,6 +749,14 @@ length(dim(a))
 length(dim(a)) != 2
 
 
+a_t <- torch_t(a)
+
+cat("torch_eq:", "\n")
+torch_eq(a, a_t)
+
+cat("all:", "\n")
+
+all(torch_eq(a, a_t))
 
 
 
