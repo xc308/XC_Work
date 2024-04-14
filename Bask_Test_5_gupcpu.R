@@ -782,7 +782,7 @@ eq_prod <- torch_prod(a_at_eq)
 
 eq_res <- torch_eq(eq_prod, 1)
 
-str(eq_res[0])
+eq_res[0]
 # invalid tensor slice
 
 
