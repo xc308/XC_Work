@@ -753,7 +753,7 @@ a <- torch_tensor(matrix(c(4, 2, 1, 2, 3, 2, 1, 2, 1), 3, 3), device = device)
 #a_t <- torch_t(a)
 
 #cat("torch_eq:", "\n")
-#a_at_eq <- torch_eq(a, a_t)
+a_at_eq <- torch_eq(a, a_t)
 
 
 #cat("all:", "\n")
@@ -766,7 +766,7 @@ a <- torch_tensor(matrix(c(4, 2, 1, 2, 3, 2, 1, 2, 1), 3, 3), device = device)
 #[ CUDABoolType{1} ] 
 
 
-#eq_prod <- torch_prod(a_at_eq) 
+eq_prod <- torch_prod(a_at_eq) 
 
 #torch_eq(eq_prod, 1)
 # torch_tensor
@@ -778,11 +778,13 @@ a <- torch_tensor(matrix(c(4, 2, 1, 2, 3, 2, 1, 2, 1), 3, 3), device = device)
 #1
 #[ CUDABoolType{1} ]
 
+torch_logical_not(torch_eq(eq_prod, 1), dtype = torch_int())
+
 
 #torch_where(torch_eq(eq_prod, 1), print("sym: Yes"), print("sym: NO"))
 #torch_where(eq_prod > 0, print("sym: Yes"), print("sym: NO"))
 
 
-source("Fn_isSymmetric_Tsr.R")
-isSymmetric_Tsr(a)
+#source("Fn_isSymmetric_Tsr.R")
+#isSymmetric_Tsr(a)
 
