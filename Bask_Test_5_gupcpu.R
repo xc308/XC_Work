@@ -461,6 +461,8 @@ torch_threshold_(a, 0.5, 0)
 # A positive value includes just as many diagonals above the main diagonal,
 # a negative value excludes just as many diagonals below the main diagonal.
 
+a <- torch_randn(c(4, 4), device = device)
+
 cat("torch_tril(a):", "\n")
 torch_tril(a)
 
