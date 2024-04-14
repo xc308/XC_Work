@@ -765,7 +765,7 @@ torch_prod(a_at_eq) == 1
 #1
 #[ CUDABoolType{1} ]  
   
-torch_where(torch_prod(a_at_eq)==1, "sym: Yes", "sym: NO")
+torch_where(torch_prod(a_at_eq)==1, print("sym: Yes"), print("sym: NO"))
 
 #source("Fn_isSymmetric_Tsr.R")
 #isSymmetric_Tsr(a)
