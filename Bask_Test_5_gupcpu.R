@@ -753,13 +753,18 @@ length(dim(a)) != 2
 a_t <- torch_t(a)
 
 cat("torch_eq:", "\n")
-torch_eq(a, a_t)
+a_at_eq <- torch_eq(a, a_t)
 
 
 
 
 cat("all:", "\n")
-torch_all(torch_eq(a, a_t))
-
+torch_prod(a_at_eq) == 1 
+# if all elements in a_at_eq product to be 1, then no element is 0
+# then symmetric
+  
+  
+  
+  
 
 
