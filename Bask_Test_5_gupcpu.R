@@ -750,7 +750,7 @@ a <- torch_tensor(matrix(c(4, 2, 1, 2, 3, 2, 1, 2, 1), 3, 3), device = device)
 #length(dim(a)) != 2
 # [1] FALSE
 
-#a_t <- torch_t(a)
+a_t <- torch_t(a)
 
 #cat("torch_eq:", "\n")
 a_at_eq <- torch_eq(a, a_t)
