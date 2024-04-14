@@ -434,10 +434,19 @@ torch_arange(1, 10, step = 1.5, device = device)
 # torch_threshold_(self, threshold, value)
 
 torch_threshold_(a, 0.5, 0)
+# torch_tensor
+#0.0000  0.0000  0.0000
+#1.2704  0.7653  1.2864
+#0.0000  0.0000  1.3933
+#0.0000  0.0000  0.0000
+#0.5665  0.0000  0.0000
 
 
-
-
+#==========================
+# torch_repeat_interleave
+#==========================
+y = torch_tensor(matrix(c(1, 2, 3, 4), ncol = 2, byrow=TRUE), device = device)
+torch_repeat_interleave(y, 2)
 
 
 
