@@ -591,12 +591,9 @@ torch_unbind(a)
 
 a <- torch_tensor(c(1, 3, 4), device = device) # a vector tensor
 b <- torch_tensor(c(2, 3, 2), device = device)
-cat("str(b):", "\n")
-str(b)
-
-cat("rbind tsr a,b:", "\n")
-rbind(a, b)
-
+#cat("str(b):", "\n")
+#str(b): 
+#  Float [1:3]
 
 #cat("vstack a, b:", "\n")
 #torch_vstack(list(a, b))
@@ -604,6 +601,25 @@ rbind(a, b)
 #1  3  4
 #2  3  2
 # [ CUDAFloatType{2,3} ]
+
+# same effect as rbind(vec1, vec2) on CPU
+
+
+
+
+#---------------
+# Ty rbind tsr a,b: 
+#---------------
+#Error in rbind(a, b) : 
+#  cannot coerce type 'externalptr' to vector of type 'list'
+#Execution halted
+
+
+## cannot directly combine two torch tensors using rbind() 
+# because rbind() is designed to work with standard R objects like 
+# vectors, matrices, or data frames. 
+
+# NEED to use torch_cat(list(tsr1, tsr2), dim = 1) # by row: dim = 1
 
 
 c <- torch_tensor(rbind(1, 2, 3), device = device)
@@ -633,14 +649,37 @@ str(e)
 
 
 # Create two vectors
-vec1 <- c(1, 2, 3)
-vec2 <- c(4, 5, 6)
+#vec1 <- c(1, 2, 3)
+#vec2 <- c(4, 5, 6)
 
 # Combine vectors by rows using rbind()
-str(rbind(vec1, vec2))
+#str(rbind(vec1, vec2))
 # num [1:2, 1:3] 1 4 2 5 3 6
 
-str(rbind(1, 2, 3)) # num [1:3, 1]
+#str(rbind(1, 2, 3)) # num [1:3, 1]
+
+
+#============
+# torch_where
+#============
+
+# torch_where(condition, self = NULL, other = NULL)
+  # condition: (BoolTensor) When TRUE (nonzero), yield x, otherwise yield y
+  # self: (Tensor) values selected at indices where condition is T
+  # other: (Tensor) values selected at indices where condition is FALSE
+
+# where(condition, x, y)
+# Return a tensor of elements selected from either x or y, depending on condition
+
+
+x <- torch_randn(c(3, 2), device = device) # condition T
+y <- torch_ones(c(3, 2))
+
+cat("condition x > 0:", "\n")
+x > 0
+
+torch_where(x > 0, x, y)
+
 
 
 
