@@ -763,10 +763,16 @@ torch_prod(a_at_eq) == 1
   
 # torch_tensor
 #1
-#[ CUDABoolType{1} ]  
+#[ CUDABoolType{1} ] 
+
+
 eq_prod <- torch_prod(a_at_eq)
+torch_eq(eq_prod, 1)
+eq_prod > 0
+
 #torch_where(torch_eq(eq_prod, 1), print("sym: Yes"), print("sym: NO"))
-torch_where(eq_prod > 0, print("sym: Yes"), print("sym: NO"))
+#torch_where(eq_prod > 0, print("sym: Yes"), print("sym: NO"))
+
 
 
 #source("Fn_isSymmetric_Tsr.R")
