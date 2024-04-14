@@ -756,15 +756,16 @@ cat("torch_eq:", "\n")
 a_at_eq <- torch_eq(a, a_t)
 
 
-
-
 cat("all:", "\n")
 torch_prod(a_at_eq) == 1 
 # if all elements in a_at_eq product to be 1, then no element is 0
 # then symmetric
   
-  
-  
+# torch_tensor
+#1
+#[ CUDABoolType{1} ]  
   
 
+source("Fn_isSymmetric_Tsr.R")
+isSymmetric_Tsr(a)
 
