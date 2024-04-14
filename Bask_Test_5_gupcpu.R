@@ -739,25 +739,25 @@ torch_nonzero(a)
 #======================================
 
 a <- torch_tensor(matrix(c(4, 2, 1, 2, 3, 2, 1, 2, 1), 3, 3), device = device)
-cat("dim a:", "\n")
-dim(a)
+#cat("dim a:", "\n")
+#dim(a)
 # [1] 3 3
 #str(dim(a))
-cat("length:", "\n")
-length(dim(a))
+#cat("length:", "\n")
+#length(dim(a))
 # 2
 
-length(dim(a)) != 2
+#length(dim(a)) != 2
 # [1] FALSE
 
-a_t <- torch_t(a)
+#a_t <- torch_t(a)
 
-cat("torch_eq:", "\n")
-a_at_eq <- torch_eq(a, a_t)
+#cat("torch_eq:", "\n")
+#a_at_eq <- torch_eq(a, a_t)
 
 
-cat("all:", "\n")
-torch_prod(a_at_eq) == 1 
+#cat("all:", "\n")
+#torch_prod(a_at_eq) == 1 
 # if all elements in a_at_eq product to be 1, then no element is 0
 # then symmetric
   
@@ -766,15 +766,23 @@ torch_prod(a_at_eq) == 1
 #[ CUDABoolType{1} ] 
 
 
-eq_prod <- torch_prod(a_at_eq)
-torch_eq(eq_prod, 1)
-eq_prod > 0
+#eq_prod <- torch_prod(a_at_eq) 
+
+#torch_eq(eq_prod, 1)
+# torch_tensor
+#1
+#[ CUDABoolType{} ]
+
+#eq_prod > 0
+# torch_tensor
+#1
+#[ CUDABoolType{1} ]
+
 
 #torch_where(torch_eq(eq_prod, 1), print("sym: Yes"), print("sym: NO"))
 #torch_where(eq_prod > 0, print("sym: Yes"), print("sym: NO"))
 
 
-
-#source("Fn_isSymmetric_Tsr.R")
-#isSymmetric_Tsr(a)
+source("Fn_isSymmetric_Tsr.R")
+isSymmetric_Tsr(a)
 
