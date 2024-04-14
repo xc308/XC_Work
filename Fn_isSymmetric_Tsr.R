@@ -17,12 +17,17 @@ isSymmetric_Tsr <- function(Tsr_mat) {
   Tsr_mat_t <- torch_t(Tsr_mat)
   
   eq_mat <- torch_eq(Tsr_mat, Tsr_mat_t)
+  eq_prod <- torch_prod(eq_mat)
   
-  if (as.logical(torch_prod(eq_mat) != 1)) {
-    stop("Input tensor not symmetric")
+  
+  if (as.array(eq_prod) == 1){
+    print("sym: Yes")
   } else {
-    print("Symmetric: Yes")
+    print("sym: NO")
   }
+  
+ #torch_where(torch_eq(eq_prod, 1), print("sym: Yes"), print("sym: NO"))
+ #torch_where(eq_prod > 0, print("sym: Yes"), print("sym: NO"))
 }
 
 
