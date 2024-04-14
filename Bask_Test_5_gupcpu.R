@@ -591,9 +591,15 @@ torch_unbind(a)
 
 a <- torch_tensor(c(1, 3, 4), device = device) # a vector tensor
 b <- torch_tensor(c(2, 3, 2), device = device)
+cat("str(b):", "\n")
+str(b)
 
-cat("vstack a, b:", "\n")
-torch_vstack(list(a, b))
+cat("rbind tsr a,b:", "\n")
+rbind(a, b)
+
+
+#cat("vstack a, b:", "\n")
+#torch_vstack(list(a, b))
 # torch_tensor
 #1  3  4
 #2  3  2
@@ -604,9 +610,17 @@ c <- torch_tensor(rbind(1, 2, 3), device = device)
 d <- torch_tensor(rbind(4, 5, 6), device = device)
 cat("str(d):", "\n")
 str(d)
+# str(d): 
+#Float [1:3, 1:1]
 
-cat("vstack c, d:", "\n")
-torch_vstack(list(c, d))
+e <- torch_tensor(matrix(1:9, nrow = 3), device = device)
+cat("str(e):", "\n")
+str(e)
+
+
+
+#cat("vstack c, d:", "\n")
+#torch_vstack(list(c, d))
 
 
 #str(c(1, 2, 3))  # num [1:3] 1 2 3, a vector
@@ -618,8 +632,15 @@ torch_vstack(list(c, d))
 
 
 
+# Create two vectors
+vec1 <- c(1, 2, 3)
+vec2 <- c(4, 5, 6)
 
+# Combine vectors by rows using rbind()
+str(rbind(vec1, vec2))
+# num [1:2, 1:3] 1 4 2 5 3 6
 
+str(rbind(1, 2, 3)) # num [1:3, 1]
 
 
 
