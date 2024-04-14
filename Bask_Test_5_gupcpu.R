@@ -461,7 +461,10 @@ torch_threshold_(a, 0.5, 0)
 # A positive value includes just as many diagonals above the main diagonal,
 # a negative value excludes just as many diagonals below the main diagonal.
 
+cat("torch_tril(a):", "\n")
 torch_tril(a)
+
+cat("torch_tril(a, diagonal = 1", "\n")
 torch_tril(a, diagonal = 1)
 torch_tril(a, diagonal = -1)
 
