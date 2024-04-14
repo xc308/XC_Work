@@ -14,8 +14,8 @@
 
 forceSym_Tsr <- function(Tensor_mat) {
   
-  #sym_tsr_mat <- (torch_t(Tensor_mat) + Tensor_mat) / 2
-  sym_tsr_mat <- (Tensor_mat$t() + Tensor_mat) / 2
+  sym_tsr_mat <- (torch_t(Tensor_mat) + Tensor_mat) / 2
+  #sym_tsr_mat <- (Tensor_mat$t() + Tensor_mat) / 2 inplace transpose
   
   return(sym_tsr_mat)
 }
