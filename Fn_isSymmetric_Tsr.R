@@ -18,7 +18,7 @@ isSymmetric_Tsr <- function(Tsr_mat) {
   
   eq_mat <- torch_eq(Tsr_mat, Tsr_mat_t)
   
-  if (torch_prod(eq_mat) != 1) {
+  if (as.logical(torch_prod(eq_mat) != 1)) {
     stop("Input tensor not symmetric")
   } else {
     print("Symmetric: Yes")
