@@ -673,7 +673,7 @@ str(e)
 
 
 x <- torch_randn(c(3, 2), device = device) # condition T
-y <- torch_ones(c(3, 2))
+y <- torch_ones(c(3, 2), device = device)
 
 cat("condition x > 0:", "\n")
 x > 0
