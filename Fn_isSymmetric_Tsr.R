@@ -8,7 +8,7 @@
 
 isSymmetric_Tsr <- function(Tsr_mat) {
   
-  Tsr_dim <- torch_dim(Tsr_mat) # a vector
+  Tsr_dim <- dim(Tsr_mat) # a vector
   
   if (length(Tsr_dim) != 2){
     stop("Input tensor must be a 2D matrix.")
