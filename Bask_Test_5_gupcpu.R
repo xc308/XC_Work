@@ -632,7 +632,8 @@ str(d)
 e <- torch_tensor(matrix(1:9, nrow = 3), device = device)
 cat("str(e):", "\n")
 str(e)
-
+# Long [1:3, 1:3], integer values ranging from 1 to 9,
+        # doesn't require floating-point precision.
 
 
 #cat("vstack c, d:", "\n")
@@ -677,8 +678,48 @@ y <- torch_ones(c(3, 2), device = device)
 
 cat("condition x > 0:", "\n")
 x > 0
+# torch_tensor
+#0  1
+#0  0
+#1  0
+#[ CUDABoolType{3,2} ]
+
 
 torch_where(x > 0, x, y)
+# torch_tensor
+#1.0000  1.9086
+#1.0000  1.0000
+#0.7810  1.0000
+#[ CUDAFloatType{3,2} ]
+
+
+#============
+# torch_zeros
+#============
+
+#zeros(*size, out=NULL, dtype=NULL, layout=torch.strided, device=NULL, requires_grad=False)
+
+torch_zeros(c(2, 3), device = device)
+torch_zeros(c(3), device = device)
+
+
+#===============
+# torch_nonzero
+#===============
+
+# Nonzero elements of tensors.
+# torch_nonzero(self, as_list = FALSE)
+  # If FALSE, the output tensor containing indices
+  # If TRUE, one 1-D tensor for each dimension, 
+    # containing the indices of each nonzero element along that dimension.
+
+a <- torch_tensor(c(1, 2, 0, 0, 1, 3), device = device)
+torch_nonzero(a)
+
+
+
+
+
 
 
 
