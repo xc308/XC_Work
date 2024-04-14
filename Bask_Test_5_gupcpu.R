@@ -700,7 +700,18 @@ torch_where(x > 0, x, y)
 #zeros(*size, out=NULL, dtype=NULL, layout=torch.strided, device=NULL, requires_grad=False)
 
 torch_zeros(c(2, 3), device = device)
+# torch_tensor
+#0  0  0
+#0  0  0
+#[ CUDAFloatType{2,3} ]
+
+
 torch_zeros(c(3), device = device)
+# torch_tensor
+#0
+#0
+#0
+#[ CUDAFloatType{3} ]
 
 
 #===============
@@ -715,12 +726,21 @@ torch_zeros(c(3), device = device)
 
 a <- torch_tensor(c(1, 2, 0, 0, 1, 3), device = device)
 torch_nonzero(a)
+# torch_tensor
+#1
+#2
+#5
+#6
+#[ CUDALongType{4,1} ]
 
 
+#======================================
+# check symmetricity of a tensor matrix
+#======================================
 
-
-
-
+a <- torch_tensor(matrix(c(4, 1, 1, 2), 2, 2), device = device)
+cat("dim a:", "\n")
+dim(a)
 
 
 
