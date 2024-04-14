@@ -506,7 +506,7 @@ torch_trunc(a)
 
 
 #=============
-#torch_unbind
+#torch_unbind (similar to unlist)
 #=============
 
 # Removes a tensor dimension.
@@ -515,9 +515,36 @@ torch_trunc(a)
 a <- torch_tensor(matrix(1:9, nrow = 3, byrow = T), device = device)
 #torch_unbind(torch_tensor(matrix(1:9, ncol = 3, byrow=TRUE)))
 a
+# torch_tensor
+#1  2  3
+#4  5  6
+#7  8  9
+
 
 cat("unbind:", "\n")
 torch_unbind(a)
+
+#unbind: 
+#  [[1]]
+#torch_tensor
+#1
+#2
+#3
+#[ CUDALongType{3} ]
+
+#[[2]]
+#torch_tensor
+#4
+#5
+#6
+#[ CUDALongType{3} ]
+
+#[[3]]
+#torch_tensor
+#7
+#8
+#9
+#[ CUDALongType{3} ]
 
 
 #===========
@@ -562,14 +589,37 @@ torch_unbind(a)
 # torch_vstack(tensors)
   # tensors: (sequence of Tensors) sequence of tensors to concatenate
 
-a <- torch_tensor(c(1, 3, 4), device = device)
+a <- torch_tensor(c(1, 3, 4), device = device) # a vector tensor
 b <- torch_tensor(c(2, 3, 2), device = device)
 
 cat("vstack a, b:", "\n")
 torch_vstack(list(a, b))
+# torch_tensor
+#1  3  4
+#2  3  2
+# [ CUDAFloatType{2,3} ]
+
 
 c <- torch_tensor(rbind(1, 2, 3), device = device)
 d <- torch_tensor(rbind(4, 5, 6), device = device)
+cat("str(d):", "\n")
+str(d)
+
 cat("vstack c, d:", "\n")
 torch_vstack(list(c, d))
+
+
+#str(c(1, 2, 3))  # num [1:3] 1 2 3, a vector
+#str(rbind(1, 2, 3)) # num [1:3, 1] 1 2 3, a matrix
+
+## for vstack:
+  # if tensor is vector, then vstack will first transpose the vector, then row-wise stack
+  # if tensor is matrix, then vstack will just row-wisely stack them
+
+
+
+
+
+
+
 
