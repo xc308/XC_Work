@@ -741,6 +741,14 @@ torch_nonzero(a)
 a <- torch_tensor(matrix(c(4, 1, 1, 2), 2, 2), device = device)
 cat("dim a:", "\n")
 dim(a)
+# [1] 2 2
+#str(dim(a))
+cat("length:", "\n")
+length(dim(a))
+
+length(dim(a)) != 2
+
+
 
 
 
