@@ -782,7 +782,7 @@ eq_prod <- torch_prod(a_at_eq)
 
 eq_res <- torch_eq(eq_prod, 1)
 
-torch_dtype(eq_res[1])
+str(eq_res[1])
 
 #torch_where(torch_eq(eq_prod, 1), print("sym: Yes"), print("sym: NO"))
 #torch_where(eq_prod > 0, print("sym: Yes"), print("sym: NO"))
