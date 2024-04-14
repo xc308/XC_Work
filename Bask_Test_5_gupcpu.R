@@ -759,7 +759,7 @@ torch_eq(a, a_t)
 
 
 cat("all:", "\n")
-torch_is_nonzero(torch_eq(a, a_t))
+torch_all(torch_eq(a, a_t))
 
 
 
