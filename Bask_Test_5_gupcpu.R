@@ -443,10 +443,27 @@ torch_threshold_(a, 0.5, 0)
 
 
 #==========================
-# torch_repeat_interleave
+# torch_repeat_interleave (still error)
 #==========================
-y = torch_tensor(matrix(c(1, 2, 3, 4), ncol = 2, byrow=TRUE), device = device)
-torch_repeat_interleave(y, 2)
+#y = torch_tensor(matrix(c(1, 2, 3, 4), ncol = 2, byrow=TRUE), device = device)
+#torch_repeat_interleave(y, 2)
+
+
+#===========
+# torch_tril
+#===========
+# torch_tril(self, diagonal = 0L)
+# Returns the lower triangular part of the matrix (2-D tensor)
+# The lower triangular part of the matrix is defined as the elements on and below the diagonal
+
+# If diagonal = 0, all elements on and below the main diagonal are retained.
+
+# A positive value includes just as many diagonals above the main diagonal,
+# a negative value excludes just as many diagonals below the main diagonal.
+
+torch_tril(a)
+torch_tril(a, diagonal = 1)
+torch_tril(a, diagonal = -1)
 
 
 
