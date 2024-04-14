@@ -778,7 +778,7 @@ eq_prod <- torch_prod(a_at_eq)
 #1
 #[ CUDABoolType{1} ]
 
-torch_logical_not(torch_eq(eq_prod, 1), dtype = torch_int())
+torch_logical_not(torch_eq(eq_prod, 1), out = torch_int())
 
 
 #torch_where(torch_eq(eq_prod, 1), print("sym: Yes"), print("sym: NO"))
