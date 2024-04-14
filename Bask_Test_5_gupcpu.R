@@ -511,11 +511,29 @@ torch_trunc(a)
 
 # Removes a tensor dimension.
 
-a <- torch_randn(c(4, 4), device = device)
+#a <- torch_randn(c(4, 4), device = device)
+a <- torch_tensor(matrix(c(1:9, 3, 3, byrow = T)), device = device)
 a
 cat("unbind:", "\n")
 torch_unbind(a)
 
+
+#===========
+# torch_var
+#===========
+# torch_var(self, dim, unbiased = TRUE, keepdim = FALSE)
+
+# var(input, unbiased=TRUE)
+  # Returns the variance of all elements in the input tenso
+
+# var(input, dim, keepdim=False, unbiased=TRUE, out=NULL)
+  # Returns the variance of each row of the input tensor in the given dimension dim
+
+a <- torch_randn(c(4, 4), device = device)
+torch_var(a)
+
+cat("var at dim = 1:", "\n")
+torch_var(a, dim = 1)
 
 
 
