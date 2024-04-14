@@ -393,8 +393,8 @@ v <- a_svd[[3]]
 
 # verify
 
-cat("distance between a and svd:", "\n")
-torch_dist(a, torch_mm(torch_mm(u, torch_diag(s)), v$t()))
+#cat("distance between a and svd:", "\n")
+#torch_dist(a, torch_mm(torch_mm(u, torch_diag(s)), v$t()))
 
 #distance between a and svd: 
 #  torch_tensor
@@ -423,4 +423,23 @@ torch_arange(start = 0, end = 5)
 # [ CPUFloatType{6} ]
 
 torch_arange(1, 10, step = 1.5, device = device)
+# [ CUDAFloatType{7} ]
+
+
+
+#=================
+# torch_threshold_
+#=================
+
+# torch_threshold_(self, threshold, value)
+
+torch_threshold_(a, 0.5, 0)
+
+
+
+
+
+
+
+
 
