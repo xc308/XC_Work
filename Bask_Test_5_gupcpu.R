@@ -843,12 +843,6 @@ cat("torch_eig:", "\n")
 a.gpu <- as.gpu.matrix(matrix(c(4, 2, 1, 2, 5, 2, 1, 2, 4), 3, 3), device = "cuda")
 
 a_eig_val <- eigen(a.gpu)$val
-a_eig_val_tsr <- a_eig_val@gm$real
-# torch_tensor
-#7.8284
-#3.0000
-#2.1716
-#[ CUDADoubleType{3,1} ]
 
 a_eig_val_re <- Re(a_eig_val)
 cat("Re:", "\n")
@@ -859,9 +853,6 @@ a_eig_val_re
 #3.0000
 #2.1716
 #[ CUDADoubleType{3,1} ]
-
-
-all(as.array(a_eig_val_tsr, device = "cpu") >0 )
 
 
 a_eig_val_cpu <- as.array(a_eig_val_re, device = "cpu")
@@ -882,25 +873,52 @@ if (all(a_eig_val_cpu > 0)){
 
 
 
+#----------------------------------------
+# try a_eig_val_tsr <- a_eig_val@gm$real
+#----------------------------------------
+a_eig_val_tsr <- a_eig_val@gm$real
+# torch_tensor
+#7.8284
+#3.0000
+#2.1716
+#[ CUDADoubleType{3,1} ]
 
 
+#all(as.array(a_eig_val_tsr, device = "cpu") >0 )
+
+#Error in `runtime_error()`:
+#  ! Can't convert cuda tensor to R. Convert to cpu tensor before.
+#Backtrace:
+#    ▆
+# 1. ├─base::as.array(a_eig_val_tsr, device = "cpu")
+# 2. ├─base::as.array(a_eig_val_tsr, device = "cpu")
+# 3. └─torch:::as.array.torch_tensor(a_eig_val_tsr, device = "cpu")
+# 4.   ├─torch::as_array(x)
+# 5.   └─torch:::as_array.torch_tensor(x)
+# 6.     └─torch:::runtime_error("Can't convert cuda tensor to R. Convert to cpu tensor before.")
+# 7.       └─rlang::abort(glue::glue(..., .envir = env), class = "runtime_error")
+#Execution halted
 
 
+#----
+# modify: tsr move to cpu first
+#----
+a_eig_val_tsr_cpu <- a_eig_val_tsr$cpu()
 
-#a_eig_val <- torch_eig(a, eigenvectors = F)
-#a_eig_val
-
-
-#a_eig_val_cpu <- a_eig_val$cpu()
-
-#if(all(as.array(a_eig_val_cpu) > 0)){
-#  print("p.d.: Yes")
-#} else {
-#  print("p.d.: No")
-#}
+all(as.array(a_eig_val_tsr_cpu) > 0)
 
 
+#-----------
+# conclusion
+#-----------
+# if use the as.array in torch package
+  # 1. tsr$cpu()
+  # 2. as.array(tsr_on_cpu)
 
+
+# if use the as.array in GPUmatrix package
+  # input has to be the GPUmatrix class
+  # specify device = "cpu" within the as.array functioin
 
 
 
