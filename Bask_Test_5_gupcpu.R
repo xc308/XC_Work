@@ -843,17 +843,27 @@ cat("torch_eig:", "\n")
 a.gpu <- as.gpu.matrix(matrix(c(4, 2, 1, 2, 5, 2, 1, 2, 4), 3, 3), device = "cuda")
 
 a_eig_val <- eigen(a.gpu)$val
-a_eig_val@gm$real
+a_eig_val_tsr <- a_eig_val@gm$real
 # torch_tensor
-#6.3511
-#1.8978
-#-0.2489
+#7.8284
+#3.0000
+#2.1716
 #[ CUDADoubleType{3,1} ]
-
 
 a_eig_val_re <- Re(a_eig_val)
 cat("Re:", "\n")
 a_eig_val_re
+# GPUmatrix
+#torch_tensor
+#7.8284
+#3.0000
+#2.1716
+#[ CUDADoubleType{3,1} ]
+
+
+all(as.array(a_eig_val_tsr, device = "cpu") >0 )
+
+
 a_eig_val_cpu <- as.array(a_eig_val_re, device = "cpu")
 
 if (all(a_eig_val_cpu > 0)){
@@ -861,6 +871,8 @@ if (all(a_eig_val_cpu > 0)){
 } else {
   print("No")
 }
+
+# [1] "Yes"
 
 #eig_gpuM <- eigen(tst.M.GPU)$val # eigen value, real & img
 
