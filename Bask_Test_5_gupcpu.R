@@ -781,7 +781,7 @@ if (as.array(eq_prod_cpu) == 1) {
 } else{
   print("sym: No")
 }
-
+# [1] "sym: Yes"
 
 #eq_prod > 0
 # torch_tensor
@@ -801,9 +801,9 @@ if (as.array(eq_prod_cpu) == 1) {
 #torch_where(torch_eq(eq_prod, 1), print("sym: Yes"), print("sym: NO"))
 #torch_where(eq_prod > 0, print("sym: Yes"), print("sym: NO"))
 
-
-#source("Fn_isSymmetric_Tsr.R")
-#isSymmetric_Tsr(a)
+cat("Test Fn_isSymmetric_Tsr:", "\n")
+source("Fn_isSymmetric_Tsr.R")
+isSymmetric_Tsr(a)
 
 
 #============
