@@ -837,8 +837,12 @@ isSymmetric_Tsr(a)
 
 
 #============
-# torch_eig
+# torch_eig: no such function
 #============
+
+# aleternative: use gpumatrix eigen function
+  # but input has to gpu matrix
+
 cat("torch_eig:", "\n")
 a.gpu <- as.gpu.matrix(matrix(c(4, 2, 1, 2, 5, 2, 1, 2, 4), 3, 3), device = "cuda")
 
@@ -901,11 +905,12 @@ a_eig_val_tsr <- a_eig_val@gm$real
 
 
 #----
-# modify: tsr move to cpu first
+# modify: tsr move to cpu first (success!)
 #----
 a_eig_val_tsr_cpu <- a_eig_val_tsr$cpu()
 
 all(as.array(a_eig_val_tsr_cpu) > 0)
+# [1] TRUE
 
 
 #-----------
@@ -921,4 +926,11 @@ all(as.array(a_eig_val_tsr_cpu) > 0)
   # specify device = "cpu" within the as.array functioin
 
 
+#============================
+# Test the Fn_Tst_sym_pd_Tsr
+#============================
+
+source("Fn_Tst_sym_pd_Tsr.R")
+a <- torch_tensor(matrix(c(4, 2, 1, 2, 3, 2, 1, 2, 1), 3, 3), device = device)
+Tst_sym_pd_Tsr(a)
 
