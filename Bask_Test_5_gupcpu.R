@@ -945,10 +945,31 @@ all_zero_check <- torch_allclose(a, torch_zeros(c(1), device = device), rtol = 0
 
 cat("all_zero_check", "\n")
 all_zero_check
+# [1] TRUE
 
 n <- dim(a)[1]
-n 
-torch_eye(n)
+n # 2
+torch_eye(n, device = device)
+# torch_tensor
+#1  0
+#0  1
+#[ CPUFloatType{2,2} ]
+
+
+#===========
+# torch_svd
+#===========
+
+torch_svd(a, compute_uv = F)
+
+
+#=================================
+# Test Fn_check_set_SpNorm_Reg_GPU
+#=================================
+
+source("Fn_check_set_SpNorm_Reg_GPU.R")
+check_set_SpNorm_Reg_gpu(a.gpu, reg_num = 1e-9)
+
 
 
 
