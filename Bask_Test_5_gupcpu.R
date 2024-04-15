@@ -840,7 +840,7 @@ isSymmetric_Tsr(a)
 # torch_eig
 #============
 cat("torch_eig:", "\n")
-a.gpu <- as.gpu.matrix(matrix(c(4, 2, 1, 2, 3, 2, 1, 2, 1), 3, 3), device = "cuda")
+a.gpu <- as.gpu.matrix(matrix(c(4, 2, 1, 2, 5, 2, 1, 2, 4), 3, 3), device = "cuda")
 
 a_eig_val <- eigen(a.gpu)$val
 a_eig_val@gm$real
@@ -852,6 +852,8 @@ a_eig_val@gm$real
 
 
 a_eig_val_re <- Re(a_eig_val)
+cat("Re:", "\n")
+a_eig_val_re
 a_eig_val_cpu <- as.array(a_eig_val_re, device = "cpu")
 
 if (all(a_eig_val_cpu > 0)){
