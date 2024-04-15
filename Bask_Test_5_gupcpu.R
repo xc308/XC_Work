@@ -941,9 +941,17 @@ Tst_sym_pd_Tsr(a)
 # torch_allclose
 a <- torch_tensor(matrix(c(0, 0, 0, 0), 2, 2), device = device)
 
-all_zero_check <- torch_allclose(a, torch_zeros(c(1)), rtol = 0, atol = 0)
+all_zero_check <- torch_allclose(a, torch_zeros(c(1), device = device), rtol = 0, atol = 0)
 
 cat("all_zero_check", "\n")
 all_zero_check
+
+n <- dim(a)[1]
+n 
+torch_eye(n)
+
+
+
+
 
 
