@@ -960,19 +960,23 @@ torch_eye(n, device = device)
 # torch_svd
 #===========
 
-torch_svd(a, compute_uv = F)
+#torch_svd(a, compute_uv = F)
+cat("torch_svd:", "\n")
+torch_svd(a)
+
+
+#svd(matrix(c(4, 2, 1, 2, 5, 2, 1, 2, 4), 3, 3))
+
 
 
 #=================================
 # Test Fn_check_set_SpNorm_Reg_GPU
 #=================================
 
-source("Fn_check_set_SpNorm_Reg_GPU.R")
-check_set_SpNorm_Reg_gpu(a.gpu, reg_num = 1e-9)
-
-
-
-
+#source("Fn_check_set_SpNorm_Reg_GPU.R")
+#check_set_SpNorm_Reg_gpu(a.gpu, reg_num = 1e-9)
+cat("gpu svd:", "\n")
+svd(a.gpu)
 
 
 
