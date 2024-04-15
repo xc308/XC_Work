@@ -1075,6 +1075,8 @@ source("Fn_Tst_sym_pd_GPU.R")
 #===========================
 source("Fn_Thres_tune_cov_GPU.R")
 
+#getwd()
+#/Users/xchen/Library/CloudStorage/OneDrive-UniversityofExeter/XC_PhD/Data/Processed/XC_WORK/XC_Work/SG_SG_inv_6_A01dlt05_Wend.rds
 
 SG_SG_inv_WL_6 <- readRDS("SG_SG_inv_6_A01dlt05_Wend.rds")
 
@@ -1088,5 +1090,21 @@ SG_inv_GPU_thres_tune <- Thres_tune_cov_gpu(thres_ini = 1e-3,
 
 cat("Tst_sym_pd of SG_inv_GPU_thres_tune:", "\n")
 Tst_sym_pd_gpu(SG_inv_GPU_thres_tune$SIGMA_inv)
+
+# ini thres: 0.001 
+#Tst_sym_pd of SG_inv_GPU_thres_tune: 
+#  [1] "sym: Yes"
+#  [1] "p.d.: Yes"
+
+
+#=====================
+# Test Fn_forceSym_GPU
+#=====================
+
+source("Fn_forceSym_GPU.R")
+
+a_gpu <- gpu.matrix(matrix(c(4, 1.002, 1.003, 1), 2, 2), device = "cuda")
+
+forceSym_gpu(a_gpu)
 
 
