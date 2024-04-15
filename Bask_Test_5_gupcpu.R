@@ -927,10 +927,23 @@ all(as.array(a_eig_val_tsr_cpu) > 0)
 
 
 #============================
-# Test the Fn_Tst_sym_pd_Tsr
+# Test the Fn_Tst_sym_pd_Tsr (success!)
 #============================
 
 source("Fn_Tst_sym_pd_Tsr.R")
-a <- torch_tensor(matrix(c(4, 2, 1, 2, 3, 2, 1, 2, 1), 3, 3), device = device)
+a <- torch_tensor(matrix(c(4, 2, 1, 2, 5, 2, 1, 2, 4), 3, 3), device = device)
 Tst_sym_pd_Tsr(a)
+
+
+#=======================
+# Tensor all zeros check
+#=======================
+# torch_allclose
+a <- torch_tensor(matrix(c(0, 0, 0, 0), 2, 2), device = device)
+
+all_zero_check <- torch_allclose(a, torch_zeros(c(1)), rtol = 0, atol = 0)
+
+cat("all_zero_check", "\n")
+all_zero_check
+
 
