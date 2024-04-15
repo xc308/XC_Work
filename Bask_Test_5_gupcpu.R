@@ -775,7 +775,7 @@ eq_prod <- torch_prod(a_at_eq)
 
 eq_prod_cpu <- eq_prod$cpu()
 
-if (as.arry(eq_prod_cpu) == 1) {
+if (as.array(eq_prod_cpu) == 1) {
   print("sym: Yes")
   
 } else{
