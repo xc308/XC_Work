@@ -33,6 +33,15 @@ isSymmetric_Tsr <- function(Tsr_mat) {
 }
 
 
+#======
+# Test
+#======
+
+#device <- torch_device("cuda")
+#a <- torch_tensor(matrix(c(4, 2, 1, 2, 3, 2, 1, 2, 1), 3, 3), device = device)
+
+#isSymmetric_Tsr(a)
+# [1] "sym: Yes"
 
 
 
