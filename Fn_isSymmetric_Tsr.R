@@ -19,8 +19,10 @@ isSymmetric_Tsr <- function(Tsr_mat) {
   eq_mat <- torch_eq(Tsr_mat, Tsr_mat_t)
   eq_prod <- torch_prod(eq_mat)
   
+  eq_prod_cpu <- eq_prod$cpu() # move to cpu for as.array for if else
   
-  if (as.array(eq_prod) == 1){
+  
+  if (as.array(eq_prod_cpu) == 1){
     print("sym: Yes")
   } else {
     print("sym: NO")
