@@ -936,20 +936,20 @@ Tst_sym_pd_Tsr(a)
 
 
 #=======================
-# Tensor all zeros check
+# Tensor all zeros check (success)
 #=======================
 # torch_allclose
-a <- torch_tensor(matrix(c(0, 0, 0, 0), 2, 2), device = device)
+#a <- torch_tensor(matrix(c(0, 0, 0, 0), 2, 2), device = device)
 
-all_zero_check <- torch_allclose(a, torch_zeros(c(1), device = device), rtol = 0, atol = 0)
+#all_zero_check <- torch_allclose(a, torch_zeros(c(1), device = device), rtol = 0, atol = 0)
 
-cat("all_zero_check", "\n")
-all_zero_check
+#cat("all_zero_check", "\n")
+#all_zero_check
 # [1] TRUE
 
-n <- dim(a)[1]
-n # 2
-torch_eye(n, device = device)
+#n <- dim(a)[1]
+#n # 2
+#torch_eye(n, device = device)
 # torch_tensor
 #1  0
 #0  1
@@ -964,6 +964,8 @@ torch_eye(n, device = device)
 cat("torch_svd:", "\n")
 torch_svd(a)
 
+cat("torch_svd_compute_F:", "\n")
+torch_svd(a, compute_uv = F)
 
 #svd(matrix(c(4, 2, 1, 2, 5, 2, 1, 2, 4), 3, 3))
 
@@ -977,6 +979,21 @@ torch_svd(a)
 #check_set_SpNorm_Reg_gpu(a.gpu, reg_num = 1e-9)
 cat("gpu svd:", "\n")
 svd(a.gpu)
+
+
+#=======================
+# Test Fn_Tst_sym_pd_GPU
+#=======================
+
+source("Fn_Tst_sym_pd_GPU.R")
+cat("Tst_sym_pd_gpu:", "\n")
+Tst_sym_pd_gpu(a.gpu)
+
+
+
+
+
+
 
 
 
