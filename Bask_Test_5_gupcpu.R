@@ -936,7 +936,7 @@ Tst_sym_pd_Tsr(a)
 
 
 #=======================
-# Tensor all zeros check (success)
+# Tensor all zeros check (success!)
 #=======================
 # torch_allclose
 #a <- torch_tensor(matrix(c(0, 0, 0, 0), 2, 2), device = device)
@@ -963,37 +963,130 @@ Tst_sym_pd_Tsr(a)
 #torch_svd(a, compute_uv = F)
 cat("torch_svd:", "\n")
 torch_svd(a)
+# [[1]]
+#torch_tensor
+#5.0000e-01 -7.0711e-01  5.0000e-01
+#7.0711e-01 -3.1068e-07 -7.0711e-01
+#5.0000e-01  7.0711e-01  5.0000e-01
+#[ CUDAFloatType{3,3} ]
+
+#[[2]]
+#torch_tensor
+#7.8284
+#3.0000
+#2.1716
+#[ CUDAFloatType{3} ]
+
+#[[3]]
+#torch_tensor
+#5.0000e-01 -7.0711e-01  5.0000e-01
+#7.0711e-01 -1.7197e-07 -7.0711e-01
+#5.0000e-01  7.0711e-01  5.0000e-01
+#[ CUDAFloatType{3,3} ]
+
 
 cat("torch_svd_compute_F:", "\n")
 torch_svd(a, compute_uv = F)
 
+# [[1]]
+#torch_tensor
+#0  0  0
+#0  0  0
+#0  0  0
+#[ CUDAFloatType{3,3} ]
+
+#[[2]]
+#torch_tensor
+#7.8284
+#3.0000
+#2.1716
+#[ CUDAFloatType{3} ]
+
+#[[3]]
+#torch_tensor
+#0  0  0
+#0  0  0
+#0  0  0
+#[ CUDAFloatType{3,3} ]
+
+
 #svd(matrix(c(4, 2, 1, 2, 5, 2, 1, 2, 4), 3, 3))
+
+cat("gpu svd:", "\n")
+svd(a.gpu)
+# $d
+#GPUmatrix
+#torch_tensor
+#7.8284
+#3.0000
+#2.1716
+#[ CUDADoubleType{3,1} ]
+
+#$u
+#GPUmatrix
+#torch_tensor
+#5.0000e-01 -7.0711e-01  5.0000e-01
+#7.0711e-01 -1.1604e-16 -7.0711e-01
+#5.0000e-01  7.0711e-01  5.0000e-01
+#[ CUDADoubleType{3,3} ]
+
+#$v
+#GPUmatrix
+#torch_tensor
+#5.0000e-01 -7.0711e-01  5.0000e-01
+#7.0711e-01 -1.1480e-16 -7.0711e-01
+#5.0000e-01  7.0711e-01  5.0000e-01
+#[ CUDADoubleType{3,3} ]
+
+#$device
+#[1] "cuda"
 
 
 
 #=================================
-# Test Fn_check_set_SpNorm_Reg_GPU
+# Test Fn_check_set_SpNorm_Reg_GPU (success!)
 #=================================
 
 #source("Fn_check_set_SpNorm_Reg_GPU.R")
 #check_set_SpNorm_Reg_gpu(a.gpu, reg_num = 1e-9)
-cat("gpu svd:", "\n")
-svd(a.gpu)
+
+#torch_tensor
+#0.5110  0.2555  0.1277
+#0.2555  0.6387  0.2555
+#0.1277  0.2555  0.5110
+#[ CUDADoubleType{3,3} ]
+
 
 
 #=======================
-# Test Fn_Tst_sym_pd_GPU
+# Test Fn_Tst_sym_pd_GPU (success!)
 #=======================
 
 source("Fn_Tst_sym_pd_GPU.R")
-cat("Tst_sym_pd_gpu:", "\n")
-Tst_sym_pd_gpu(a.gpu)
+#cat("Tst_sym_pd_gpu:", "\n")
+#Tst_sym_pd_gpu(a.gpu)
+
+# [1] "sym: Yes"
+#[1] "p.d.: Yes"
 
 
+#===========================
+# Test Fn_Thres_turn_cov_GPU
+#===========================
+source("Fn_Thres_tune_cov_GPU.R")
 
 
+SG_SG_inv_WL_6 <- readRDS("SG_SG_inv_6_A01dlt05_Wend.rds")
+
+SG_SGinv_WL_6_GPU <- as.gpu.matrix(SG_SG_inv_WL_6$SIGMA_inv, device = "cuda")
 
 
+SG_inv_GPU_thres_tune <- Thres_tune_cov_gpu(thres_ini = 1e-3, 
+                                         cov_mat_thres = SG_SGinv_WL_6_GPU, 
+                                         cov_mat = SG_SGinv_WL_6_GPU)
 
+
+cat("Tst_sym_pd of SG_inv_GPU_thres_tune:", "\n")
+Tst_sym_pd_gpu(SG_inv_GPU_thres_tune$SIGMA_inv)
 
 
