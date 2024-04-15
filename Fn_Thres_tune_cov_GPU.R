@@ -6,6 +6,7 @@
   # To transform to Function Thres_tune_cov to be suitable for GPU matrix 
 
 
+source("Fn_Tst_sym_pd_GPU.R")
 
 spress_cov <- function(cov_mat, threshold) {
   
@@ -28,10 +29,12 @@ spress_cov <- function(cov_mat, threshold) {
 check_pd_gpu <- function(cov_mat) {
   
   eigen_val <- eigen(cov_mat, symmetric = T, only.values = T)$val
-  eig_val_real <- eigen_val@gm$real
+  eig_val_real <- Re(eigen_val) # gpumatrix on cuda
   min_eign <- min(eig_val_real)
   
-  return(min_eign > 0) # a torch bool value 
+  as.array(min_eign, device = "cpu")
+  
+  return(min_eign > 0) # a logical T, F 
   
 }
 #eig_val <- eigen(a.gpu, symmetric = T, only.values = T)$val
@@ -51,7 +54,7 @@ Thres_tune_cov_gpu <- function(thres_ini, cov_mat_thres, cov_mat = SG_inv){
   thres <- thres_ini 
   cat("ini thres:", thres, "\n")
   
-  while(!as.logical(check_pd_gpu(cov_mat_thres))){
+  while(!check_pd_gpu(cov_mat_thres)){
     thres_new <- thres * 0.1
     cat("new thres:", thres_new, "\n")
     
@@ -68,7 +71,7 @@ Thres_tune_cov_gpu <- function(thres_ini, cov_mat_thres, cov_mat = SG_inv){
   }
   
   
-  return(list(SIGMA_inv = as.matrix(cov_mat_thres)))
+  return(list(SIGMA_inv = cov_mat_thres)) # GPUmatrix on cuda
   
 }
 
@@ -88,4 +91,6 @@ Thres_tune_cov_gpu <- function(thres_ini, cov_mat_thres, cov_mat = SG_inv){
 
 #try_GPU_thres_tune$SIGMA_inv
 
+#saveRDS(SG_SG_inv_6_A01dlt05_Wend, file = "SG_SG_inv_6_A01dlt05_Wend.rds")
+#readRDS("SG_SG_inv_6_A01dlt05_Wend.rds")
 
