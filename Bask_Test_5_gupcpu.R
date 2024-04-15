@@ -773,6 +773,16 @@ eq_prod <- torch_prod(a_at_eq)
 #1
 #[ CUDABoolType{} ]
 
+eq_prod_cpu <- eq_prod$cpu()
+
+if (as.arry(eq_prod_cpu) == 1) {
+  print("sym: Yes")
+  
+} else{
+  print("sym: No")
+}
+
+
 #eq_prod > 0
 # torch_tensor
 #1
@@ -781,7 +791,7 @@ eq_prod <- torch_prod(a_at_eq)
 #torch_logical_not(torch_eq(eq_prod, 1), dtype = torch_int())
 
 #eq_res <- torch_eq(eq_prod, 1)
-eq_res <- (eq_prod > 0)
+#eq_res <- (eq_prod > 0)
 #eq_res[1]
 # torch_tensor
 #1
@@ -801,19 +811,21 @@ eq_res <- (eq_prod > 0)
 #============
 
 # see if as.array can be directly used on a torch tensor
-cat("as.arrray:", "\n")
-a_cpu <- a$cpu()
+#cat("as.arrray:", "\n")
+#a_cpu <- a$cpu()
 
-a_ary_cpu <- as.array(a_cpu)
+#a_ary_cpu <- as.array(a_cpu)
 
-isSymmetric(a_ary_cpu)
+#isSymmetric(a_ary_cpu)
+#[1] TRUE
 
-if(isSymmetric(a_ary_cpu) == T) {
-  print("sym: Yes")
-} else {
-  print("sym: No")
-}
 
+#if(isSymmetric(a_ary_cpu) == T) {
+#  print("sym: Yes")
+#} else {
+#  print("sym: No")
+#}
+# [1] "sym: Yes"
 
 
 #a_tsr_cpu <- a_tensor$cpu()
