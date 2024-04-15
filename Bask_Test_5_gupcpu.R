@@ -735,7 +735,7 @@ torch_nonzero(a)
 
 
 #======================================
-# check symmetricity of a tensor matrix
+# check symmetricity of a tensor matrix (success!)
 #======================================
 
 a <- torch_tensor(matrix(c(4, 2, 1, 2, 3, 2, 1, 2, 1), 3, 3), device = device)
@@ -805,6 +805,8 @@ cat("Test Fn_isSymmetric_Tsr:", "\n")
 source("Fn_isSymmetric_Tsr.R")
 isSymmetric_Tsr(a)
 
+# [1] "sym: Yes"
+
 
 #============
 # as.array()
@@ -832,6 +834,23 @@ isSymmetric_Tsr(a)
 #a_tsr_cpu_arry <- as.array(a_tsr_cpu)
 
 #a_mat <- as.matrix(a_tsr_cpu_arry)
+
+
+#============
+# torch_eig
+#============
+cat("torch_eig:", "\n")
+a_eig_val <- torch_eig(a, eigenvectors = F)
+a_eig_val
+
+
+a_eig_val_cpu <- a_eig_val$cpu()
+
+if(all(as.array(a_eig_val_cpu) > 0)){
+  print("p.d.: Yes")
+} else {
+  print("p.d.: No")
+}
 
 
 
