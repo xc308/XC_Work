@@ -782,8 +782,10 @@ eq_prod <- torch_prod(a_at_eq)
 
 #eq_res <- torch_eq(eq_prod, 1)
 eq_res <- (eq_prod > 0)
-eq_res[1]
-# invalid tensor slice
+#eq_res[1]
+# torch_tensor
+#1
+#[ CUDABoolType{} ]
 
 
 #torch_where(torch_eq(eq_prod, 1), print("sym: Yes"), print("sym: NO"))
@@ -792,4 +794,21 @@ eq_res[1]
 
 #source("Fn_isSymmetric_Tsr.R")
 #isSymmetric_Tsr(a)
+
+
+#============
+# as.array()
+#============
+
+# see if as.array can be directly used on a torch tensor
+cat("as.arrray:", "\n")
+as.array(a)
+
+
+
+
+
+
+
+
 
