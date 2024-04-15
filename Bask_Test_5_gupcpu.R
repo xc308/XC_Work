@@ -802,10 +802,24 @@ eq_res <- (eq_prod > 0)
 
 # see if as.array can be directly used on a torch tensor
 cat("as.arrray:", "\n")
-as.array(a)
+a_cpu <- a$cpu()
+
+a_ary_cpu <- as.array(a_cpu)
+
+isSymmetric(a_ary_cpu)
+
+if(isSymmetric(a_ary_cpu) == T) {
+  print("sym: Yes")
+} else {
+  print("sym: No")
+}
 
 
 
+#a_tsr_cpu <- a_tensor$cpu()
+#a_tsr_cpu_arry <- as.array(a_tsr_cpu)
+
+#a_mat <- as.matrix(a_tsr_cpu_arry)
 
 
 
