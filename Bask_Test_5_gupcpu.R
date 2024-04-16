@@ -1145,9 +1145,8 @@ for(t in c(1, 2, 3)) {
 }
 
 # Concatenate tensors along the first dimension
-BT <- torch_cat(BT, dim = 0)
-
-print(BT)
+#BT <- torch_cat(BT, dim = 0)
+BT
 
 
 
