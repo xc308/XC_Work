@@ -1135,93 +1135,20 @@ forceSym_gpu(a_gpu)
 # Test if Daniel's torch_cat(list(NULL, tensor), dim = 0) byrow
 #=======
 # Initialize an empty list
-BT <- torch_tensor(0, device = "cuda")
+BT <- list()
 for(t in c(1, 2, 3)) {
   B_rt <- torch_tensor(matrix(c(1, 2, 3, 4), 2, 2), device = "cuda")
   
   # Append the new tensor to the list
-  #BT[[length(BT) + 1]] <- t(B_rt)
-  
-  BT <- torch_cat(list(BT, torch_t(B_rt)), dim = 0) # by row
+  BT[[t]] <- t(B_rt)
   
 }
 
 # Concatenate tensors along the first dimension
-#BT <- torch_cat(BT, dim = 0)
+BT <- torch_cat(BT, dim = 0)
 
 print(BT)
 
-
-
-#=======
-# Test if torch function can apply on GPUmatrix obj
-#=======
-
-BT <- NULL
-for(t in c(1, 2, 3)) {
-  #B_rt <- torch_tensor(matrix(c(1, 2, 3, 4), 2, 2), device = "cuda")
-  B_rt <- as.gpu.matrix(matrix(c(1, 2, 3, 4), 2, 2), device = "cuda")
-  
-  # Append the new tensor to the list
-  #BT[[length(BT) + 1]] <- t(B_rt)
-  
-  BT <- torch_cat(list(BT, t(B_rt)), dim = 0) # by row
-  
-}
-
-
-
-#=========================
-# Test Fn_make_DSP_mat_GPU
-#=========================
-
-ds <- 0.1
-s <- seq(-1 + ds/2, 1 - ds/2, by = ds)
-
-crds <- cbind(s, s)
-
-#crds_cpu <- as.gpu.matrix(crds, device = "cpu")
-# [ CPUDoubleType{20,2} ]
-
-crds_gpu <- as.gpu.matrix(crds, device = "cuda")
-
-#crds_cpu[1, 1]
-# GPUmatrix
-#torch_tensor
-#-0.9500
-#[ CPUDoubleType{1,1} ]
-#colnames: s 
-
-
-source("Fn_make_DSP_mat_GPU.R")
-
-DSP_gpu <- make_DSP_mat_gpu(crds_gpu)
-
-cat("DSP_gpu[, , 1]", "\n")
-DSP_gpu[, , 1]
-
-cat("DSP_gpu[, , 2]", "\n")
-DSP_gpu[, , 2]
-
-
-
-#=======
-# TEST if a torch_tensor obj can be used in conjunction with GPUmatrix
-#=======
-
-
-scalar_gpu <- torch_tensor(0.5, device = "cuda")
-
-cat("DSP_gpu - scalr_gpu", "\n")
-DSP_gpu[, , 1] - scalar_gpu
-
-
-
-
-
-#==============================================================
-# Test torch_arrange in for loop and conjunction with GPUmatrix
-#==============================================================
 
 
 
