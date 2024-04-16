@@ -1107,4 +1107,26 @@ a_gpu <- gpu.matrix(matrix(c(4, 1.002, 1.003, 1), 2, 2), device = "cuda")
 
 forceSym_gpu(a_gpu)
 
+# GPUmatrix
+#torch_tensor
+#4.0000  1.0025
+#1.0025  1.0000
+#[ CUDADoubleType{2,2} ]
+
+
+#===============================================
+# Test if GPUmatrix can be rbind/cbind with NULL
+#===============================================
+b <- NULL
+rbind(b, a_gpu)
+
+
+
+
+
+
+
+
+
+
 
