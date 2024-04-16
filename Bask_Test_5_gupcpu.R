@@ -1141,14 +1141,16 @@ for(t in c(1, 2, 3)) {
   
   # Append the new tensor to the list
   BT[[t]] <- torch_t(B_rt)
-  
 }
 
 # Concatenate tensors along the first dimension
+
 BT <- torch_cat(BT, 1)
 BT
 
+#----------------
 # dim = 1, NOT 0
+#----------------
 
 #torch_tensor
 #1  2
@@ -1164,24 +1166,27 @@ BT
 
 
 #=====
-# Try Daniel's
+# Try Daniel's (fail)
 #=====
-cat("Try BT <- NULL")
+cat("Try BT <- NULL", "\n")
 BT <- NULL
 for(t in c(1, 2, 3)) {
   B_rt <- torch_tensor(matrix(c(1, 2, 3, 4), 2, 2), device = "cuda")
   
   # Append the new tensor to the list
-  #BT[[t]] <- torch_t(B_rt)
   BT <- torch_cat(list(BT, torch_t(B_rt)), dim = 1)
-  
-  print(BT)
+  BT
 }
+
+
+
 
 # Concatenate tensors along the first dimension
 #BT <- torch_cat(BT, 1)
 #BT
 
+# Error in (function (tensors, dim)  : 
+  #tensor does not have a device
 
 
 
