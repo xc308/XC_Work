@@ -1160,7 +1160,7 @@ print(BT)
 #=======
 
 BT <- NULL
-for(t in 1:3) {
+for(t in c(1, 2, 3)) {
   #B_rt <- torch_tensor(matrix(c(1, 2, 3, 4), 2, 2), device = "cuda")
   B_rt <- as.gpu.matrix(matrix(c(1, 2, 3, 4), 2, 2), device = "cuda")
   
