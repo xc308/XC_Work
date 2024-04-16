@@ -1140,7 +1140,7 @@ for(t in c(1, 2, 3)) {
   B_rt <- torch_tensor(matrix(c(1, 2, 3, 4), 2, 2), device = "cuda")
   
   # Append the new tensor to the list
-  BT[[t]] <- t(B_rt)
+  BT[[t]] <- torch_t(B_rt)
   
 }
 
