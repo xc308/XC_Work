@@ -1121,6 +1121,60 @@ b <- NULL
 rbind(b, a_gpu)
 
 
+#=========================
+# Test Fn_make_DSP_mat_GPU
+#=========================
+
+ds <- 0.1
+s <- seq(-1 + ds/2, 1 - ds/2, by = ds)
+
+crds <- cbind(s, s)
+
+#crds_cpu <- as.gpu.matrix(crds, device = "cpu")
+# [ CPUDoubleType{20,2} ]
+
+crds_gpu <- as.gpu.matrix(crds, device = "cuda")
+
+crds_cpu[1, 1]
+# GPUmatrix
+#torch_tensor
+#-0.9500
+#[ CPUDoubleType{1,1} ]
+#colnames: s 
+
+
+source("Fn_make_DSP_mat_GPU.R")
+
+DSP_gpu <- make_DSP_mat_gpu(crds_gpu)
+
+cat("DSP_gpu[, , 1]", "\n")
+DSP_gpu[, , 1]
+
+cat("DSP_gpu[, , 2]", "\n")
+DSP_gpu[, , 2]
+
+
+
+#=======
+# TEST if a torch_tensor obj can be used in conjunction with GPUmatrix
+#=======
+
+
+scalar_gpu <- torch_tensor(0.5, device = "cuda")
+
+cat("DSP_gpu - scalr_gpu", "\n")
+DSP_gpu[, , 1] - scalar_gpu
+
+
+
+#==============================================================
+# Test torch_arrange in for loop and conjunction with GPUmatrix
+#==============================================================
+
+
+
+
+
 
 
 
