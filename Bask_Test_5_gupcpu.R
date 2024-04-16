@@ -1168,8 +1168,8 @@ BT
 #=====
 # Try Daniel's (fail)
 #=====
-cat("Try BT <- NULL", "\n")
-BT <- NULL
+cat("Try BT <- torch_empty", "\n")
+BT <- torch_empty(c(2, 2), device = "cuda")
 for(t in c(1, 2, 3)) {
   B_rt <- torch_tensor(matrix(c(1, 2, 3, 4), 2, 2), device = "cuda")
   
