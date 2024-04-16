@@ -1115,10 +1115,50 @@ forceSym_gpu(a_gpu)
 
 
 #===============================================
-# Test if GPUmatrix can be rbind/cbind with NULL
+# Test if GPUmatrix can be rbind/cbind with NULL (fail)
 #===============================================
-b <- NULL
-rbind(b, a_gpu)
+#b <- NULL
+
+#cat("rbind(b, a_gpu):", "\n")
+#rbind(b, a_gpu)
+
+#b <- c()
+#length(b)
+
+# Error in if (is.null(nrow) | nrow == 0) nrow = 1 : 
+#argument is of length zero
+#Calls: rbind ... .local -> castTypeOperations_torch -> gpu.matrix.torch
+#Execution halted
+
+
+
+#=======
+# Test if torch function can apply on GPUmatrix obj
+#=======
+
+# Initialize an empty list
+BT <- NULL
+seq_PN <- torch_arange(1, 3, device = "cuda" )
+for(t in seq_PN) {
+  B_rt <- torch_tensor(matrix(c(1, 2, 3, 4), 2, 2), device = "cuda")
+  #B_rt <- as.gpu.matrix(matrix(c(1, 2, 3, 4), 2, 2), device = "cuda")
+  
+  # Append the new tensor to the list
+  #BT[[length(BT) + 1]] <- t(B_rt)
+  
+  BT <- torch_cat(list(BT, torch_t(B_rt)), dim = 0) # by row
+  
+}
+
+# Concatenate tensors along the first dimension
+#BT <- torch_cat(BT, dim = 0)
+
+print(BT)
+
+
+
+
+
 
 
 #=========================
@@ -1135,7 +1175,7 @@ crds <- cbind(s, s)
 
 crds_gpu <- as.gpu.matrix(crds, device = "cuda")
 
-crds_cpu[1, 1]
+#crds_cpu[1, 1]
 # GPUmatrix
 #torch_tensor
 #-0.9500
@@ -1164,6 +1204,8 @@ scalar_gpu <- torch_tensor(0.5, device = "cuda")
 
 cat("DSP_gpu - scalr_gpu", "\n")
 DSP_gpu[, , 1] - scalar_gpu
+
+
 
 
 
