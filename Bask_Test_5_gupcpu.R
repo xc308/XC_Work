@@ -1136,8 +1136,8 @@ forceSym_gpu(a_gpu)
 #=======
 # Initialize an empty list
 BT <- NULL
-seq_PN <- torch_arange(1, 3, device = "cuda" )
-for(t in seq_PN) {
+#seq_PN <- torch_arange(1, 3, device = "cuda" )
+for(t in c(1, 2, 3)) {
   B_rt <- torch_tensor(matrix(c(1, 2, 3, 4), 2, 2), device = "cuda")
   #B_rt <- as.gpu.matrix(matrix(c(1, 2, 3, 4), 2, 2), device = "cuda")
   
