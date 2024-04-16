@@ -1135,11 +1135,9 @@ forceSym_gpu(a_gpu)
 # Test if Daniel's torch_cat(list(NULL, tensor), dim = 0) byrow
 #=======
 # Initialize an empty list
-BT <- NULL
-#seq_PN <- torch_arange(1, 3, device = "cuda" )
+BT <- torch_tensor(0, device = "cuda")
 for(t in c(1, 2, 3)) {
   B_rt <- torch_tensor(matrix(c(1, 2, 3, 4), 2, 2), device = "cuda")
-  #B_rt <- as.gpu.matrix(matrix(c(1, 2, 3, 4), 2, 2), device = "cuda")
   
   # Append the new tensor to the list
   #BT[[length(BT) + 1]] <- t(B_rt)
