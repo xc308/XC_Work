@@ -1148,8 +1148,39 @@ for(t in c(1, 2, 3)) {
 BT <- torch_cat(BT, 1)
 BT
 
+# dim = 1, NOT 0
+
+#torch_tensor
+#1  2
+#3  4
+#1  2
+#3  4
+#1  2
+#3  4
+#[ CUDAFloatType{6,2} ]
 
 
+
+
+
+#=====
+# Try Daniel's
+#=====
+cat("Try BT <- NULL")
+BT <- NULL
+for(t in c(1, 2, 3)) {
+  B_rt <- torch_tensor(matrix(c(1, 2, 3, 4), 2, 2), device = "cuda")
+  
+  # Append the new tensor to the list
+  #BT[[t]] <- torch_t(B_rt)
+  BT <- torch_cat(list(BT, torch_t(B_rt)), dim = 1)
+  
+  print(BT)
+}
+
+# Concatenate tensors along the first dimension
+#BT <- torch_cat(BT, 1)
+#BT
 
 
 
