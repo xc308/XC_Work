@@ -14,7 +14,6 @@ spress_cov <- function(cov_mat, threshold) {
   return(cov_mat)
 }
 
-
 #a.gpu[abs(a.gpu) < 0.2] <- 0, gpu matrix can directly substract and assign
 #a.gpu
 
@@ -31,8 +30,6 @@ check_pd_gpu <- function(cov_mat) {
   eigen_val <- eigen(cov_mat, symmetric = T, only.values = T)$val
   eig_val_real <- Re(eigen_val) # gpumatrix on cuda
   min_eign <- min(eig_val_real)
-  
-  as.array(min_eign, device = "cpu")
   
   return(min_eign > 0) # a logical T, F 
   
@@ -54,7 +51,7 @@ Thres_tune_cov_gpu <- function(thres_ini, cov_mat_thres, cov_mat = SG_inv){
   thres <- thres_ini 
   cat("ini thres:", thres, "\n")
   
-  while(!check_pd_gpu(cov_mat_thres)){
+  while(!check_pd_gpu(cov_mat_thres)){     # not p.d.
     thres_new <- thres * 0.1
     cat("new thres:", thres_new, "\n")
     
