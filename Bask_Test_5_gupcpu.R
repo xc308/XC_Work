@@ -1360,7 +1360,7 @@ spress_cov(MI_gpu, threshold = 0.6)
 # Test element-wise matrix multiplication for two GPUmatrices
 #===========
 
-MI_gpu * (abs(MI_gpu) > 0.6)
+MI_gpu_thres <- MI_gpu * (abs(MI_gpu) > 0.6)
 
 # GPUmatrix
 #torch_tensor
@@ -1389,6 +1389,31 @@ R_GPUmat$GPUMat
 
 
 
+#========================
+# Test Fn_Thres_tune_cov_GPU
+#========================
+
+source("Fn_Thres_tune_cov_GPU.R")
 
 
+Thres_tune_cov_gpu_TEST <- function(thres_ini, cov_mat_thres, cov_mat = SG_inv){
+  
+  thres <- thres_ini 
+  cat("ini thres:", thres, "\n")
+  
+  while(!check_pd_gpu(cov_mat_thres)){  # not p.d.
+    
+    print("Hi")
+    
+    cov_mat_thres <- spress_cov(cov_mat, threshold = thres)
+    #(cov_mat_thres) # cat new test result
+    
+    #thres <- thres_new # this iteration new become next iter thres to further multiply 0.1
+  }
+  
+  return(list(SIGMA_inv_gpu = cov_mat_thres)) # GPUmatrix on cuda
+}
+
+Thres_tune_cov_gpu_TEST(thres_ini = 0.6, cov_mat_thres = MI_gpu_thres, 
+                        cov_mat = MI_gpu)
 
