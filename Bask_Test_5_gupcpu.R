@@ -1209,10 +1209,27 @@ I_sp <- I_sparse(size = 5, value = 1)
 #    [5, 5]
 #]
 
-as.gpu.matrix(I_sp, device = "cuda")
+I_gpu <- as.gpu.matrix(I_sp, device = "cuda")
+# GPUmatrix
+#torch_tensor
+#[ SparseCUDAFloatType{}
+#  indices:
+#    0  1  2  3  4
+#  0  1  2  3  4
+#  [ CUDALongType{2,5} ]
+#  values:
+#    1
+#  1
+#  1
+#  1
+#  1
+#  [ CUDAFloatType{5} ]
+#  size:
+#   [5, 5]
+#]
 
 
+M_gpu <- as.gpu.matrix(matrix(rnorm(25), 5, 5), device = "cuda")
 
-
-
+M_gpu %*% I_gpu
 
