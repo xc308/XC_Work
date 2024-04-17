@@ -1162,36 +1162,54 @@ BT
 #[ CUDAFloatType{6,2} ]
 
 
+# Concatenate tensors along the first dimension
+#BT <- torch_cat(BT, 1)
+#BT
 
 
 
 #=====
 # Try Daniel's (fail)
 #=====
-cat("Try BT <- torch_empty", "\n")
-BT <- torch_empty(c(2, 2), device = "cuda")
-for(t in c(1, 2, 3)) {
-  B_rt <- torch_tensor(matrix(c(1, 2, 3, 4), 2, 2), device = "cuda")
+#cat("Try BT <- torch_empty", "\n")
+#BT <- torch_empty(c(2, 2), device = "cuda")
+#for(t in c(1, 2, 3)) {
+#  B_rt <- torch_tensor(matrix(c(1, 2, 3, 4), 2, 2), device = "cuda")
   
   # Append the new tensor to the list
-  BT <- torch_cat(list(BT, torch_t(B_rt)), dim = 1)
-  BT
-}
-
-
-
-
-# Concatenate tensors along the first dimension
-#BT <- torch_cat(BT, 1)
-#BT
-
+#  BT <- torch_cat(list(BT, torch_t(B_rt)), dim = 1)
+#  BT
+#}
 # Error in (function (tensors, dim)  : 
-  #tensor does not have a device
+#tensor does not have a device
 
 
+#=======
+# Want to see if sparse matrix obj can be directly used in GPUmatrix
+#=======
+source("Fn_I_sparse.R")
 
+I_sp <- I_sparse(size = 5, value = 1)
+#as.gpu.matrix(I_sp, device = "cpu")
+# GPUmatrix
+#torch_tensor
+#[ SparseCPUFloatType{}
+#  indices:
+#    0  1  2  3  4
+#  0  1  2  3  4
+#  [ CPULongType{2,5} ]
+#  values:
+#    1
+#  1
+#  1
+#  1
+#  1
+#  [ CPUFloatType{5} ]
+#  size:
+#    [5, 5]
+#]
 
-
+as.gpu.matrix(I_sp, device = "cuda")
 
 
 
