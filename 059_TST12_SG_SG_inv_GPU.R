@@ -223,7 +223,7 @@ TST12_SG_SGInv_CAR_2D_GPU <- function(p, data, A_mat, dsp_lon_mat, dsp_lat_mat,
       # 2. cov_mat construct with new thres
       # 3. check p.d. until cov_mat is p.d. with the updated largest possible thres
       # 4. return the thresholded and p.d. SIGMA_inv and SIGMA
-      SG_SG_inv_thres <- Thres_tune_cov(thres_ini = thres_ini, 
+      SG_SG_inv_thres <- Thres_tune_cov_gpu(thres_ini = thres_ini, 
                                         cov_mat_thres = SIGMA_inv_ini,
                                         cov_mat = SG_inv_gpu) 
       
