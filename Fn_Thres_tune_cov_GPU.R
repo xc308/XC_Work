@@ -68,7 +68,7 @@ Thres_tune_cov_gpu <- function(thres_ini, cov_mat_thres, cov_mat = SG_inv){
   }
   
   
-  return(list(SIGMA_inv = cov_mat_thres)) # GPUmatrix on cuda
+  return(list(SIGMA_inv_gpu = cov_mat_thres)) # GPUmatrix on cuda
   
 }
 
