@@ -1401,7 +1401,7 @@ Thres_tune_cov_gpu_TEST <- function(thres_ini, cov_mat_thres, cov_mat = SG_inv){
   thres <- thres_ini 
   cat("ini thres:", thres, "\n")
   
-  while(!check_pd_gpu(cov_mat_thres)){  # not p.d.
+  if(!check_pd_gpu(cov_mat_thres)){  # not p.d.
     
     print("Hi")
     
