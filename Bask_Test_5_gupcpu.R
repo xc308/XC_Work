@@ -1275,7 +1275,7 @@ str(MI_gpu)
 #==================
 # Test check_pd_gpu
 #==================
-source("Fn_Thres_tune_cov_GPU.R")
+#source("Fn_Thres_tune_cov_GPU.R")
 
 cat("v1: >0 on cpu", "\n")
 check_pd_gpu <- function(cov_mat) {
@@ -1298,6 +1298,8 @@ if(check_pd_gpu(MI_gpu)){
 } else{
   print("NOT pd")
 }
+# [1] "NOT pd"
+
 
 
 cat("v2: > 0 on gpu", "\n")
@@ -1322,4 +1324,26 @@ if(check_pd_gpu(MI_gpu)){
 } else{
   print("NOT pd")
 }
+# [1] "NOT pd"
+
+#-----------
+# conclusion
+#-----------
+# in check_pd_gpu function, deal with GPUmatrix
+  # No need to get back to cpu before put into the if()
+
+# as it automatically return logical T F
+
+
+#================
+# Test spress_cov 
+#================
+
+spress_cov <- function(cov_mat, threshold) {
+  
+  cov_mat[abs(cov_mat) < threshold] <- 0
+  return(cov_mat)
+}
+
+spress_cov(MI_gpu, threshold = 0.6)
 
