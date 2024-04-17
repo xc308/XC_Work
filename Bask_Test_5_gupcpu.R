@@ -1209,7 +1209,7 @@ I_sp <- I_sparse(size = 5, value = 1)
 #    [5, 5]
 #]
 
-I_gpu <- as.gpu.matrix(I_sp, device = "cuda")
+#I_gpu <- as.gpu.matrix(I_sp, device = "cuda")
 # GPUmatrix
 #torch_tensor
 #[ SparseCUDAFloatType{}
@@ -1231,5 +1231,28 @@ I_gpu <- as.gpu.matrix(I_sp, device = "cuda")
 
 M_gpu <- as.gpu.matrix(matrix(rnorm(25), 5, 5), device = "cuda")
 
+#M_gpu %*% I_gpu
+# GPUmatrix
+#torch_tensor
+#0.7283  0.4377  0.7155  0.6100  0.1096
+#-0.4380  0.5378 -0.3529  2.6690 -0.4223
+#-0.7963  0.6686 -0.2712 -1.0907 -1.2309
+#-1.2144  0.7324 -1.1218  0.5416 -0.7880
+#-0.4231 -0.4093 -1.0867 -1.5870  0.2967
+#[ CUDADoubleType{5,5} ]
+#Warning message:
+#  In warningSparseTensor_torch(y) :
+#  Not allowed with sparse matrix, matrix will be cast to dense for the operation. May cause memory problems
+
+#------
+# convert sparse matrix to matrix before as.gpu.matrix
+#------
+
+I_gpu <- as.gpu.matrix(as.matrix(I_sp), device = "cuda")
 M_gpu %*% I_gpu
+
+
+
+
+
 
