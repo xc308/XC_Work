@@ -335,7 +335,7 @@ SG_SGinv_CAR_5_2D_TW_GPU <- TST12_SG_SGInv_CAR_2D_GPU(p = 5, data = hierarchy_da
                                                       reg_ini = 1e-9, thres_ini = 1e-3)
 
 
-str(SG_SGinv_CAR_5_2D_TW_GPU$SIGMA_inv_gpu)
+class(SG_SGinv_CAR_5_2D_TW_GPU$SIGMA_inv_gpu)
 
 
 saveRDS(SG_SGinv_CAR_5_2D_TW_GPU, file = "SG_SGinv_CAR_5_2D_TW_GPU.rds")
