@@ -1275,7 +1275,6 @@ str(MI_gpu)
 #==================
 # Test check_pd_gpu
 #==================
-#source("Fn_Thres_tune_cov_GPU.R")
 
 cat("v1: >0 on cpu", "\n")
 check_pd_gpu <- function(cov_mat) {
@@ -1346,4 +1345,27 @@ spress_cov <- function(cov_mat, threshold) {
 }
 
 spress_cov(MI_gpu, threshold = 0.6)
+
+#GPUmatrix
+#torch_tensor
+#0.0000  0.0000 -0.7992 -1.8759 -1.5274
+#0.8917 -1.5911  0.0000 -0.9286  0.0000
+#1.2170  0.0000  0.0000  0.0000  0.0000
+#0.0000  0.0000  0.0000 -1.6060 -2.7238
+#-1.6027 -0.7976  0.8091 -0.8815  0.0000
+#[ CUDADoubleType{5,5} ]
+
+
+#===========
+# Test element-wise matrix multiplication for two GPUmatrices
+#===========
+
+MI_gpu * (abs(MI_gpu) > 0.6)
+
+
+
+
+
+
+
 
