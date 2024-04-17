@@ -218,13 +218,16 @@ TST12_SG_SGInv_CAR_2D_GPU <- function(p, data, A_mat, dsp_lon_mat, dsp_lat_mat,
       
       # Compute SIGMA_inv_ini, SG_inv constructed with the smallest possible reg_num
       SIGMA_inv_ini <- SG_inv_gpu * (abs(SG_inv_gpu) > thres_ini)
+      #SIGMA_inv_ini_gpu <- as.gpu.matrix(SIGMA_inv_ini, device = "cuda")
+      class(SIGMA_inv_ini)
+      str(SIGMA_inv_ini)
       
       # 1. tune threshold if SIGMA_inv_ini is NOT p.d.,
       # 2. cov_mat construct with new thres
       # 3. check p.d. until cov_mat is p.d. with the updated largest possible thres
       # 4. return the thresholded and p.d. SIGMA_inv and SIGMA
       SG_SG_inv_thres <- Thres_tune_cov_gpu(thres_ini = thres_ini, 
-                                        cov_mat_thres = SIGMA_inv_ini,
+                                        cov_mat_thres = SIGMA_inv_ini_gpu,
                                         cov_mat = SG_inv_gpu) 
       
       return(list(SIGMA_gpu = as.gpu.matrix(SIGMA, device = "cuda"),
