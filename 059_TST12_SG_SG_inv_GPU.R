@@ -231,7 +231,7 @@ TST12_SG_SGInv_CAR_2D_GPU <- function(p, data, A_mat, dsp_lon_mat, dsp_lat_mat,
                                         cov_mat_thres = SIGMA_inv_ini,
                                         cov_mat = SG_inv_gpu) 
       
-      return(list(SIGMA_gpu = as.gpu.matrix(SIGMA, device = "cuda"),
+      return(list(SIGMA_gpu = as.gpu.matrix(as.matrix(SIGMA), device = "cuda"),
                   SIGMA_inv_gpu = SG_SG_inv_thres$SIGMA_inv_gpu))  
       
     }
