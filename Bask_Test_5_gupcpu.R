@@ -1362,7 +1362,30 @@ spress_cov(MI_gpu, threshold = 0.6)
 
 MI_gpu * (abs(MI_gpu) > 0.6)
 
+# GPUmatrix
+#torch_tensor
+#0.0000  1.6451  0.0000 -0.8685  0.9512
+#1.7930  2.7193 -0.0000  0.0000 -0.0000
+#0.0000 -0.0000 -0.8601 -0.6042 -0.6931
+#0.0000  2.1168 -0.0000  1.7520  1.5774
+#-0.0000 -0.0000 -0.6992  0.9318  0.0000
+#[ CUDADoubleType{5,5} ]
 
+
+#===================================================
+# Test if a function can return a list of GPUmatrix
+#===================================================
+
+Return_GPUmat <- function(gpu_mat){
+  
+  print("hi")
+  list(GPUMat = gpu_mat)
+  
+}
+
+R_GPUmat <- Return_GPUmat(MI_gpu)
+cat("extract GPUMat", "\n")
+R_GPUmat$GPUMat
 
 
 
