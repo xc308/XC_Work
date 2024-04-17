@@ -1262,6 +1262,14 @@ MI_gpu <- M_gpu %*% I_gpu
 
 cat("str(MI_gpu)", "\n")
 str(MI_gpu)
+# str(MI_gpu) 
+#Formal class 'gpu.matrix.torch' [package "GPUmatrix"] with 5 slots
+#..@ rownames: NULL
+#..@ colnames: NULL
+#..@ gm      :Double [1:5, 1:5]
+#..@ sparse  : logi FALSE
+#..@ type    : chr "torch"
+
 
 
 #==================
@@ -1281,7 +1289,15 @@ check_pd_gpu <- function(cov_mat) {
   return(min_eign > 0) # a logical T, F 
 }
 
-check_pd_gpu(MI_gpu)
+#check_pd_gpu(MI_gpu)
+# [1] FALSE
+
+
+if(check_pd_gpu(MI_gpu)){
+  print("pd")
+} else{
+  print("NOT pd")
+}
 
 
 cat("v2: > 0 on gpu", "\n")
@@ -1297,5 +1313,13 @@ check_pd_gpu <- function(cov_mat) {
   return(min_eign > 0) # 
 }
 
-check_pd_gpu(MI_gpu)
+#check_pd_gpu(MI_gpu)
+# [1] FALSE
+
+
+if(check_pd_gpu(MI_gpu)){
+  print("pd")
+} else{
+  print("NOT pd")
+}
 
