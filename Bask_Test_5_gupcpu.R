@@ -1249,10 +1249,53 @@ M_gpu <- as.gpu.matrix(matrix(rnorm(25), 5, 5), device = "cuda")
 #------
 
 I_gpu <- as.gpu.matrix(as.matrix(I_sp), device = "cuda")
-M_gpu %*% I_gpu
+MI_gpu <- M_gpu %*% I_gpu
+# now NO Warning
+#GPUmatrix
+#torch_tensor
+#0.3360 -0.3969  0.4747  0.0482  1.0563
+#-0.2731 -1.8633  1.3232 -0.6167 -0.1481
+#0.0296 -2.3083 -0.2379  0.6569 -0.9474
+#0.3578 -0.0998  0.2713 -0.8671  1.6447
+#0.7960  0.6403 -0.5747  0.9020 -0.6630
+#[ CUDADoubleType{5,5} ]
+
+cat("str(MI_gpu)", "\n")
+str(MI_gpu)
 
 
+#==================
+# Test check_pd_gpu
+#==================
+source("Fn_Thres_tune_cov_GPU.R")
+
+cat("v1: >0 on cpu", "\n")
+check_pd_gpu <- function(cov_mat) {
+  
+  eigen_val <- eigen(cov_mat, symmetric = T, only.values = T)$val
+  eig_val_real <- Re(eigen_val) # gpumatrix on cuda
+  min_eign <- min(eig_val_real)
+  
+  as.array(min_eign, device = "cpu")
+  
+  return(min_eign > 0) # a logical T, F 
+}
+
+check_pd_gpu(MI_gpu)
 
 
+cat("v2: > 0 on gpu", "\n")
 
+check_pd_gpu <- function(cov_mat) {
+  
+  eigen_val <- eigen(cov_mat, symmetric = T, only.values = T)$val
+  eig_val_real <- Re(eigen_val) # gpumatrix on cuda
+  min_eign <- min(eig_val_real)
+  
+  #as.array(min_eign, device = "cpu")
+  
+  return(min_eign > 0) # 
+}
+
+check_pd_gpu(MI_gpu)
 
