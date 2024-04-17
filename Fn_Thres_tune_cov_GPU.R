@@ -44,9 +44,9 @@ check_pd_gpu <- function(cov_mat) {
 # construct a cov_mat with initial threshold
 #--------------------------------------------
   # cov_mat_thres: cov after ini thres 1e-3
-  # cov_mat: original SG_inv in the final run  
+  # cov_mat: original SG_inv_gpu in the final run  
 
-Thres_tune_cov_gpu <- function(thres_ini, cov_mat_thres, cov_mat = SG_inv){
+Thres_tune_cov_gpu <- function(thres_ini, cov_mat_thres, cov_mat){
   
   thres <- thres_ini 
   cat("ini thres:", thres, "\n")
