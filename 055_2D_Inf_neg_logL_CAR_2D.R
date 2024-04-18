@@ -51,7 +51,7 @@ Vals <- c(0.7, 0.8, 0.8, 0.65, 0.65, 0.5, rep(0.6, 3),
 
 
 #=========
-# neg_logL
+# neg_logL function
 #=========
 
 
@@ -265,7 +265,7 @@ optm_pars_CAR_2D_WL <- optim(par = all_ini_Vals, # ini guess
                                             maxit = 300,
                                             pgtol = 1e-4))
 
-<<<<<<< HEAD
+
 
 # 1st run results:
 optm_pars_CAR_2D_WL$message
@@ -356,5 +356,3 @@ optm_pars_CAR_2D_WL$par
 #[37] 0.58066433 0.47573630 0.19098267
 
 
-=======
->>>>>>> bd02a041e6b53361e1379afec30e273ecc80741c
