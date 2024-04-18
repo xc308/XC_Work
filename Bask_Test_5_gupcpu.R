@@ -1464,7 +1464,7 @@ cat("chol_inv_gpu(MI_gpu)", "\n")
 chol_inv_gpu(a_gpu)
 
 cat("verify", "\n")
-MI_gpu %*% chol_inv_gpu(a_gpu)
+a_gpu %*% chol_inv_gpu(a_gpu)
 
 
 
