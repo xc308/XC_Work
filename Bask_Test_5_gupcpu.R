@@ -1496,7 +1496,24 @@ a_gpu %*% chol_inv_gpu(a_gpu)
 
 
 log(det(a_gpu))
+# [1] 2.397895
 
+
+#======
+# Test vector collected from loop sent to gpu
+#======
+Z <- c()
+for (i in 1:p) {
+  Z <- c(Z, i)
+}
+Z
+# str(Z)# num [1:1200] or use Fn_Stack_Z
+Z_gpu <- as.gpu.matrix(Z, device = "cuda")
+#as.gpu.matrix(Z, device = "cpu")
+
+
+# neg_logL
+length(Z_gpu)
 
 
 
