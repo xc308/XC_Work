@@ -1417,3 +1417,20 @@ Thres_tune_cov_gpu_TEST <- function(thres_ini, cov_mat_thres, cov_mat = SG_inv){
 Thres_tune_cov_gpu_TEST(thres_ini = 0.6, cov_mat_thres = MI_gpu_thres, 
                         cov_mat = MI_gpu)
 
+
+#ini thres: 0.6 
+#[1] "Hi"
+#$SIGMA_inv_gpu
+#GPUmatrix
+#torch_tensor
+#0.0000 -1.1964 -1.1449  0.0000  2.3194
+#1.0607  0.0000  0.0000  0.0000  0.0000
+#0.0000  0.0000 -1.7026  0.0000 -0.9864
+#0.0000 -1.0037  0.9506  0.0000  0.0000
+#0.0000 -2.8994  0.7817 -0.7018  1.8227
+#[ CUDADoubleType{5,5} ]
+
+
+
+
+
