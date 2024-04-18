@@ -1466,6 +1466,37 @@ chol_inv_gpu(a_gpu)
 cat("verify", "\n")
 a_gpu %*% chol_inv_gpu(a_gpu)
 
+# GPUmatrix
+#torch_tensor
+#1.0000  0.0000
+#-0.0000  1.0000
+#[ CUDADoubleType{2,2} ]
+
+
+#=====
+# Test det() for gpumatrix
+#=====
+
+#log(det(matrix(c(4, 1, 1, 3), 2, 2)))
+# [1] 2.397895
+
+#determinant(matrix(c(4, 1, 1, 3), 2, 2), log = T)
+# $modulus
+#[1] 2.397895
+#attr(,"logarithm")
+#[1] TRUE
+
+#$sign
+#[1] 1
+
+#determinant(matrix(c(4, 1, 1, 3), 2, 2), log = T)$mod
+# [1] 2.397895
+#attr(,"logarithm")
+#[1] TRUE
+
+
+log(det(a_gpu))
+
 
 
 
