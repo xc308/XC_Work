@@ -1456,11 +1456,15 @@ MI_gpu %*% solve(MI_gpu)
 
 source("Fn_chol_inv_gpu.R")
 
+a_gpu <- as.gpu.matrix(matrix(c(4, 1, 1, 3), 2, 2), device = "cuda")
+
+#Tst_sym_pd(matrix(c(4, 1, 1, 3), 2, 2))
+
 cat("chol_inv_gpu(MI_gpu)", "\n")
-chol_inv_gpu(MI_gpu)
+chol_inv_gpu(a_gpu)
 
 cat("verify", "\n")
-MI_gpu %*% chol_inv_gpu(MI_gpu)
+MI_gpu %*% chol_inv_gpu(a_gpu)
 
 
 
