@@ -239,6 +239,11 @@ TST12_SG_SGInv_CAR_2D_GPU <- function(p, data, A_mat, dsp_lon_mat, dsp_lat_mat,
 }
 
 
+## Note:
+  # SIGMA is a result from forceSymmetric(), which is a dsyMatrix class
+  # need to as.matrix(SIGMA) first, then as.gpu.matrix
+
+
 #============
 # Test TST12
 #============
@@ -335,7 +340,21 @@ SG_SGinv_CAR_5_2D_TW_GPU <- TST12_SG_SGInv_CAR_2D_GPU(p = 5, data = hierarchy_da
                                                       reg_ini = 1e-9, thres_ini = 1e-3)
 
 
-class(SG_SGinv_CAR_5_2D_TW_GPU$SIGMA_inv_gpu)
+str(SG_SGinv_CAR_5_2D_TW_GPU$SIGMA_inv_gpu)
 
 
-saveRDS(SG_SGinv_CAR_5_2D_TW_GPU, file = "SG_SGinv_CAR_5_2D_TW_GPU.rds")
+#saveRDS(SG_SGinv_CAR_5_2D_TW_GPU, file = "SG_SGinv_CAR_5_2D_TW_GPU.rds")
+#SG_SGinv_CAR_5_2D_TW_GPU <- readRDS("SG_SGinv_CAR_5_2D_TW_GPU.rds")
+
+#class(SG_SGinv_CAR_5_2D_TW_GPU$SIGMA_inv_gpu)
+# [1] "gpu.matrix.torch"
+#attr(,"package")
+#[1] "GPUmatrix"
+
+
+
+
+
+
+
+
