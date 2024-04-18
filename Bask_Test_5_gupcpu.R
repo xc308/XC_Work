@@ -1514,6 +1514,17 @@ Z_gpu <- as.gpu.matrix(Z, device = "cuda")
 
 # neg_logL
 length(Z_gpu)
+#[1] 4
+
+#=======
+# Test a 1 by 1 gpu matrix as.numeric on cpu
+#=======
+
+a_gpu <- as.gpu.matrix(c(5), device = "cuda")
+class(a_gpu)
+
+a_cpu <- as.numeric(a_gpu, device = "cpu")
+class(a_cpu)
 
 
 
