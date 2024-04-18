@@ -1503,7 +1503,7 @@ log(det(a_gpu))
 # Test vector collected from loop sent to gpu
 #======
 Z <- c()
-for (i in 1:p) {
+for (i in 1:4) {
   Z <- c(Z, i)
 }
 Z
