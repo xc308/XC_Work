@@ -1443,6 +1443,9 @@ MI_gpu
 cat("only solve(MI_gpu)", "\n")
 solve(MI_gpu)
 
+cat("verify", "\n")
+MI_gpu %*% solve(MI_gpu)
+
 #I_cpu <- as.gpu.matrix(diag(2, 5), device = "cpu")
 #solve(I_cpu)
 
