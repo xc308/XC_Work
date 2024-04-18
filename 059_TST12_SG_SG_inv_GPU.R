@@ -341,6 +341,15 @@ SG_SGinv_CAR_5_2D_TW_GPU <- TST12_SG_SGInv_CAR_2D_GPU(p = 5, data = hierarchy_da
 
 
 str(SG_SGinv_CAR_5_2D_TW_GPU$SIGMA_inv_gpu)
+# Formal class 'gpu.matrix.torch' [package "GPUmatrix"] with 5 slots
+#..@ rownames: NULL
+#..@ colnames: NULL
+#..@ gm      :Double [1:100, 1:100]
+#..@ sparse  : logi FALSE
+#..@ type    : chr "torch"
+
+
+
 
 
 #saveRDS(SG_SGinv_CAR_5_2D_TW_GPU, file = "SG_SGinv_CAR_5_2D_TW_GPU.rds")
