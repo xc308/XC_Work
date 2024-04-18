@@ -1450,4 +1450,18 @@ MI_gpu %*% solve(MI_gpu)
 #solve(I_cpu)
 
 
+#=====
+# Test Fn_chol_inv_gpu.R
+#=====
+
+source("Fn_chol_inv_gpu.R")
+
+cat("chol_inv_gpu(MI_gpu)", "\n")
+chol_inv_gpu(MI_gpu)
+
+cat("verify", "\n")
+MI_gpu %*% chol_inv_gpu(MI_gpu)
+
+
+
 
