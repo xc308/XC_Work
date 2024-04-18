@@ -1431,6 +1431,20 @@ Thres_tune_cov_gpu_TEST(thres_ini = 0.6, cov_mat_thres = MI_gpu_thres,
 #[ CUDADoubleType{5,5} ]
 
 
+#===========
+# Test solve function of GPU matrix
+#===========
+
+#I_gpu <- as.gpu.matrix(diag(1, nrow(MI_gpu)), device = "cuda")
+#solve(MI_gpu, I_gpu)
+cat("MI_gpu", "\n")
+MI_gpu
+
+cat("only solve(MI_gpu)", "\n")
+solve(MI_gpu)
+
+#I_cpu <- as.gpu.matrix(diag(2, 5), device = "cpu")
+#solve(I_cpu)
 
 
 
