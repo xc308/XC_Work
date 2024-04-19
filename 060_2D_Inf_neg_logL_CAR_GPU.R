@@ -272,7 +272,7 @@ neg_logL_CAR_2D_GPU(theta = theta, p = p, data_str = hierarchy_data_CAMS,
                     all_pars_lst = all_pars_lst_CAR_2D_CMS, 
                     dsp_lon_mat = DSP[, , 1], 
                     dsp_lat_mat = DSP[, , 2], 
-                    b = "Tri-wave", 
+                    b = "Tri-Wave", 
                     phi = phi, H_adj = H_adj, 
                     df = df_2D_TW_CAMS)
 
