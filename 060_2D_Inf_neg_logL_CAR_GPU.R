@@ -69,13 +69,13 @@ all_pars_lst <- all_pars_lst_CAR_2D_CMS
 #-------
 # set some ini for theta to run the neg_logL
 #-------
-Vals <- c(0.1, 0.2, 0.1, 0.1, 0.1,  
-          0.1, 0.1, 0.1, 0.1, 0.1,
-          rep(0.2, 5), 
-          rep(1, 5)) # w/o tau2s
+#Vals <- c(0.1, 0.2, 0.1, 0.1, 0.1,  
+#          0.1, 0.1, 0.1, 0.1, 0.1,
+#          rep(0.2, 5), 
+#          rep(1, 5)) # w/o tau2s
 
 
-theta <- c(Vals, rep(0.2, p))
+#theta <- c(Vals, rep(0.2, p))
 
 
 #----------
@@ -266,15 +266,74 @@ neg_logL_CAR_2D_GPU <- function(theta, ..., p, data_str, all_pars_lst,
 
 
 #==================================
-# Test neg_logL_CAR_2D_GPU function
+# Test neg_logL_CAR_2D_GPU function (success!)
 #==================================
-neg_logL_CAR_2D_GPU(theta = theta, p = p, data_str = hierarchy_data_CAMS,
-                    all_pars_lst = all_pars_lst_CAR_2D_CMS, 
-                    dsp_lon_mat = DSP[, , 1], 
-                    dsp_lat_mat = DSP[, , 2], 
-                    b = "Tri-Wave", 
-                    phi = phi, H_adj = H_adj, 
-                    df = df_2D_TW_CAMS)
+#neg_logL_CAR_2D_GPU(theta = theta, p = p, data_str = hierarchy_data_CAMS,
+#                    all_pars_lst = all_pars_lst_CAR_2D_CMS, 
+#                    dsp_lon_mat = DSP[, , 1], 
+#                    dsp_lat_mat = DSP[, , 2], 
+#                    b = "Tri-Wave", 
+#                    phi = phi, H_adj = H_adj, 
+#                    df = df_2D_TW_CAMS)
+
+# [1] 1460.098
+
+
+
+#========
+# Optim
+#========
+source("Fn_para_mat_construct.R")
+all_pars_lst_CAR_2D_CMS <- All_paras_CAR_2D(p = 5, data = hierarchy_data_CAMS)
+all_pars_lst <- all_pars_lst_CAR_2D_CMS
+
+#-----------
+# ini values
+#-----------
+ini <- c(0.2, 0.1, 0.1, 0.5) # A, dlt_lon, dlt_lat, sig2
+Vals <- c()
+for (i in 1:length(all_pars_lst)){
+  value <- rep(ini[i], sum(is.na(all_pars_lst[[i]])))
+  Vals <- c(Vals, value)
+}
+
+
+all_ini_Vals <- c(Vals, rep(0.1, p)) # with tau2s
+
+
+#---------------------------------
+## lower bound for each parameters
+#---------------------------------
+# NA: no lower bound
+lower_bound <- c(rep(NA, sum(is.na(all_pars_lst[[1]]))),  # A
+                 rep(0.05, sum(is.na(all_pars_lst[[2]]))), # dlt_lon
+                 rep(0.05, sum(is.na(all_pars_lst[[3]]))), # dlt_lat
+                 rep(0.001, sum(is.na(all_pars_lst[[4]]))), # sig2
+                 rep(0.001, p)) # tau2
+
+
+#---------
+# Tri-Wave
+#---------
+
+optm_pars_CAR_2D_TW_GPU <- optim(par = all_ini_Vals, # ini guess
+                             fn = neg_logL_CAR_2D_GPU,
+                             p = p, data_str = hierarchy_data_CAMS, 
+                             all_pars_lst = all_pars_lst_CAR_2D_CMS, 
+                             dsp_lon_mat = DSP[, , 1], 
+                             dsp_lat_mat = DSP[, , 2], 
+                             b = "Tri-Wave", 
+                             phi = phi, H_adj = H_adj,
+                             df = df_2D_TW_CAMS,
+                             method = "L-BFGS-B",
+                             lower = lower_bound,
+                             control = list(trace = 0, 
+                                            maxit = 100,
+                                            pgtol = 1e-4))
+
+
+optm_pars_CAR_2D_TW_GPU
+
 
 
 
