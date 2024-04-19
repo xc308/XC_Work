@@ -175,8 +175,8 @@ neg_logL_CAR_2D_GPU <- function(theta, ..., p, data_str, all_pars_lst,
                                        reg_ini = 1e-9, thres_ini = 1e-3)
   
   
-  SG_Y_gpu <- SG_SG_inv_Y$SIGMA_gpu
-  SG_Y_inv_gpu <- SG_SG_inv_Y$SIGMA_inv_gpu
+  SG_Y_gpu <- SG_SG_inv_Y_gpu$SIGMA_gpu
+  SG_Y_inv_gpu <- SG_SG_inv_Y_gpu$SIGMA_inv_gpu
   
   
   # calculate SG_Ng
