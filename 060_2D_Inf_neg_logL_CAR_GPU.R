@@ -69,13 +69,13 @@ all_pars_lst <- all_pars_lst_CAR_2D_CMS
 #-------
 # set some ini for theta to run the neg_logL
 #-------
-Vals <- c(0.7, 0.8, 0.8, 0.65, 0.65,  
-          0.2, 0.3, 0.3, 0.4, 0.4,
+Vals <- c(0.1, 0.2, 0.1, 0.1, 0.1,  
+          0.1, 0.1, 0.1, 0.1, 0.1,
           rep(0.2, 5), 
           rep(1, 5)) # w/o tau2s
 
 
-theta <- c(Vals, rep(1, p))
+theta <- c(Vals, rep(0.2, p))
 
 
 #----------
