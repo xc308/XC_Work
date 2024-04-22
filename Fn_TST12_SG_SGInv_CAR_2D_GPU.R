@@ -8,7 +8,7 @@
 
 
 TST12_SG_SGInv_CAR_2D_GPU <- function(p, data, A_mat, dsp_lon_mat, dsp_lat_mat, 
-                                      dlt_lon_mat, dlt_lat_mat, b = "Wendland",
+                                      dlt_lon_mat, dlt_lat_mat, b = "Tri-Wave",
                                       phi, H_adj, sig2_mat,
                                       reg_ini = 1e-9, thres_ini = 1e-3) {
   
