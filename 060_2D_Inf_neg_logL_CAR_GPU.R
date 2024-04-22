@@ -35,6 +35,7 @@ library(GPUmatrix)
 system("nvidia-smi")
 
 
+
 #====================
 # multi-core settings
 #====================
@@ -323,6 +324,9 @@ lower_bound <- c(rep(NA, sum(is.na(all_pars_lst[[1]]))),  # A
 #---------
 # Tri-Wave multi-core
 #---------
+detectCores()
+
+
 
 cl <- makeCluster(detectCores())  # Create a cluster
 clusterExport(cl, c("p", "hierarchy_data_CAMS", "all_pars_lst_CAR_2D_CMS", 
@@ -347,6 +351,8 @@ optm_pars_CAR_2D_TW_GPU_CPU <- optimParallel(par = all_ini_Vals, # ini guess
 
 
 stopCluster(cl)
+
+system("nvidia-smi")
 
 optm_pars_CAR_2D_TW_GPU_CPU
 
