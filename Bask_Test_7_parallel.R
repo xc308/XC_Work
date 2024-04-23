@@ -9,8 +9,8 @@
 
 library(parallel)    
 cores <- detectCores()
-#cr <- cores - 1
-cl <- makeCluster(cores)
+cr <- cores - 1
+cl <- makeCluster(cr)
 setDefaultCluster(cl = cl) 
 
 parSapply(cl, 1:5, sqrt)
