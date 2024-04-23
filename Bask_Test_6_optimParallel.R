@@ -14,10 +14,14 @@
 library("optimParallel")
 
 
-x <- rnorm(n = 1e7, mean = 5, sd = 2)
+x <- rnorm(n = 500, mean = 5, sd = 2)
 negll <- function(par, x) -sum(dnorm(x = x, mean = par[1], sd = par[2], log = TRUE))
 
-cl <- makeCluster(detectCores()); setDefaultCluster(cl = cl)
+# 2 parameters, p = 2
+# evaluation 2p + 1 = 5
+# so want 5 tasks in parallel
+
+cl <- makeCluster(5); setDefaultCluster(cl = cl)
 
 o2 <- optimParallel(par = c(1, 1), 
                     fn = negll, 
