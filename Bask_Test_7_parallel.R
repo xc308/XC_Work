@@ -6,8 +6,9 @@
   # First test whether enviornment for parallle makeCluster and others is there. 
 
 
+library(parallel) 
 
-library(parallel)    
+
 cores <- detectCores()
 cr <- cores - 1
 cl <- makeCluster(cr)
