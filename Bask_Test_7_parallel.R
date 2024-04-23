@@ -9,11 +9,14 @@
 library(parallel) 
 
 
-cores <- detectCores()
-cr <- cores - 1
-cl <- makeCluster(cr, outfile=paste0('./info_parallel.log'))
+#cores <- detectCores()
+#cr <- cores - 1
+cl <- makeCluster(5)
 
 setDefaultCluster(cl = cl) 
 
 parSapply(cl, 1:5, sqrt)
 stopCluster(cl)
+
+
+
