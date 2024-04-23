@@ -8,7 +8,7 @@
 
 
 library(parallel)    
-cl <- makeClusterPSOCK(detectCores())
+cl <- makePSOCKCluster(detectCores())
 setDefaultCluster(cl = cl) 
 
 parSapply(cl, 1:5, sqrt)
