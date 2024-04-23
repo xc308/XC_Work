@@ -11,11 +11,11 @@ library(parallel)
 
 #cores <- detectCores()
 #cr <- cores - 1
-cl <- makeCluster(5)
+cl <- makeCluster(52)
 
 setDefaultCluster(cl = cl) 
 
-parSapply(cl, 1:5, sqrt)
+parSapply(cl, 1:52, sqrt)
 stopCluster(cl)
 
 
