@@ -9,8 +9,8 @@
 
 library(parallel)    
 cores <- detectCores()
-cr <- cores - 1
-cl <- makePSOCKcluster(cr)
+#cr <- cores - 1
+cl <- makePSOCKcluster(cores)
 setDefaultCluster(cl = cl) 
 
 parSapply(cl, 1:5, sqrt)
