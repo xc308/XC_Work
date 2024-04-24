@@ -30,3 +30,5 @@ o2 <- optimParallel(par = c(1, 1),
 
 o2
 
+
+
