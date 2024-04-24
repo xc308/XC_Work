@@ -339,8 +339,8 @@ clusterEvalQ(cl, {
 
 # Load the packages on each worker
 clusterEvalQ(cl, {
-  library(GPUmatrix)
   library(torch)
+  library(GPUmatrix)
   library(optimParallel)
 })
 
