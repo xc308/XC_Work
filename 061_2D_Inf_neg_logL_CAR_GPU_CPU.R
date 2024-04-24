@@ -327,7 +327,7 @@ lower_bound <- c(rep(NA, sum(is.na(all_pars_lst[[1]]))),  # A
 #=====================
 
 # Create a cluster
-cl <- makeCluster(5)  
+cl <- makeCluster(3)  
 
 # Set the created cluster as the default for parallel computation
 setDefaultCluster(cl = cl)  
@@ -348,7 +348,6 @@ clusterEvalQ(cl, {
 #---------
 # Tri-Wave 
 #---------
-
 
 optm_pars_CAR_2D_TW_GPU_CPU <- optimParallel(par = all_ini_Vals, # ini guess
                              fn = neg_logL_CAR_2D_GPU,
