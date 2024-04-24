@@ -36,13 +36,6 @@ system("nvidia-smi")
 
 
 
-#====================
-# multi-core settings
-#====================
-install.packages("optimParallel")
-library(optimParallel)
-
-
 
 #==============
 # Pre-settings
@@ -322,19 +315,10 @@ lower_bound <- c(rep(NA, sum(is.na(all_pars_lst[[1]]))),  # A
 
 
 #---------
-# Tri-Wave multi-core
+# Tri-Wave 
 #---------
-detectCores()
 
-
-
-cl <- makeCluster(detectCores())  # Create a cluster
-clusterExport(cl, c("p", "hierarchy_data_CAMS", "all_pars_lst_CAR_2D_CMS", 
-                    "DSP", "phi", "H_adj", "df_2D_TW_CAMS"))  # Export necessary variables to the workers
-setDefaultCluster(cl = cl)  # Set the created cluster as the default for parallel computation
-
-
-optm_pars_CAR_2D_TW_GPU_CPU <- optimParallel(par = all_ini_Vals, # ini guess
+optm_pars_CAR_2D_TW_GPU <- optim(par = all_ini_Vals, # ini guess
                              fn = neg_logL_CAR_2D_GPU,
                              p = p, data_str = hierarchy_data_CAMS, 
                              all_pars_lst = all_pars_lst_CAR_2D_CMS, 
@@ -350,14 +334,10 @@ optm_pars_CAR_2D_TW_GPU_CPU <- optimParallel(par = all_ini_Vals, # ini guess
                                             pgtol = 1e-4))
 
 
-stopCluster(cl)
-
-system("nvidia-smi")
-
-optm_pars_CAR_2D_TW_GPU_CPU
+optm_pars_CAR_2D_TW_GPU
 
 
-
+## timed out for 1 hr run. 
 
 
 
