@@ -36,10 +36,11 @@ system("nvidia-smi")
 
 
 
-#====================
-# multi-core settings
-#====================
-install.packages("optimParallel")
+#============================
+# multi-CPU core pre-settings
+#============================
+#install.packages("optimParallel")
+.libPaths("/bask/projects/v/vjgo8416-xchen")
 library(optimParallel)
 
 
@@ -322,9 +323,9 @@ lower_bound <- c(rep(NA, sum(is.na(all_pars_lst[[1]]))),  # A
 
 
 
-#=====================
-# multi-core settings
-#=====================
+#=============================
+# multi-core parallel settings
+#=============================
 
 # Create a cluster
 cl <- makeCluster(3)  
@@ -343,6 +344,12 @@ clusterEvalQ(cl, {
   library(GPUmatrix)
   library(optimParallel)
 })
+
+
+# export each variable name to each worker
+clusterExport(cl, c("neg_logL_CAR_2D_GPU", "all_ini_Vals", "p", 
+                    "hierarchy_data_CAMS", "all_pars_lst_CAR_2D_CMS", 
+                    "DSP", "phi", "H_adj", "df_2D_TW_CAMS", "lower_bound"))  
 
 
 #---------
@@ -365,7 +372,7 @@ optm_pars_CAR_2D_TW_GPU_CPU <- optimParallel(par = all_ini_Vals, # ini guess
                                             pgtol = 1e-4))
 
 
-setDefaultCluster(cl=NULL);stopCluster(cl)
+stopCluster(cl)
 
 system("nvidia-smi")
 
