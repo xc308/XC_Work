@@ -27,3 +27,11 @@
 - 057: Data processing, generate df_Res_log_16_sorted, sorted by Lon (asc), then by Lat (desc); 4 Lon strips <br><be>
 
 - 059: TST12 GPU version
+
+
+
+## Acknowledge
+
+Iain Steison recommended using optimParallel() for parallel L-BFGS-B optimization on the CPU. 
+David Llewellyn-Jones helped set up the HPC resource and answered lots of elementary questions regarding Baskerville HPC. 
+Ryan Chan reminded the XC that traditional R code will not automatically utilize GPU resources even when run on HPC. 
