@@ -346,9 +346,9 @@ clusterEvalQ(cl, {
 })
 
 
-# Define a function to pre-source functions on each worker
-pre_source_functions <- function() {
 
+# Source functions directly within clusterEvalQ()
+clusterEvalQ(cl, {
   source("Fn_para_mat_construct.R")
   source("Fn_I_sparse.R")
   source("Fn_chol_inv_gpu.R") # input a gpumatrix, return chol inv
@@ -364,16 +364,8 @@ pre_source_functions <- function() {
   source("Fn_forceSym_GPU.R") # forceSym on GPU
   
   source("Fn_TST12_SG_SGInv_CAR_2D_GPU.R")
-  
-}
+})
 
-# Export the pre_source_functions function to the cluster workers
-clusterExport(cl, "pre_source_functions")
-
-
-# Pre-source functions on each worker
-clusterEvalQ(cl, pre_source_functions())
- 
 
 # export each variable name to each worker
 clusterExport(cl, c("all_ini_Vals", "p", 
