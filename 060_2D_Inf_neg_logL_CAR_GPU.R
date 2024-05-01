@@ -146,7 +146,6 @@ neg_logL_CAR_2D_GPU <- function(theta, p, data_str, all_pars_lst,
   source("Fn_chol_inv_gpu.R") # input a gpumatrix, return chol inv
   
   
-  
   # connect each component of theta to all_pars_lst 
   # to incoporate each theta component into the neg log L function
   
