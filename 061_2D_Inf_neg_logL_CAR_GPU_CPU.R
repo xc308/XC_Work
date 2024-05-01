@@ -365,10 +365,13 @@ pre_source_functions <- function() {
   
 }
 
+# Export the pre_source_functions function to the cluster workers
+clusterExport(cl, "pre_source_functions")
+
 
 # Pre-source functions on each worker
 clusterEvalQ(cl, pre_source_functions())
-
+ 
 
 # export each variable name to each worker
 clusterExport(cl, c("all_ini_Vals", "p", 
