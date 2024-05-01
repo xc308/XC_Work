@@ -348,7 +348,7 @@ clusterEvalQ(cl, {
 
 # Define a function to pre-source functions on each worker
 pre_source_functions <- function() {
-  source("Fn_TST12_SG_SGInv_CAR_2D_GPU.R")
+
   source("Fn_para_mat_construct.R")
   source("Fn_I_sparse.R")
   source("Fn_chol_inv_gpu.R") # input a gpumatrix, return chol inv
@@ -362,6 +362,8 @@ pre_source_functions <- function() {
   source("Fn_Thres_tune_cov_GPU.R") # thresholding SIGMA_inv and return SIGMA and SIGMA_inv on GPU
   source("Fn_shft_dist_mat.R") # construct shifted distance matrix using shft displacement for b function
   source("Fn_forceSym_GPU.R") # forceSym on GPU
+  
+  source("Fn_TST12_SG_SGInv_CAR_2D_GPU.R")
   
 }
 
