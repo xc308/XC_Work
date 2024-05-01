@@ -54,7 +54,7 @@ library(optimParallel)
 #-----
 
 df_2D_TW_CAMS <- readRDS("df_2D_TW_CAMS.rds")
-
+#head(df_2D_TW_CAMS)
 
 #---------
 # data str
@@ -347,7 +347,7 @@ clusterEvalQ(cl, {
 
 
 # export each variable name to each worker
-clusterExport(cl, c("neg_logL_CAR_2D_GPU", "all_ini_Vals", "p", 
+clusterExport(cl, c("all_ini_Vals", "p", 
                     "hierarchy_data_CAMS", "all_pars_lst_CAR_2D_CMS", 
                     "DSP", "phi", "H_adj", "df_2D_TW_CAMS", "lower_bound"))  
 
