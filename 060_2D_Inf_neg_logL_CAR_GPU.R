@@ -138,7 +138,7 @@ phi <- trunc(phi * 100)/100 # [1] 0.12
 #==================
 
 
-neg_logL_CAR_2D_GPU <- function(theta, ..., p, data_str, all_pars_lst, 
+neg_logL_CAR_2D_GPU <- function(theta, p, data_str, all_pars_lst, 
                             dsp_lon_mat, dsp_lat_mat, b = "Tri-Wave", phi, H_adj, df){
   
   source("Fn_TST12_SG_SGInv_CAR_2D_GPU.R")
