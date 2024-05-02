@@ -345,9 +345,13 @@ clusterEvalQ(cl, {
   library(torch)
   library(GPUmatrix)
   library(optimParallel)
-  library(Matrix)
 })
 
+
+# Load the core R package (no need to specify the path)
+clusterEvalQ(cl, {
+  library(Matrix)
+})
 
 
 # Source functions here to the current env
