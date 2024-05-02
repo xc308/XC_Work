@@ -29,7 +29,7 @@ negll <- function(par, x){
 # evaluation 2p + 1 = 5
 # so want 5 tasks in parallel
 
-cl <- makeCluster(2)
+cl <- makeCluster(2, outfile = "Bask_Test6_oP.log")
 setDefaultCluster(cl = cl)
 
 o2 <- optimParallel(par = c(1, 1), 
