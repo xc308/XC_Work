@@ -9,8 +9,9 @@
 
 I_sparse <- function(size, value) {
   
-  require("Matrix")
+  #require("Matrix")
   sparseMatrix(i = 1:size, j = 1:size, x = value)
   
 }
+
 
