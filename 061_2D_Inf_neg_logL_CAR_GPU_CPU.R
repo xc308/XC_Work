@@ -58,7 +58,6 @@ df_2D_TW_CAMS <- readRDS("df_2D_TW_CAMS.rds")
 #head(df_2D_TW_CAMS)
 #str(df_2D_TW_CAMS)
 # data.frame':	200 obs. of  12 variables
-df_2D_TW_CAMS <- df_2D_TW_CAMS[1:100, ]
 
 
 #---------
