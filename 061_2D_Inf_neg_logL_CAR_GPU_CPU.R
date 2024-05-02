@@ -34,6 +34,7 @@ library(GPUmatrix)
 
 system("nvidia-smi")
 
+require(Matrix)
 
 
 #============================
