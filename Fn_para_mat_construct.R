@@ -129,7 +129,7 @@ All_paras_CAR_2D <- function(p, data){
   #Para_sig2_mat(p), Para_kappa_mat(p))
   
   All_pars_lst <- list(Para_A_mat(p, data), Para_Dlt_lon_mat(p, data), 
-                       Para_Dlt_lon_mat(p, data), Para_sig2_mat(p))
+                       Para_Dlt_lat_mat(p, data), Para_sig2_mat(p))
   
   names(All_pars_lst) <- c("A_mat", "dlt_lon_mat", "dlt_lat_mat", "sig2_mat")
   
