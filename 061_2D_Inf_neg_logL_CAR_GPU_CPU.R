@@ -56,6 +56,10 @@ library(optimParallel)
 
 df_2D_TW_CAMS <- readRDS("df_2D_TW_CAMS.rds")
 #head(df_2D_TW_CAMS)
+#str(df_2D_TW_CAMS)
+# data.frame':	200 obs. of  12 variables
+df_2D_TW_CAMS <- df_2D_TW_CAMS[1:100, ]
+
 
 #---------
 # data str
@@ -330,7 +334,7 @@ lower_bound <- c(rep(NA, sum(is.na(all_pars_lst[[1]]))),  # A
 #=============================
 
 # Create a cluster
-cl <- makeCluster(2)  
+cl <- makeCluster(3)  
 
 # Set the created cluster as the default for parallel computation
 setDefaultCluster(cl = cl)  
@@ -433,8 +437,6 @@ optm_pars_CAR_2D_TW_GPU_CPU <- optimParallel(par = all_ini_Vals, # ini guess
 
 
 stopCluster(cl)
-
-system("nvidia-smi")
 
 optm_pars_CAR_2D_TW_GPU_CPU
 
