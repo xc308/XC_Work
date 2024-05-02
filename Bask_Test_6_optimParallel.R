@@ -56,14 +56,34 @@ negll <- function(par, x){
 # evaluation 2p + 1 = 5
 # so want 5 tasks in parallel
 
-o2 <- optimParallel(par = c(1, 1), 
-                    fn = negll, 
-                    x = x, 
-                    method = "L-BFGS-B",
-                    lower = c(-Inf, 0.0001),
-                    control = list(trace = 0, 
-                                   maxit = 100,
-                                   pgtol = 1e-4))
+#o2 <- optimParallel(par = c(1, 1), 
+#                    fn = negll, 
+#                    x = x, 
+#                    method = "L-BFGS-B",
+#                    lower = c(-Inf, 0.0001),
+#                    control = list(trace = 0, 
+#                                   maxit = 100,
+#                                   pgtol = 1e-4))
+
+
+
+# Perform parallel optimization
+o2 <- tryCatch({
+  optimParallel(par = c(1, 1), 
+                fn = negll, 
+                x = x, 
+                method = "L-BFGS-B",
+                lower = c(-Inf, 0.0001),
+                control = list(trace = 0, 
+                               maxit = 100,
+                               pgtol = 1e-4))
+}, error = function(e) {
+  # Log any errors that occur during optimization
+  cat("Error during optimization:", e$message, "\n", file = "Bask_Test6_oP.log", append = TRUE)
+  NULL
+})
+
+
 
 stopCluster(cl)
 o2
