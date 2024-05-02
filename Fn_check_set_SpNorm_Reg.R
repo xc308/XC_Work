@@ -19,8 +19,8 @@
 
 check_set_SpNorm_Reg <- function(A_mat, reg_num) {
   
-  require(Matrix)
-  source("Fn_I_sparse.R")
+  #require(Matrix)
+  #source("Fn_I_sparse.R")
   # check each row of the matrix
   # if a row has all zero elements
   # set the last element of such a row 
