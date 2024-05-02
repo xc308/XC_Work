@@ -10,17 +10,35 @@
 
 
 #install.packages("optimParallel")
-.libPaths("/bask/projects/v/vjgo8416-xchen")
-library("optimParallel")
-
-source("Fn_I_sparse.R")
-I_sparse <- get("I_sparse")
+#.libPaths("/bask/projects/v/vjgo8416-xchen")
+#library("optimParallel")
 
 
 
 cl <- makeCluster(2, outfile = "Bask_Test6_oP.log")
 setDefaultCluster(cl = cl)
 
+# Specify the library path on each worker
+clusterEvalQ(cl, {
+  .libPaths("/bask/projects/v/vjgo8416-xchen")
+})
+
+# Load the packages on each worker
+clusterEvalQ(cl, {
+  #library(torch)
+  #library(GPUmatrix)
+  library(optimParallel)
+})
+
+
+# Load the core R package (no need to specify the path)
+clusterEvalQ(cl, {
+  library(Matrix)
+})
+
+
+source("Fn_I_sparse.R")
+I_sparse <- get("I_sparse")
 clusterExport(cl, "I_sparse")
 
 
