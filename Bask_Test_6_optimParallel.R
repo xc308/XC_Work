@@ -14,7 +14,6 @@
 #library("optimParallel")
 
 
-
 cl <- makeCluster(2, outfile = "Bask_Test6_oP.log")
 setDefaultCluster(cl = cl)
 
@@ -36,7 +35,7 @@ clusterEvalQ(cl, {
   library(Matrix)
 })
 
-
+library(Matrix)
 source("Fn_I_sparse.R")
 I_sparse <- get("I_sparse")
 clusterExport(cl, "I_sparse")
