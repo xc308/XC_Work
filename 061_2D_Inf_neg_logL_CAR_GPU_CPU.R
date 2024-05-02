@@ -344,6 +344,7 @@ clusterEvalQ(cl, {
   library(torch)
   library(GPUmatrix)
   library(optimParallel)
+  library(Matrix)
 })
 
 
