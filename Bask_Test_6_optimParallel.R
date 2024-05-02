@@ -88,5 +88,37 @@ o2 <- tryCatch({
 stopCluster(cl)
 o2
 
+# $par
+#[1] 5.099278 2.125822
+
+#$value
+#[1] 2173.097
+
+#$counts
+#function gradient 
+#16       16 
+
+#$convergence
+#[1] 0
+
+#$message
+#[1] "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL"
+
+##----------
+# conclusion
+##----------
+
+# when function contains other function, 
+# still can converge
+
+# although log file still catch the same error messages
+# starting worker pid=3226805 on localhost:11490 at 21:53:54.340
+#starting worker pid=3226804 on localhost:11490 at 21:53:54.340
+#Error in unserialize(node$con) : error reading from connection
+#Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+#Execution halted
+
+# but these logged error does NOT affect the optimization
+# and its convergence. 
 
 
