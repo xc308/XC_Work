@@ -17,7 +17,17 @@ source("Fn_I_sparse.R")
 I_sparse <- get("I_sparse")
 
 
+
+cl <- makeCluster(2, outfile = "Bask_Test6_oP.log")
+setDefaultCluster(cl = cl)
+
+clusterExport(cl, "I_sparse")
+
+
 x <- rnorm(n = 500, mean = 5, sd = 2)
+clusterExport(cl, "x")
+
+
 negll <- function(par, x){
   scale_2 <- I_sparse(size = 2, value = 1)
   -scale_2 * sum(dnorm(x = x, mean = par[1], sd = par[2], log = TRUE))
@@ -28,9 +38,6 @@ negll <- function(par, x){
 # 2 parameters, p = 2
 # evaluation 2p + 1 = 5
 # so want 5 tasks in parallel
-
-cl <- makeCluster(2, outfile = "Bask_Test6_oP.log")
-setDefaultCluster(cl = cl)
 
 o2 <- optimParallel(par = c(1, 1), 
                     fn = negll, 
