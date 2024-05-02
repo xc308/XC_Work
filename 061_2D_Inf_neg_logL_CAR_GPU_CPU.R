@@ -328,7 +328,7 @@ lower_bound <- c(rep(NA, sum(is.na(all_pars_lst[[1]]))),  # A
 #=============================
 
 # Create a cluster
-cl <- makeCluster(3)  
+cl <- makeCluster(2)  
 
 # Set the created cluster as the default for parallel computation
 setDefaultCluster(cl = cl)  
@@ -345,6 +345,11 @@ clusterEvalQ(cl, {
   library(optimParallel)
 })
 
+
+
+clusterEvalQ(cl, {
+  .libPaths("/bask/projects/v/vjgo8416-xchen/XC_Work")
+})
 
 
 # Source functions directly within clusterEvalQ()
