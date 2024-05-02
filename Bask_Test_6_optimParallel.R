@@ -10,8 +10,8 @@
 
 
 #install.packages("optimParallel")
-#.libPaths("/bask/projects/v/vjgo8416-xchen")
-#library("optimParallel")
+.libPaths("/bask/projects/v/vjgo8416-xchen")
+library("optimParallel")
 
 
 cl <- makeCluster(2, outfile = "Bask_Test6_oP.log")
