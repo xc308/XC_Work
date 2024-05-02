@@ -146,8 +146,9 @@ phi <- trunc(phi * 100)/100 # [1] 0.12
 #==================
 
 
-neg_logL_CAR_2D_GPU <- function(theta, ..., p, data_str, all_pars_lst, 
-                            dsp_lon_mat, dsp_lat_mat, b = "Tri-Wave", phi, H_adj, df){
+neg_logL_CAR_2D_GPU <- function(theta, p, data_str, all_pars_lst, 
+                            dsp_lon_mat, dsp_lat_mat, b = "Tri-Wave", 
+                            phi, H_adj, df){
   
   #source("Fn_TST12_SG_SGInv_CAR_2D_GPU.R")
   #source("Fn_I_sparse.R")
@@ -347,29 +348,56 @@ clusterEvalQ(cl, {
 
 
 
-clusterEvalQ(cl, {
-  .libPaths("/bask/projects/v/vjgo8416-xchen/XC_Work")
-})
+# Source functions here to the current env
+source("Fn_Check_par_node.R")
+source("Fn_I_sparse.R")
+source("Fn_chol_inv_gpu.R") # input a gpumatrix, return chol inv
+source("Fn_shft_dist_mat.R") # construct shifted distance matrix using shft displacement for b function
+source("Fn_Waves.R")
+source("Fn_Wendland_32.R") # R = 0.5
+source("Fn_check_set_SpNorm_Reg.R") # SpN + tune regularize number
+source("Fn_forceSym_GPU.R") # forceSym on GPU
+source("Fn_Tst_sym_pd_GPU.R") # GPU version
+source("Fn_Thres_tune_cov_GPU.R") # thresholding SIGMA_inv and return SIGMA and SIGMA_inv on GPU
+
+source("Fn_para_mat_construct.R")
+source("Fn_TST12_SG_SGInv_CAR_2D_GPU.R")
 
 
-# Source functions directly within clusterEvalQ()
-clusterEvalQ(cl, {
-  source("Fn_para_mat_construct.R")
-  source("Fn_I_sparse.R")
-  source("Fn_chol_inv_gpu.R") # input a gpumatrix, return chol inv
-  
-  source("Fn_Check_par_node.R")
-  source("Fn_Waves.R")
-  source("Fn_Wendland_32.R") # R = 0.5
-  source("Fn_Tst_sym_pd_GPU.R") # GPU version
-  source("Fn_check_set_SpNorm_Reg.R") # SpN + tune regularize number
-  source("Fn_I_sparse.R")
-  source("Fn_Thres_tune_cov_GPU.R") # thresholding SIGMA_inv and return SIGMA and SIGMA_inv on GPU
-  source("Fn_shft_dist_mat.R") # construct shifted distance matrix using shft displacement for b function
-  source("Fn_forceSym_GPU.R") # forceSym on GPU
-  
-  source("Fn_TST12_SG_SGInv_CAR_2D_GPU.R")
-})
+
+# Save each function as a variable in the current Env
+Check_par_node <- get("Check_par_node")
+I_sparse <- get("I_sparse")
+chol_inv_gpu <- get("chol_inv_gpu")
+Shft_dst_mat <- get("Shft_dst_mat")
+TriWave_2D <- get("TriWave_2D")
+WendLd32_2D <- get("WendLd32_2D")
+check_set_SpNorm_Reg <- get("check_set_SpNorm_Reg")
+forceSym_gpu <- get("forceSym_gpu")
+Tst_sym_pd_gpu <- get("Tst_sym_pd_gpu")
+spress_cov <- get("spress_cov")
+check_pd_gpu <- get("check_pd_gpu")
+Thres_tune_cov_gpu <- get("Thres_tune_cov_gpu")
+
+TST12_SG_SGInv_CAR_2D_GPU <- get("TST12_SG_SGInv_CAR_2D_GPU")
+
+Para_A_mat <- get("Para_A_mat")
+Para_Dlt_lon_mat <- get("Para_Dlt_lon_mat")
+Para_Dlt_lat_mat <- get("Para_Dlt_lat_mat")
+Para_sig2_mat <- get("Para_sig2_mat")
+All_paras_CAR_2D <- get("All_paras_CAR_2D")
+
+
+
+# Export the variables to the cluster workers
+clusterExport(cl, c("Check_par_node", "I_sparse", "chol_inv_gpu",
+                    "TriWave_2D", "WendLd32_2D", "Tst_sym_pd_gpu",
+                    "check_set_SpNorm_Reg", "spress_cov", "check_pd_gpu",
+                    "Thres_tune_cov_gpu", "Shft_dst_mat", "forceSym_gpu",
+                    "TST12_SG_SGInv_CAR_2D_GPU", "All_paras_CAR_2D", "Para_A_mat",
+                    "Para_Dlt_lon_mat", "Para_Dlt_lat_mat", "Para_sig2_mat"))
+
+
 
 
 # export each variable name to each worker
