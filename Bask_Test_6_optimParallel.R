@@ -13,21 +13,35 @@
 .libPaths("/bask/projects/v/vjgo8416-xchen")
 library("optimParallel")
 
+source("Fn_I_sparse.R")
+I_sparse <- get("I_sparse")
+
 
 x <- rnorm(n = 500, mean = 5, sd = 2)
-negll <- function(par, x) -sum(dnorm(x = x, mean = par[1], sd = par[2], log = TRUE))
+negll <- function(par, x){
+  scale_2 <- I_sparse(size = 2, value = 1)
+  -scale_2 * sum(dnorm(x = x, mean = par[1], sd = par[2], log = TRUE))
+} 
+
+
 
 # 2 parameters, p = 2
 # evaluation 2p + 1 = 5
 # so want 5 tasks in parallel
 
-cl <- makeCluster(5); setDefaultCluster(cl = cl)
+cl <- makeCluster(2)
+setDefaultCluster(cl = cl)
 
 o2 <- optimParallel(par = c(1, 1), 
                     fn = negll, 
                     x = x, 
-                    lower = c(-Inf, 0.0001))
+                    method = "L-BFGS-B",
+                    lower = c(-Inf, 0.0001),
+                    control = list(trace = 0, 
+                                   maxit = 100,
+                                   pgtol = 1e-4))
 
+stopCluster(cl)
 o2
 
 
