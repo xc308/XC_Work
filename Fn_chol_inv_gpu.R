@@ -13,7 +13,7 @@
 
 
 chol_inv_gpu <- function(A_gpu) {
-  require(GPUmatrix)
+  #require(GPUmatrix)
   
   I <- diag(1, nrow(A_gpu), nrow(A_gpu))
   A_gpu_inv <- chol_solve(t(chol(A_gpu)), I)
