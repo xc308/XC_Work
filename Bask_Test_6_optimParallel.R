@@ -46,7 +46,7 @@ clusterExport(cl, "x")
 
 
 negll <- function(par, x){
-  scale_2 <- I_sparse(size = 2, value = 1)
+  scale_2 <- as.numeric(I_sparse(size = 1, value = 2))
   -scale_2 * sum(dnorm(x = x, mean = par[1], sd = par[2], log = TRUE))
 } 
 
