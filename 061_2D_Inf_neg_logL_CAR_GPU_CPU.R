@@ -333,7 +333,7 @@ lower_bound <- c(rep(NA, sum(is.na(all_pars_lst[[1]]))),  # A
 #=============================
 
 # Create a cluster
-cl <- makeCluster(10)  
+cl <- makeCluster(8)  
 
 # Set the created cluster as the default for parallel computation
 setDefaultCluster(cl = cl)  
