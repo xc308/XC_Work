@@ -430,9 +430,8 @@ optm_pars_CAR_2D_TW_GPU_CPU <- optimParallel(par = all_ini_Vals, # ini guess
                              df = df_2D_TW_CAMS,
                              method = "L-BFGS-B",
                              lower = lower_bound,
-                             control = list(trace = 0, 
-                                            maxit = 100,
-                                            pgtol = 1e-4))
+                             control = list(maxit = 1,
+                                            factr=.01/.Machine$double.eps))
 
 
 stopCluster(cl)
