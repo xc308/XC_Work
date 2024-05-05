@@ -95,7 +95,7 @@ phi <- trunc(phi * 100)/100 # [1] 0.12
 #=========
 
 
-neg_logL_CAR_2D <- function(theta, ..., p, data_str, all_pars_lst, 
+neg_logL_CAR_2D <- function(theta, p, data_str, all_pars_lst, 
                             dsp_lon_mat, dsp_lat_mat, b, phi, H_adj, df){
   
   source("Fn_TST12_SG_SGInv_CAR_2D.R")
@@ -334,7 +334,7 @@ clusterExport(cl, c("all_ini_Vals", "p",
 #---------
 
 optm_pars_CAR_2D_TW_GPU_CPU <- optimParallel(par = all_ini_Vals, # ini guess
-                                             fn = neg_logL_CAR_2D_GPU,
+                                             fn = neg_logL_CAR_2D,
                                              p = p, data_str = hierarchy_data_CAMS, 
                                              all_pars_lst = all_pars_lst_CAR_2D_CMS, 
                                              dsp_lon_mat = DSP[, , 1], 
