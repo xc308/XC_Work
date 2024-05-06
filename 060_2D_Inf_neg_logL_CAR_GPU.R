@@ -10,6 +10,7 @@
   # GPUmatrix
   # df: 046d
 
+library(Matrix)
 
 #==============
 # GPU settings
