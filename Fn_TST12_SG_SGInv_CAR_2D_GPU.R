@@ -12,15 +12,15 @@ TST12_SG_SGInv_CAR_2D_GPU <- function(p, data, A_mat, dsp_lon_mat, dsp_lat_mat,
                                       phi, H_adj, sig2_mat,
                                       reg_ini = 1e-9, thres_ini = 1e-3) {
   
-  #source("Fn_Check_par_node.R")
-  #source("Fn_Waves.R")
-  #source("Fn_Wendland_32.R") # R = 0.5
-  #source("Fn_Tst_sym_pd_GPU.R") # GPU version
-  #source("Fn_check_set_SpNorm_Reg.R") # SpN + tune regularize number
-  #source("Fn_I_sparse.R")
-  #source("Fn_Thres_tune_cov_GPU.R") # thresholding SIGMA_inv and return SIGMA and SIGMA_inv on GPU
-  #source("Fn_shft_dist_mat.R") # construct shifted distance matrix using shft displacement for b function
-  #source("Fn_forceSym_GPU.R") # forceSym on GPU
+  source("Fn_Check_par_node.R")
+  source("Fn_Waves.R")
+  source("Fn_Wendland_32.R") # R = 0.5
+  source("Fn_Tst_sym_pd_GPU.R") # GPU version
+  source("Fn_check_set_SpNorm_Reg.R") # SpN + tune regularize number
+  source("Fn_I_sparse.R")
+  source("Fn_Thres_tune_cov_GPU.R") # thresholding SIGMA_inv and return SIGMA and SIGMA_inv on GPU
+  source("Fn_shft_dist_mat.R") # construct shifted distance matrix using shft displacement for b function
+  source("Fn_forceSym_GPU.R") # forceSym on GPU
   
   # phi: controls the propostion of conditional spatial dependence 
   # sig2_mat: diag matrix containing sigma2 in CAR
