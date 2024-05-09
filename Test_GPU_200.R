@@ -30,7 +30,6 @@ library(GPUmatrix)
 
 system("nvidia-smi")
 
-as.gpu.matrix(tau2_mat, device = "cuda")
 
 A <- matrix(rnorm(200*5), 1000, 1000)
 A_gpu <- as.gpu.matrix(A, device = "cuda")
