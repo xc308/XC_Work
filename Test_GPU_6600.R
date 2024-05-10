@@ -37,13 +37,75 @@ C_gpu <- as.gpu.matrix(C, device = "cuda")
 D <- matrix(rnorm(6600*5), 33000, 33000)
 D_gpu <- as.gpu.matrix(D, device = "cuda")
 
-
 CD <- C_gpu %*% D_gpu
 
 
 
+A <- matrix(rnorm(6600*5), 33000, 33000)
+A_gpu <- as.gpu.matrix(C, device = "cuda")
+B <- matrix(rnorm(6600*5), 33000, 33000)
+B_gpu <- as.gpu.matrix(D, device = "cuda")
+
+AB <- A_gpu %*% B_gpu
 
 
+C <- matrix(rnorm(6600*5), 33000, 33000)
+C_gpu <- as.gpu.matrix(C, device = "cuda")
+D <- matrix(rnorm(6600*5), 33000, 33000)
+D_gpu <- as.gpu.matrix(D, device = "cuda")
+
+CD <- C_gpu %*% D_gpu
 
 
+A <- matrix(rnorm(6600*5), 33000, 33000)
+A_gpu <- as.gpu.matrix(C, device = "cuda")
+B <- matrix(rnorm(6600*5), 33000, 33000)
+B_gpu <- as.gpu.matrix(D, device = "cuda")
+
+AB <- A_gpu %*% B_gpu
+
+
+C <- matrix(rnorm(6600*5), 33000, 33000)
+C_gpu <- as.gpu.matrix(C, device = "cuda")
+D <- matrix(rnorm(6600*5), 33000, 33000)
+D_gpu <- as.gpu.matrix(D, device = "cuda")
+
+CD <- C_gpu %*% D_gpu
+
+
+A_gpu <- as.gpu.matrix(C, device = "cuda")
+B <- matrix(rnorm(6600*5), 33000, 33000)
+B_gpu <- as.gpu.matrix(D, device = "cuda")
+
+AB <- A_gpu %*% B_gpu
+
+
+C <- matrix(rnorm(6600*5), 33000, 33000)
+C_gpu <- as.gpu.matrix(C, device = "cuda")
+D <- matrix(rnorm(6600*5), 33000, 33000)
+D_gpu <- as.gpu.matrix(D, device = "cuda")
+
+CD <- C_gpu %*% D_gpu
+
+
+A_gpu <- as.gpu.matrix(C, device = "cuda")
+B <- matrix(rnorm(6600*5), 33000, 33000)
+B_gpu <- as.gpu.matrix(D, device = "cuda")
+
+AB <- A_gpu %*% B_gpu
+
+
+C <- matrix(rnorm(6600*5), 33000, 33000)
+C_gpu <- as.gpu.matrix(C, device = "cuda")
+D <- matrix(rnorm(6600*5), 33000, 33000)
+D_gpu <- as.gpu.matrix(D, device = "cuda")
+
+CD <- C_gpu %*% D_gpu
+
+
+A_gpu <- as.gpu.matrix(C, device = "cuda")
+B <- matrix(rnorm(6600*5), 33000, 33000)
+B_gpu <- as.gpu.matrix(D, device = "cuda")
+
+AB <- A_gpu %*% B_gpu
 
