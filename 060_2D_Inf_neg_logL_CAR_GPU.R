@@ -339,7 +339,14 @@ optm_pars_CAR_2D_TW_GPU
 
 saveRDS(optm_pars_CAR_2D_TW_GPU, file = "Try_optm_pars_CAR_2D_TW_GPU.rds")
 
-## timed out for 1 hr run. 
+## maxit = 1; run time 00:20:47 
 
+Try_optm_GPU <- readRDS("Try_optm_pars_CAR_2D_TW_GPU.rds") # from scp
+Try_optm_GPU$message
+# [1] "NEW_X"
+Try_optm_GPU$par
+
+Try_optm_GPU$convergence
+# [1] 1
 
 
