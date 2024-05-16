@@ -88,6 +88,8 @@ ds <- 0.1
 s <- seq(-10 + ds/2, 10 - ds/2, by = ds)
 crds <- cbind(s, s)
 
+head(crds)
+tail(crds)
 # nrow(crds) [1] 200
 
 
@@ -335,6 +337,7 @@ optm_pars_CAR_2D_TW_GPU <- optim(par = all_ini_Vals, # ini guess
 
 optm_pars_CAR_2D_TW_GPU
 
+saveRDS(optm_pars_CAR_2D_TW_GPU, file = "Try_optm_pars_CAR_2D_TW_GPU.rds")
 
 ## timed out for 1 hr run. 
 
