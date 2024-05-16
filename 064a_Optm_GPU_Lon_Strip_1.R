@@ -11,7 +11,7 @@
   # code: 060_2D_Inf_neg_logL_CAR_GPU
 
 Sys.getenv("OPENBLAS_NUM_THREADS")
-Sys.setenv(OPENBLAS_NUM_THREADS = "1")
+Sys.setenv(OPENBLAS_NUM_THREADS = "0")
 
 library(Matrix)
 
