@@ -11,6 +11,8 @@
   # code: 060_2D_Inf_neg_logL_CAR_GPU
 
 
+Sys.setenv(OPENBLAS_NUM_THREADS = "126")
+
 library(Matrix)
 
 #==============
