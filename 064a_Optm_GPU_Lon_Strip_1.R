@@ -10,7 +10,7 @@
   # data set: 063, df_Lon_Strip_1_Sort; df_Lon_Strip_2_Sort; df_Lon_Strip_31_Sort
   # code: 060_2D_Inf_neg_logL_CAR_GPU
 
-
+Sys.getenv("OPENBLAS_NUM_THREADS")
 Sys.setenv(OPENBLAS_NUM_THREADS = "1")
 
 library(Matrix)
