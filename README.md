@@ -30,7 +30,7 @@
 
 
 
-## Acknowledge
+## Acknowledgements
 
 - Iain Steison recommended using optimParallel() for parallel L-BFGS-B optimization on the CPU. 
 - David Llewellyn-Jones helped set up the HPC resource and answered lots of elementary questions regarding Baskerville HPC. 
