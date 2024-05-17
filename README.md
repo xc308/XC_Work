@@ -21,12 +21,23 @@
 - 049: neg_logL function of non-crs-MRF, TST9d
 - 049b: optimization using 049, Tri-Wave, Wendland <br><br>
 
-- 055: 2D inference (neg_logL_2D, optim) for 6 fields in Fig12, Tri-Wave (converged), Wendland (converged)
+- 055: 2D inference (neg_logL_2D, optim) for 6 fields in Fig12, Tri-Wave (converged), Wendland (converged) <br><br>
+
 - 056: 2D cokrig (pure denoising) <br><br>
 
-- 057: Data processing, generate df_Res_log_16_sorted, sorted by Lon (asc), then by Lat (desc); 4 Lon strips <br><be>
+- 057: Data processing, generate df_Res_log_16_sorted, sorted by Lon (asc), then by Lat (desc); 4 Lon strips <br><br>
 
-- 059: TST12 GPU version
+- 059: TST12 GPU version <br><br>
+
+- 060: GPU parallel + optim on 1 CPU <br><br>
+
+- 061: GPU parallel + optim on 4 CPUs <br><br>
+
+- 062: pure optim parallel on 51 CPUs, no GPU parallelisation <br><br>
+
+- 063: CAMS data processing <br><br>
+
+- 064a: CAMS data with 060, GPU parallel + optim on 1 CPU <br><br>
 
 
 
