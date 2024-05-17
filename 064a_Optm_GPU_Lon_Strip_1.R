@@ -10,8 +10,8 @@
   # data set: 063, df_Lon_Strip_1_Sort; df_Lon_Strip_2_Sort; df_Lon_Strip_31_Sort
   # code: 060_2D_Inf_neg_logL_CAR_GPU
 
-Sys.getenv("OPENBLAS_NUM_THREADS")
-Sys.setenv(OPENBLAS_NUM_THREADS = "0")
+#Sys.getenv("OPENBLAS_NUM_THREADS")
+#Sys.setenv(OPENBLAS_NUM_THREADS = "0")
 
 library(Matrix)
 
@@ -113,12 +113,12 @@ diag(H_adj) <- 0
 #dim(H_adj) # 3793 3793
 #length(which(H_adj != 0)) # 27772
 
-spec <- eigen(H_adj, symmetric = T, only.values = T)$val
+#spec <- eigen(H_adj, symmetric = T, only.values = T)$val
 #max(abs(spec)) # [1] 7.976106
 
-phi <- 1/max(abs(spec)) # [1] 0.1253745
-phi <- trunc(phi * 100)/100 # [1] 0.12
-
+#phi <- 1/max(abs(spec)) # [1] 0.1253745
+#phi <- trunc(phi * 100)/100 # [1] 0.12
+phi <- 0.12
 
 #==================
 # neg_logL function
