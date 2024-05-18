@@ -33,8 +33,7 @@ cat("inter threads:", "\n")
 torch_get_num_interop_threads()
 
 cat("intra threads:", "\n")
-torch_get_num_interop_threads()
-
+torch_get_num_threads()
 
 
 #-----------
