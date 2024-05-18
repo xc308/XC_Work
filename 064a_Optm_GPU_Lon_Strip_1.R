@@ -31,7 +31,7 @@ library(torch)
 
 
 torch_set_num_interop_threads(2)
-torch_set_num_threads(18)
+torch_set_num_threads(2)
 
 cat("inter threads:", "\n")
 torch_get_num_interop_threads()
