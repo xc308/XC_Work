@@ -29,6 +29,13 @@ library(Matrix)
 # Load the torch library
 library(torch)
 
+inter_threads <- torch_get_num_interop_threads()
+
+intra_threads <- torch_get_num_interop_threads()
+
+print("inter_threads", inter_threads, "\n")
+print("intra_threads", intra_threads, "\n")
+
 
 #-----------
 # GPUmatrix
