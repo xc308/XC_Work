@@ -10,6 +10,28 @@
   # when the matrices size
   # grows from 3793 by 3793 to 6855 by 6855
 
+#==============
+# GPU settings
+#==============
+#------
+# torch
+#------
+# Set the library path to the desired directory
+.libPaths("/bask/projects/v/vjgo8416-xchen")
+
+# Load the torch library
+library(torch)
+
+
+#torch_set_num_interop_threads(2)
+#torch_set_num_threads(2)
+
+cat("inter threads:", "\n")
+torch_get_num_interop_threads()
+
+cat("intra threads:", "\n")
+torch_get_num_threads()
+
 
 #-------------------------------
 # check BLAS and OPENBLAS info: only 36 works
@@ -29,6 +51,20 @@ blas_get_num_procs()
 
 #cat("Updated BLAS threads:", "\n")
 #blas_get_num_procs()
+
+
+#-----------
+# GPUmatrix
+#------------
+
+#install.packages("GPUmatrix", lib="/bask/projects/v/vjgo8416-xchen")
+.libPaths("/bask/projects/v/vjgo8416-xchen")
+library(GPUmatrix)
+
+system("nvidia-smi")
+
+
+
 
 
 A <- matrix(rnorm(3793*3793), 3793, 3793)
