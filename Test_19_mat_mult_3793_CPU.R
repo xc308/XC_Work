@@ -69,116 +69,116 @@ system("nvidia-smi")
 
 A <- matrix(rnorm(3793*3793), 3793, 3793)
 # dim(A)
-A <- matrix(rnorm(3793*3793), 3793, 3793)
+B <- matrix(rnorm(3793*3793), 3793, 3793)
 AB <- A %*% B
 
 
 
 A <- matrix(rnorm(3793*3793), 3793, 3793)
 # dim(A)
-A <- matrix(rnorm(3793*3793), 3793, 3793)
+B <- matrix(rnorm(3793*3793), 3793, 3793)
 AB <- A %*% B
 
 
 A <- matrix(rnorm(3793*3793), 3793, 3793)
 # dim(A)
-A <- matrix(rnorm(3793*3793), 3793, 3793)
+B <- matrix(rnorm(3793*3793), 3793, 3793)
 AB <- A %*% B
 
 
 A <- matrix(rnorm(3793*3793), 3793, 3793)
 # dim(A)
-A <- matrix(rnorm(3793*3793), 3793, 3793)
+B <- matrix(rnorm(3793*3793), 3793, 3793)
 AB <- A %*% B
 
 
 
 A <- matrix(rnorm(3793*3793), 3793, 3793)
 # dim(A)
-A <- matrix(rnorm(3793*3793), 3793, 3793)
+B <- matrix(rnorm(3793*3793), 3793, 3793)
 AB <- A %*% B
 
 
 A <- matrix(rnorm(3793*3793), 3793, 3793)
 # dim(A)
-A <- matrix(rnorm(3793*3793), 3793, 3793)
+B <- matrix(rnorm(3793*3793), 3793, 3793)
 AB <- A %*% B
 
 
 A <- matrix(rnorm(3793*3793), 3793, 3793)
 # dim(A)
-A <- matrix(rnorm(3793*3793), 3793, 3793)
+B <- matrix(rnorm(3793*3793), 3793, 3793)
 AB <- A %*% B
 
 
 A <- matrix(rnorm(3793*3793), 3793, 3793)
 # dim(A)
-A <- matrix(rnorm(3793*3793), 3793, 3793)
+B <- matrix(rnorm(3793*3793), 3793, 3793)
 AB <- A %*% B
 
 
 A <- matrix(rnorm(3793*3793), 3793, 3793)
 # dim(A)
-A <- matrix(rnorm(3793*3793), 3793, 3793)
+B <- matrix(rnorm(3793*3793), 3793, 3793)
 AB <- A %*% B
 
 
 A <- matrix(rnorm(3793*3793), 3793, 3793)
 # dim(A)
-A <- matrix(rnorm(3793*3793), 3793, 3793)
+B <- matrix(rnorm(3793*3793), 3793, 3793)
 AB <- A %*% B
 
 
 A <- matrix(rnorm(3793*3793), 3793, 3793)
 # dim(A)
-A <- matrix(rnorm(3793*3793), 3793, 3793)
+B <- matrix(rnorm(3793*3793), 3793, 3793)
 AB <- A %*% B
 
 
 A <- matrix(rnorm(3793*3793), 3793, 3793)
 # dim(A)
-A <- matrix(rnorm(3793*3793), 3793, 3793)
+B <- matrix(rnorm(3793*3793), 3793, 3793)
 AB <- A %*% B
 
 
 A <- matrix(rnorm(3793*3793), 3793, 3793)
 # dim(A)
-A <- matrix(rnorm(3793*3793), 3793, 3793)
+B <- matrix(rnorm(3793*3793), 3793, 3793)
 AB <- A %*% B
 
 
 A <- matrix(rnorm(3793*3793), 3793, 3793)
 # dim(A)
-A <- matrix(rnorm(3793*3793), 3793, 3793)
+B <- matrix(rnorm(3793*3793), 3793, 3793)
 AB <- A %*% B
 
 
 A <- matrix(rnorm(3793*3793), 3793, 3793)
 # dim(A)
-A <- matrix(rnorm(3793*3793), 3793, 3793)
+B <- matrix(rnorm(3793*3793), 3793, 3793)
 AB <- A %*% B
 
 
 A <- matrix(rnorm(3793*3793), 3793, 3793)
 # dim(A)
-A <- matrix(rnorm(3793*3793), 3793, 3793)
+B <- matrix(rnorm(3793*3793), 3793, 3793)
 AB <- A %*% B
 
 
 A <- matrix(rnorm(3793*3793), 3793, 3793)
 # dim(A)
-A <- matrix(rnorm(3793*3793), 3793, 3793)
+B <- matrix(rnorm(3793*3793), 3793, 3793)
 AB <- A %*% B
 
 
 A <- matrix(rnorm(3793*3793), 3793, 3793)
 # dim(A)
-A <- matrix(rnorm(3793*3793), 3793, 3793)
+B <- matrix(rnorm(3793*3793), 3793, 3793)
 AB <- A %*% B
 
 
 A <- matrix(rnorm(3793*3793), 3793, 3793)
 # dim(A)
-A <- matrix(rnorm(3793*3793), 3793, 3793)
+B <- matrix(rnorm(3793*3793), 3793, 3793)
 AB <- A %*% B
 
