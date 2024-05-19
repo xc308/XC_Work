@@ -10,6 +10,39 @@
   # when the matrices size
   # grows from 3793 by 3793 to 6855 by 6855
 
+
+
+# Slurm JD:
+    #SBATCH --nodes=1
+    #SBATCH --ntasks-per-node=1
+    #SBATCH --gpus-per-task=1
+    #SBATCH --cpus-per-gpu=36
+
+# When apptainer exec --nv --env OPENBLAS_NUM_THREADS=1 ../cuda_4.3.3.sif Rscript
+  # inter threads: 
+  #[1] 72
+  # intra threads: 
+  #[1] 36
+  # Check the current number of BLAS threads 
+  #[1] 1
+
+
+# When apptainer exec --nv ../cuda_4.3.3.sif Rscript
+  #Check the current number of BLAS threads 
+  #[1] 36
+
+# Means:
+  # the BLAS will automatically parallelize over 36 threads
+
+  # but when the code contain GPU matrix
+  # the torch code has already parallelize over intra threads 36
+  # so does not need BLAS to be parallelize over 36 again,
+  # so set the env variable OPENBLAS threads = 1. 
+
+
+
+
+
 #==============
 # GPU settings
 #==============
