@@ -43,7 +43,8 @@ torch_get_num_threads()
 #-------------------------------
 # check BLAS and OPENBLAS info
 #-------------------------------
-install.packages("RhpcBLASctl")
+#install.packages("RhpcBLASctl")
+.libPaths("/bask/projects/v/vjgo8416-xchen")
 library(RhpcBLASctl)
 
 
@@ -51,6 +52,11 @@ cat("Check Current BLAS Library", "\n")
 sessionInfo()
 
 cat("Check the current number of BLAS threads", "\n")
+blas_get_num_procs()
+
+blas_set_num_threads(48)
+
+cat("Updated BLAS threads:", "\n")
 blas_get_num_procs()
 
 
