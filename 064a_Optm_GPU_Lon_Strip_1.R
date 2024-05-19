@@ -30,14 +30,29 @@ library(Matrix)
 library(torch)
 
 
-torch_set_num_interop_threads(2)
-torch_set_num_threads(2)
+#torch_set_num_interop_threads(2)
+#torch_set_num_threads(2)
 
 cat("inter threads:", "\n")
 torch_get_num_interop_threads()
 
 cat("intra threads:", "\n")
 torch_get_num_threads()
+
+
+#-------------------------------
+# check BLAS and OPENBLAS info
+#-------------------------------
+install.packages("RhpcBLASctl")
+library(RhpcBLASctl)
+
+
+cat("Check Current BLAS Library", "\n")
+sessionInfo()
+
+cat("Check the current number of BLAS threads", "\n")
+blas_get_num_procs()
+
 
 
 #-----------
