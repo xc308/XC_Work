@@ -342,6 +342,7 @@ optm_Lon_Strip_1_GPU <- optim(par = all_ini_Vals, # ini guess
                                  method = "L-BFGS-B",
                                  lower = lower_bound,
                                  control = list(maxit = 1,
+                                                ndeps = 1e-3,
                                                 factr=.01/.Machine$double.eps))
 
 
