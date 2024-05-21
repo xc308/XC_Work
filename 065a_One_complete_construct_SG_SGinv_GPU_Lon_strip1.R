@@ -48,6 +48,12 @@ library(RhpcBLASctl)
 cat("Check the current number of BLAS threads", "\n")
 blas_get_num_procs()
 
+blas_set_num_threads(36)
+
+cat("Updated BLAS threads:", "\n")
+blas_get_num_procs()
+
+
 
 #-----------
 # GPUmatrix
