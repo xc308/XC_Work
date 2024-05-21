@@ -37,7 +37,8 @@
 
 - 063: CAMS data processing <br><br>
 
-- 064a: CAMS data with 060, GPU parallel + optim on 1 CPU <br><br>
+- 064a: CAMS data with 060, GPU parallel + optim on 1 CPU, Lon_Strip_1 <br><br>
+- 064b: CAMS data with 060, GPU parallel + optim on 1 CPU, Lon_Strip_4 <br><br>
 
 
 
