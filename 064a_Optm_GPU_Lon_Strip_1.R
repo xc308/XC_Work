@@ -41,23 +41,23 @@ torch_get_num_threads()
 
 
 #-------------------------------
-# check BLAS and OPENBLAS info
+# check BLAS and OPENBLAS info: only 36 works
 #-------------------------------
 #install.packages("RhpcBLASctl")
 .libPaths("/bask/projects/v/vjgo8416-xchen")
 library(RhpcBLASctl)
 
 
-cat("Check Current BLAS Library", "\n")
-sessionInfo()
+#cat("Check Current BLAS Library", "\n")
+#sessionInfo()
 
 cat("Check the current number of BLAS threads", "\n")
 blas_get_num_procs()
 
-blas_set_num_threads(48)
+#blas_set_num_threads(48)
 
-cat("Updated BLAS threads:", "\n")
-blas_get_num_procs()
+#cat("Updated BLAS threads:", "\n")
+#blas_get_num_procs()
 
 
 
@@ -79,7 +79,7 @@ system("nvidia-smi")
 #-----
 # df
 #-----
-df_Lon_Strp_1_Srt <- readRDS("df_Lon_Strip_1_Sort.rds")
+df_Lon_Strp_1_Srt <- readRDS("df_Lon_Strip_1_Sort_new.rds")
 
 
 #---------
@@ -120,11 +120,18 @@ DSP <- make_DSP_mat(crds = crds)
 #str(DSP[, , 1]) # num [1:3793, 1:3793]
 #str(DSP[, , 2]) # num [1:3793, 1:3793]
 
-#DSP[, , 1][1, 1:20]  for dlt_lon, dlt_lat ini
+#DSP[, , 1][1, 1:20]  #for dlt_lon ini
 # [1] 0.00 0.00 0.00 0.00 0.75
 #[6] 0.75 0.75 0.75 0.75 1.50
 #[11] 1.50 1.50 1.50 2.25 2.25
 #[16] 2.25 3.00 3.00 3.00 3.75
+
+#DSP[, , 2][1, 1:20] #for dlt_lat ini
+# [1]  0.00  0.75  1.50  4.50
+#[5] -0.75  0.00  0.75  1.50
+#[9]  4.50 -0.75  0.00  0.75
+#[13]  4.50 -0.75  0.00  0.75
+#[17] -0.75  0.00  0.75 -1.50
 
 
 
@@ -298,14 +305,14 @@ all_pars_lst <- all_pars_lst_CAR_2D_CMS
 #-----------
 # dlt_lon, dlt_lat: 0.1 is decided by scale of DSP
 
-ini <- c(0.2, 0.1, 0.1, 0.5) # A, dlt_lon, dlt_lat, sig2
+ini <- c(0.5, 0.2, 0.3, 0.6) # A, dlt_lon, dlt_lat, sig2
 Vals <- c()
 for (i in 1:length(all_pars_lst)){
   value <- rep(ini[i], sum(is.na(all_pars_lst[[i]])))
   Vals <- c(Vals, value)
 }
 
-all_ini_Vals <- c(Vals, rep(0.1, p)) # with tau2s
+all_ini_Vals <- c(Vals, rep(0.2, p)) # with tau2s
 
 
 #---------------------------------
@@ -334,7 +341,7 @@ optm_Lon_Strip_1_GPU <- optim(par = all_ini_Vals, # ini guess
                                  df = df_Lon_Strp_1_Srt,
                                  method = "L-BFGS-B",
                                  lower = lower_bound,
-                                 control = list(maxit = 200,
+                                 control = list(maxit = 1,
                                                 factr=.01/.Machine$double.eps))
 
 
