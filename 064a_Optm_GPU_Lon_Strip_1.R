@@ -10,7 +10,7 @@
   # data set: 063, df_Lon_Strip_1_Sort; df_Lon_Strip_2_Sort; df_Lon_Strip_31_Sort
   # code: 060_2D_Inf_neg_logL_CAR_GPU
 
-Sys.getenv("OPENBLAS_NUM_THREADS")
+
 #Sys.setenv(OPENBLAS_NUM_THREADS = "1")
 
 
@@ -342,7 +342,7 @@ optm_Lon_Strip_1_GPU <- optim(par = all_ini_Vals, # ini guess
                                  method = "L-BFGS-B",
                                  lower = lower_bound,
                                  control = list(maxit = 1,
-                                                ndeps = 1e-3,
+                                                ndeps = rep(1e-3, length(all_ini_Vals)),
                                                 factr=.01/.Machine$double.eps))
 
 
