@@ -13,6 +13,8 @@
   # CAMS Lon_strip_1_new.rds
 
 
+library(Matrix)
+
 #==============
 # GPU settings
 #==============
