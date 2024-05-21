@@ -181,7 +181,6 @@ head(df_Lon_strip_1_sort, 30)
 
 
 
-
 df_Lon_strip_2_sort <- arrange(df_Lon_strip_2, Lon, desc(Lat))
 str(df_Lon_strip_2_sort)
 # 'data.frame':	6581 obs. of  10 variables:
@@ -202,11 +201,11 @@ str(df_Lon_strip_32_sort)
 #$ Lon               : num  45.8 45.8 45.8 45.8 45.8 ...
 #$ Lat               : num  68.2 66.8 66 65.2 64.5 ...
 
-df_Lon_strip_4_sort <- arrange(df_Lon_strip_4, Lon, desc(Lat))
+df_Lon_strip_4_sort <- arrange(df_Lon_strip_4, Lon, Lat)
 str(df_Lon_strip_4_sort)
 # 'data.frame':	6855 obs. of  10 variables:
 #$ Lon               : num  90.8 90.8 90.8 90.8 90.8 ...
-#$ Lat               : num  75 74.2 73.5 72.8 72 ...
+#$ Lat               : num  22.5 23.2 24 24.8 25.5 ...
 
 
 #=======================================================
@@ -300,10 +299,12 @@ df_Lon_Strip_4_Sort <- data.frame(Lon = df_Lon_strip_4_sort$Lon,
                                    Lon_div_indx = df_Lon_strip_4_sort$Lon_div_indx)
 
 
+df_Lon_Strip_4_Sort_new <- df_Lon_Strip_4_Sort
 
-str(df_Lon_Strip_4_Sort)
+
+str(df_Lon_Strip_4_Sort_new)
 # 'data.frame':	6855 obs. of  10 variables:
-saveRDS(df_Lon_Strip_4_Sort, file = "df_Lon_Strip_4_Sort.rds")
+saveRDS(df_Lon_Strip_4_Sort_new, file = "df_Lon_Strip_4_Sort_new.rds")
 
 
 
