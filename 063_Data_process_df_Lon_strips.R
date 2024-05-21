@@ -167,13 +167,19 @@ unique(df_Lon_strip_4$Lon_div_indx)
 #---------------------------
 
 # Lon: ascending (small-large)
-# Lat: descending (large-smal)
-df_Lon_strip_1_sort <- arrange(df_Lon_strip_1, Lon, desc(Lat))
+# if Lat: descending (large-smal) not good for DSP, lat will have all neg values, not good for further B calculation
+# Lat: ascending (small-large)
+df_Lon_strip_1_sort <- arrange(df_Lon_strip_1, Lon, Lat)
 str(df_Lon_strip_1_sort)
 
 # 'data.frame':	3793 obs. of  10 variables:
 #$ Lon               : num  -179 -179 -179 -179 -178 ...
-#$ Lat               : num  71.2 68.2 67.5 66.8 71.2 ...
+#$ Lat               : num  66.8 67.5 68.2 71.2 66 ...
+
+head(df_Lon_strip_1_sort, 30)
+
+
+
 
 
 df_Lon_strip_2_sort <- arrange(df_Lon_strip_2, Lon, desc(Lat))
@@ -224,8 +230,9 @@ df_Lon_Strip_1_Sort <- data.frame(Lon = df_Lon_strip_1_sort$Lon,
 str(df_Lon_Strip_1_Sort)
 # 'data.frame':	3793 obs. of  10 variables:
 
+df_Lon_Strip_1_Sort_new <- df_Lon_Strip_1_Sort
 
-saveRDS(df_Lon_Strip_1_Sort, file = "df_Lon_Strip_1_Sort.rds")
+saveRDS(df_Lon_Strip_1_Sort_new, file = "df_Lon_Strip_1_Sort_new.rds")
 
 
 
