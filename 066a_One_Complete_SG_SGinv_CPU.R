@@ -128,7 +128,6 @@ sig2_mat_1 <- Fn_set_ini_vals(pars_mat = all_pars_lst_CAR_2D_CMS[[4]], ini_vals 
 
 source("Fn_TST12_SG_SGInv_CAR_2D.R")
 
-
 system.time(
 SG_SGinv_CAR_Lon_Strip_1_CPU <- TST12_SG_SGInv_CAR_2D(p = 5, data = hierarchy_data_CAMS, 
                                              A_mat = A_1, 
