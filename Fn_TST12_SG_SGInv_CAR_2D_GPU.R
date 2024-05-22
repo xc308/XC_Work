@@ -146,10 +146,10 @@ TST12_SG_SGInv_CAR_2D_GPU <- function(p, data, A_mat, dsp_lon_mat, dsp_lat_mat,
       #cat("BK4", "\n")
       #Tst_sym_pd(BK4)
       
-      
       SIGMA_inv_gpu <- rbind(cbind(BK1, BK2), cbind(BK3, BK4))
       #SG_inv <- SIGMA_inv
       SG_inv_gpu <- forceSym_gpu(SIGMA_inv_gpu)
+      
       
       # condition to break the for loop and start all over again
       if (!check_pd_gpu(SG_inv_gpu)) {
@@ -172,6 +172,14 @@ TST12_SG_SGInv_CAR_2D_GPU <- function(p, data, A_mat, dsp_lon_mat, dsp_lat_mat,
       cat("r", r, "\n")
       cat("SG_inv_gpu", "\n")
       Tst_sym_pd_gpu(SG_inv_gpu)
+      
+      
+      ## Remove gpu cache to release CUDA memory
+      rm(SG_gpu)
+      rm(C_gpu)
+      rm(Drr_inv_gpu)
+      rm(R_gpu)
+  
     }
     
     cat("Final reg_num:", reg_num, "\n")
