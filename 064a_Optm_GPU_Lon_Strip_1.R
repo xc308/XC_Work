@@ -305,14 +305,14 @@ all_pars_lst <- all_pars_lst_CAR_2D_CMS
 #-----------
 # dlt_lon, dlt_lat: 0.1 is decided by scale of DSP
 
-ini <- c(0.2, 0.1, 0.1, 0.5) # A, dlt_lon, dlt_lat, sig2
+ini <- c(1, 1, 1, 1) # A, dlt_lon, dlt_lat, sig2
 Vals <- c()
 for (i in 1:length(all_pars_lst)){
   value <- rep(ini[i], sum(is.na(all_pars_lst[[i]])))
   Vals <- c(Vals, value)
 }
 
-all_ini_Vals <- c(Vals, rep(0.1, p)) # with tau2s
+all_ini_Vals <- c(Vals, rep(1, p)) # with tau2s
 
 
 #---------------------------------
