@@ -33,6 +33,7 @@ torch_get_num_threads()
 install.packages("sys")
 library(sys)
 
+# memo allocated 
 Sys.setenv(PYTORCH_CUDA_ALLOC_CONF="max_split_size_mb:6144")
 
 
