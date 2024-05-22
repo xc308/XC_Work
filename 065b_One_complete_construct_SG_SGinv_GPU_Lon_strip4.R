@@ -34,6 +34,9 @@ cat("intra threads:", "\n")
 torch_get_num_threads()
 
 
+Sys.setenv(PYTORCH_CUDA_ALLOC_CONF="max_split_size_mb:6144")
+
+
 #-------------------------------
 # check BLAS and OPENBLAS info: only 36 works
 #-------------------------------
