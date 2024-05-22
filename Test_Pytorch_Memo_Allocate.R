@@ -33,6 +33,7 @@ torch_get_num_threads()
 install.packages("sys")
 library(sys)
 
+Sys.setenv(PYTORCH_CUDA_ALLOC_CONF="max_split_size_mb:6144")
 
 
 # Function to calculate tensor size in MB
