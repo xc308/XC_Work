@@ -42,9 +42,9 @@ tensor_size_mb <- function(tensor) {
   # Calculate the total number of elements
   numel <- prod(tensor_dims)
   # Get the size of each element in bytes
-  element_size <- torch_dtype(tensor)$itemsize()
+  #element_size <- torch_dtype(tensor)$itemsize() error
   # Calculate the total size of the tensor in MB
-  size_mb <- numel * element_size / 1024^2
+  size_mb <- numel * 8 / 1024^2 # convert to MB
   return(size_mb)
 }
 
