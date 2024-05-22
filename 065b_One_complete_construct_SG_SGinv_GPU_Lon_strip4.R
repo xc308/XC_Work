@@ -34,7 +34,6 @@ cat("intra threads:", "\n")
 torch_get_num_threads()
 
 
-Sys.setenv(PYTORCH_CUDA_ALLOC_CONF="max_split_size_mb:6144")
 
 
 #-------------------------------
@@ -159,8 +158,8 @@ dlt_lat_04 <- Fn_set_ini_vals(pars_mat = all_pars_lst_CAR_2D_CMS[[3]], ini_vals 
 sig2_mat_1 <- Fn_set_ini_vals(pars_mat = all_pars_lst_CAR_2D_CMS[[4]], ini_vals = 1)
 
 
-system.time(
-  SG_SGinv_CAMS_Lon_Strip_4_GPU <- TST12_SG_SGInv_CAR_2D_GPU(p = 5, data = hierarchy_data_CAMS, 
+
+SG_SGinv_CAMS_Lon_Strip_4_GPU <- TST12_SG_SGInv_CAR_2D_GPU(p = 5, data = hierarchy_data_CAMS, 
                                                              A_mat = A_1, 
                                                              dsp_lon_mat = DSP[, , 1], 
                                                              dsp_lat_mat = DSP[, , 2],
@@ -170,7 +169,7 @@ system.time(
                                                              phi =  phi, H_adj = H_adj,
                                                              sig2_mat = sig2_mat_1, 
                                                              reg_ini = 1e-9, thres_ini = 1e-3)
-)
+
 
 
 
