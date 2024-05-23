@@ -69,9 +69,9 @@ system("nvidia-smi")
 
 
 #===========================
-# TST12_SG_SGInv_CAR_2D_GPU
+# TST12_SG_SGInv_CAR_2D_GPU_RM
 #===========================
-source("Fn_TST12_SG_SGInv_CAR_2D_GPU.R")
+source("Fn_TST12_SG_SGInv_CAR_2D_GPU_RM.R")
 
 
 #===========================
@@ -159,7 +159,7 @@ sig2_mat_1 <- Fn_set_ini_vals(pars_mat = all_pars_lst_CAR_2D_CMS[[4]], ini_vals 
 
 
 
-SG_SGinv_CAMS_Lon_Strip_4_GPU <- TST12_SG_SGInv_CAR_2D_GPU(p = 5, data = hierarchy_data_CAMS, 
+SG_SGinv_CAMS_Lon_Strip_4_GPU <- TST12_SG_SGInv_CAR_2D_GPU_RM(p = 5, data = hierarchy_data_CAMS, 
                                                              A_mat = A_1, 
                                                              dsp_lon_mat = DSP[, , 1], 
                                                              dsp_lat_mat = DSP[, , 2],
