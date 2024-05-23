@@ -10,16 +10,7 @@
   # ref: Fn_TST12_SG_SGInv_CAR_2D_GPU.R
 
 
-#=============
-# 18 Apr. 2024
-#=============
-
-# Aim:
-# Function TST12_SG_SGInv_CAR_2D_GPU for neg_logL source
-
-
-
-TST12_SG_SGInv_CAR_2D_GPU <- function(p, data, A_mat, dsp_lon_mat, dsp_lat_mat, 
+TST12_SG_SGInv_CAR_2D_GPU_RM <- function(p, data, A_mat, dsp_lon_mat, dsp_lat_mat, 
                                       dlt_lon_mat, dlt_lat_mat, b = "Tri-Wave",
                                       phi, H_adj, sig2_mat,
                                       reg_ini = 1e-9, thres_ini = 1e-3) {
