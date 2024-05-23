@@ -195,12 +195,15 @@ str(each_smp_Y_true_lst)
 # Tri-Wave
 #----------
 for (i in 1:length(each_smp_Y_true_lst)){
-  #df_TW[paste("smp_Y", i, sep = "")] <- each_smp_Y_true_lst[[i]]
-  df_TW[paste("Z", i, sep = "")] <- each_smp_Y_true_lst[[i]] + tau2s[i] * rnorm(n1)
+  df_TW[paste("smp_Y", i, sep = "")] <- each_smp_Y_true_lst[[i]]
+  #df_TW[paste("Z", i, sep = "")] <- each_smp_Y_true_lst[[i]] + tau2s[i] * rnorm(n1)
 }
 
 head(df_TW)
 df_TW[1:2,]
+
+saveRDS(df_TW, file = "df_TW.rds")
+
 
 #---------
 # Wendland
@@ -213,6 +216,7 @@ for (i in 1:length(each_smp_Y_true_lst)){
 
 head(df_WL)
 
+saveRDS(df_WL, file = "df_WL.rds")
 
 
 ##--------------------------------------
