@@ -12,10 +12,69 @@
   # preventative coding in neg_logL function .Machine$double.xmax
 
 # Function:
-  # 055
+  # 060_2D_Inf_neg_logL_CAR_GPU
 
 # Data:
   # df_Lon_Strip_1_new in 063
+
+
+
+library(Matrix)
+
+#==============
+# GPU settings
+#==============
+#------
+# torch
+#------
+# Set the library path to the desired directory
+.libPaths("/bask/projects/v/vjgo8416-xchen")
+
+# Load the torch library
+library(torch)
+
+
+#torch_set_num_interop_threads(2)
+#torch_set_num_threads(2)
+
+cat("inter threads:", "\n")
+torch_get_num_interop_threads()
+
+cat("intra threads:", "\n")
+torch_get_num_threads()
+
+
+#-------------------------------
+# check BLAS and OPENBLAS info: only 36 works
+#-------------------------------
+#install.packages("RhpcBLASctl")
+.libPaths("/bask/projects/v/vjgo8416-xchen")
+library(RhpcBLASctl)
+
+
+#cat("Check Current BLAS Library", "\n")
+#sessionInfo()
+
+cat("Check the current number of BLAS threads", "\n")
+blas_get_num_procs()
+
+#blas_set_num_threads(48)
+
+#cat("Updated BLAS threads:", "\n")
+#blas_get_num_procs()
+
+
+
+#-----------
+# GPUmatrix
+#------------
+
+#install.packages("GPUmatrix", lib="/bask/projects/v/vjgo8416-xchen")
+.libPaths("/bask/projects/v/vjgo8416-xchen")
+library(GPUmatrix)
+
+system("nvidia-smi")
+
 
 
 #==============
@@ -107,30 +166,83 @@ phi <- trunc(phi * 100)/100 # [1] 0.12
 #=========
 # ini_vals
 #=========
-Vals <- c(0.7, 0.8, 0.8, 0.65, 0.65,    #A 
-          0.2, 0.3, 0.3, 0.4, 0.4, 0.5, # dlt_lon
-          rep(0.2, 5),                  # dlt_lat
-          rep(0.5, 5)                   # sig2
-          ) # w/o tau2s
+#Vals <- c(0.7, 0.8, 0.8, 0.65, 0.65,    #A 
+ #         0.2, 0.3, 0.3, 0.4, 0.4, 0.5, # dlt_lon
+#          rep(0.2, 5),                  # dlt_lat
+ #         rep(0.5, 5)                   # sig2
+  #        ) # w/o tau2s
 
 
-all_ini_Vals <- c(Vals, rep(1, p)) # with tau2s
+#all_ini_Vals <- c(Vals, rep(1, p)) # with tau2s
 
 
 
-#==================
-# neg_logL function
-#==================
-source("Fn_neg_logL_CAR_2D.R")
+#=============================================
+# Grid search pars for non-Inf neg_logL value
+#=============================================
+source("Fn_neg_logL_CAR_2D_GPU.R")
 
-neg_logL_CAR_2D(theta = all_ini_Vals, p = 5, 
-                data_str = hierarchy_data_CAMS,
-                all_pars_lst = all_pars_lst_CAR_2D_CMS,
-                dsp_lon_mat = DSP[, , 1],
-                dsp_lat_mat = DSP[, , 2],
-                b = "Tri-Wave",
-                phi = phi, H_adj = H_adj, 
-                df = df_Lon_Strp_1_Srt)
+# possible pars choices
+A_vals <- c(0.5, 2, 5)
+dlt_lon_vals <- c(1.5, 2.5, 3.5)
+dlt_lat_vals <- c(1.5, 2.5, 3.5)
+sig2_vals <- c(1, 2, 3)
+tau2_vals <- c(1, 2, 3)
+
+
+# Initialize minimum negative log-likelihood to a large value
+min_neg_ll <- Inf
+best_params <- c() 
+for(A in A_vals) {
+  for(dlt_lon in dlt_lon_vals) {
+    for(dlt_lat in dlt_lat_vals) {
+      for(sig2 in sig2_vals){
+        for(tau2 in tau2_vals){
+            
+            all_ini_Vals <- c(rep(A, p), rep(dlt_lon, p), rep(dlt_lat, p),
+                              rep(sig2, p), rep(tau2, p))
+            
+            
+            neg_ll <- neg_logL_CAR_2D_GPU(theta = all_ini_Vals, p = 5, 
+                                data_str = hierarchy_data_CAMS,
+                                all_pars_lst = all_pars_lst_CAR_2D_CMS,
+                                dsp_lon_mat = DSP[, , 1],
+                                dsp_lat_mat = DSP[, , 2],
+                                b = "Tri-Wave",
+                                phi = phi, H_adj = H_adj, 
+                                df = df_Lon_Strp_1_Srt)
+            
+            
+            # Check if current neg-log likelihood is less than the minimum found so far
+            if (neg_ll < min_neg_ll) {
+              min_neg_ll <- neg_ll
+              best_params <- all_ini_Vals
+            }
+            
+          }
+        }
+      }
+    }
+}
+
+cat("best pars:", "\n")  
+best_params
+
+cat("neg_ll:", "\n")  
+min_neg_ll  
+  
+  
+
+
+
+
+
+
+
+
+
+
+
  
 
 
