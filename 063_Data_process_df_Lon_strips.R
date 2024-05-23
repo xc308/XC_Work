@@ -214,6 +214,10 @@ str(df_Lon_strip_4_sort)
 
 # 1: DU; 2: SU; 3: BC; 4: OM; 5:SS
 
+
+#------------
+# Lon_Strip_1
+#------------
 df_Lon_Strip_1_Sort <- data.frame(Lon = df_Lon_strip_1_sort$Lon,
            Lat = df_Lon_strip_1_sort$Lat,
            Year = df_Lon_strip_1_sort$Year,
@@ -234,7 +238,46 @@ df_Lon_Strip_1_Sort_new <- df_Lon_Strip_1_Sort
 saveRDS(df_Lon_Strip_1_Sort_new, file = "df_Lon_Strip_1_Sort_new.rds")
 
 
+range(df_Lon_Strip_1_Sort_new$Z1)
+# [1] -3.308540  4.668558
+quantile(df_Lon_Strip_1_Sort_new$Z1)
+#     0%        25%        50%        75%        100% 
+#  -3.3085399 -0.7825191 -0.2199278  0.5530506   4.6685585
+ 
 
+range(df_Lon_Strip_1_Sort_new$Z2)
+# [1] -1.227585  4.270820
+quantile(df_Lon_Strip_1_Sort_new$Z2)
+#          0%         25%         50%         75%        100% 
+# -1.22758542 -0.24994444 -0.05963849  0.24968515  4.27082005 
+
+
+range(df_Lon_Strip_1_Sort_new$Z3)
+# [1] -2.302818  3.978425
+quantile(df_Lon_Strip_1_Sort_new$Z3)
+#        0%        25%        50%        75%       100% 
+#-2.3028181 -0.5080320 -0.1693029  0.2157480  3.9784250 
+
+
+range(df_Lon_Strip_1_Sort_new$Z4)
+# [1] -2.318861  2.494690
+quantile(df_Lon_Strip_1_Sort_new$Z4)
+#         0%         25%         50%         75%        100% 
+#-2.31886054 -0.38052471 -0.06471533  0.30779855  2.49468983 
+
+
+range(df_Lon_Strip_1_Sort_new$Z5)
+# [1] -2.192750  2.578429
+quantile(df_Lon_Strip_1_Sort_new$Z5)
+#          0%         25%         50%         75%        100% 
+# -2.19275010 -0.42407572 -0.06511489  0.39396397  2.57842950 
+
+
+
+
+#------------
+# Lon_Strip_2
+#------------
 df_Lon_Strip_2_Sort <- data.frame(Lon = df_Lon_strip_2_sort$Lon,
                                   Lat = df_Lon_strip_2_sort$Lat,
                                   Year = df_Lon_strip_2_sort$Year,
@@ -253,6 +296,9 @@ str(df_Lon_Strip_2_Sort)
 saveRDS(df_Lon_Strip_2_Sort, file = "df_Lon_Strip_2_Sort.rds")
 
 
+#------------
+# Lon_Strip_31
+#------------
 df_Lon_Strip_31_Sort <- data.frame(Lon = df_Lon_strip_31_sort$Lon,
                                   Lat = df_Lon_strip_31_sort$Lat,
                                   Year = df_Lon_strip_31_sort$Year,
@@ -270,6 +316,9 @@ str(df_Lon_Strip_31_Sort)
 saveRDS(df_Lon_Strip_31_Sort, file = "df_Lon_Strip_31_Sort.rds")
 
 
+#------------
+# Lon_Strip_32
+#------------
 
 df_Lon_Strip_32_Sort <- data.frame(Lon = df_Lon_strip_32_sort$Lon,
                                    Lat = df_Lon_strip_32_sort$Lat,
@@ -287,6 +336,9 @@ str(df_Lon_Strip_32_Sort)
 saveRDS(df_Lon_Strip_32_Sort, file = "df_Lon_Strip_32_Sort.rds")
 
 
+#------------
+# Lon_Strip_4
+#------------
 df_Lon_Strip_4_Sort <- data.frame(Lon = df_Lon_strip_4_sort$Lon,
                                    Lat = df_Lon_strip_4_sort$Lat,
                                    Year = df_Lon_strip_4_sort$Year,
@@ -306,5 +358,5 @@ str(df_Lon_Strip_4_Sort_new)
 # 'data.frame':	6855 obs. of  10 variables:
 saveRDS(df_Lon_Strip_4_Sort_new, file = "df_Lon_Strip_4_Sort_new.rds")
 
-
+head(df_Lon_Strip_4_Sort_new, 30)
 
