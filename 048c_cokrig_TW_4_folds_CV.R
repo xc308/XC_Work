@@ -26,6 +26,7 @@ hierarchy_data6 <- data.frame(
 
 data_str <- hierarchy_data6
 
+p = 6
 
 source("Fn_para_mat_construct.R")
 all_pars_lst_CAR_6 <- All_paras_CAR(p = p, data = data_str)
