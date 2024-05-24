@@ -183,22 +183,26 @@ phi <- trunc(phi * 100)/100 # [1] 0.12
 source("Fn_neg_logL_CAR_2D_GPU.R")
 
 # possible pars choices
-A_vals <- c(0.5, 2, 5)
-dlt_lon_vals <- c(1.5, 2.5, 3.5)
-dlt_lat_vals <- c(1.5, 2.5, 3.5)
-sig2_vals <- c(1, 2, 3)
-tau2_vals <- c(1, 2, 3)
+A_vals <- c(5, 10, 20)
+dlt_lon_vals <- c(5, 10, 20)
+dlt_lat_vals <- c(5, 10, 20)
+sig2_vals <- 0.5
+tau2_vals <- 0.5
 
 
 # Initialize minimum negative log-likelihood to a large value
 min_neg_ll <- Inf
 best_params <- c() 
 for(A in A_vals) {
+  cat("A", A)
   for(dlt_lon in dlt_lon_vals) {
+    cat("dlt_lon", dlt_lon)
     for(dlt_lat in dlt_lat_vals) {
+      cat("dlt_lat", dlt_lat)
       for(sig2 in sig2_vals){
+        cat("sig2", sig2)
         for(tau2 in tau2_vals){
-            
+            cat("tau2", tau2)
             all_ini_Vals <- c(rep(A, p), rep(dlt_lon, p), rep(dlt_lat, p),
                               rep(sig2, p), rep(tau2, p))
             
@@ -217,6 +221,9 @@ for(A in A_vals) {
             if (neg_ll < min_neg_ll) {
               min_neg_ll <- neg_ll
               best_params <- all_ini_Vals
+              cat("Yes", "\n")
+            } else {
+              cat("No", "\n")
             }
             
           }
