@@ -160,6 +160,7 @@ sig2_mat_1 <- Fn_set_ini_vals(pars_mat = all_pars_lst_CAR_2D_CMS[[4]], ini_vals 
 #===========================
 source("Fn_TST12_SG_SGInv_CAR_2D_GPU_RM.R")
 
+system.time(
 SG_SGinv_CAMS_Lon_Strip_32_GPU <- TST12_SG_SGInv_CAR_2D_GPU_RM(p = 5, data = hierarchy_data_CAMS, 
                                                               A_mat = A_1, 
                                                               dsp_lon_mat = DSP[, , 1], 
@@ -171,7 +172,7 @@ SG_SGinv_CAMS_Lon_Strip_32_GPU <- TST12_SG_SGInv_CAR_2D_GPU_RM(p = 5, data = hie
                                                               sig2_mat = sig2_mat_1, 
                                                               reg_ini = 1e-9, thres_ini = 1e-3)
 
-
+)
 
 
 
