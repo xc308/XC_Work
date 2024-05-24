@@ -10,6 +10,11 @@
   # optim: 047b
   # cokrig: 048_cokrig_fomula; Fn_cokrig.R
 
+
+library(Matrix) # for sparsematrix
+
+
+
 df_TW <- readRDS("df_TW.rds")
 #str(df_TW)
 # 'data.frame':	200 obs. of  13 variables:
