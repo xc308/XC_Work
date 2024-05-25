@@ -11,7 +11,6 @@
 # data:
 # CAMS Lon_strip_31_new.rds (n = 5910, 6.5GB)
 
-
 library(Matrix)
 
 #==============
@@ -31,8 +30,6 @@ torch_get_num_interop_threads()
 
 cat("intra threads:", "\n")
 torch_get_num_threads()
-
-
 
 
 #-------------------------------
