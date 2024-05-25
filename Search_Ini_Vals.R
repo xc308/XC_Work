@@ -156,12 +156,12 @@ diag(H_adj) <- 0
 #dim(H_adj) # 3793 3793
 #length(which(H_adj != 0)) # 27772
 
-spec <- eigen(H_adj, symmetric = T, only.values = T)$val
+#spec <- eigen(H_adj, symmetric = T, only.values = T)$val
 #max(abs(spec)) # [1] 7.976106
 
-phi <- 1/max(abs(spec)) # [1] 0.1253745
-phi <- trunc(phi * 100)/100 # [1] 0.12
-
+#phi <- 1/max(abs(spec)) # [1] 0.1253745
+#phi <- trunc(phi * 100)/100 # [1] 0.12
+phi <- 0.12
 
 #=========
 # ini_vals
@@ -183,7 +183,7 @@ phi <- trunc(phi * 100)/100 # [1] 0.12
 source("Fn_neg_logL_CAR_2D_GPU.R")
 
 # possible pars choices
-A_vals <- c(5, 10, 20)
+A_vals <- c(1, 2, 10)
 dlt_lon_vals <- c(5, 10, 20)
 dlt_lat_vals <- c(5, 10, 20)
 sig2_vals <- 0.5
@@ -216,6 +216,7 @@ for(A in A_vals) {
                                 phi = phi, H_adj = H_adj, 
                                 df = df_Lon_Strp_1_Srt)
             
+            neg_ll <- as.numeric(neg_ll, device = "cpu")
             
             # Check if current neg-log likelihood is less than the minimum found so far
             if (neg_ll < min_neg_ll) {
