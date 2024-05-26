@@ -183,7 +183,7 @@ phi <- 0.12
 source("Fn_neg_logL_CAR_2D_GPU.R")
 
 # possible pars choices
-A_vals <- c(1, 2, 10)
+A_vals <- c(5, 10, 20, 30)
 dlt_lon_vals <- c(5, 10, 20)
 dlt_lat_vals <- c(5, 10, 20)
 sig2_vals <- 0.5
@@ -194,15 +194,10 @@ tau2_vals <- 0.5
 min_neg_ll <- Inf
 best_params <- c() 
 for(A in A_vals) {
-  cat("A", A)
   for(dlt_lon in dlt_lon_vals) {
-    cat("dlt_lon", dlt_lon)
     for(dlt_lat in dlt_lat_vals) {
-      cat("dlt_lat", dlt_lat)
       for(sig2 in sig2_vals){
-        cat("sig2", sig2)
         for(tau2 in tau2_vals){
-            cat("tau2", tau2)
             all_ini_Vals <- c(rep(A, p), rep(dlt_lon, p), rep(dlt_lat, p),
                               rep(sig2, p), rep(tau2, p))
             
@@ -216,7 +211,7 @@ for(A in A_vals) {
                                 phi = phi, H_adj = H_adj, 
                                 df = df_Lon_Strp_1_Srt)
             
-            neg_ll <- as.numeric(neg_ll, device = "cpu")
+            #neg_ll <- as.numeric(neg_ll, device = "cpu")
             
             # Check if current neg-log likelihood is less than the minimum found so far
             if (neg_ll < min_neg_ll) {
