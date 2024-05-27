@@ -292,6 +292,7 @@ for (f in 1:num_folds) {
 }
 
 
-
+cat("MAE", MAE)
+cat("RMSE", RMSE)
 
 
