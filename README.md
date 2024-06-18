@@ -1,5 +1,5 @@
 # XC_Work
-This is the Gibhub repository for the manuscript entitled "_Highly multivariate high-dimensional spatial stochastic processes -- a mixed conditional approach_".
+This is the GitHub repository for the manuscript "_Highly multivariate high-dimensional spatial stochastic processes -- a mixed conditional approach_."
 
 
 ## Contents
