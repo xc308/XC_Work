@@ -3,7 +3,7 @@ This is the GitHub repository for the manuscript "_Highly multivariate high-dime
 
 
 ## Contents
-- GPU folder: **Figure 2 in paper** <br><br>
+- GPU folder: **Figure 1, 2 in paper** <br><br>
 
 - 032c: Tst9c, 1D SG_inv construction, Matern, non-cross-MRF, SpN + Reg, thres = 1e-3, reg_num = 1e-9
 - 032d: 1D simulation plots functions for non-cross-MRF, **Sigma plots in Figure 7, 8 in the paper**, only C.I. among p <br><br>
