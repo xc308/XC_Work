@@ -11,7 +11,7 @@ This is the GitHub repository for the manuscript "_Highly Multivariate High-dime
 - 034b: SG_inv construction, sparse percentage comparison among cross-MRF and non-cross-MRF for Tri-Wave and Wendland, **Table 3 in paper**  
 - 034c: Tst10c, 1D SG_inv construction, cross-MRF, with SpNorm + Reg for b function, b can be chosen; **Sigma_inv plots in Figure 7(a), 7(b) in paper** <br><br>
 
-- 037: 100 randomly evaluated Sigma_inv generation microbenchmark; **Table 2** <br><br>
+- 037: 100 randomly evaluated Sigma_inv generation microbenchmark; **Table 2 in paper** <br><br>
 
 - 046b: generate 1D true processes and noisy data, Tri-Wave and Wendland
 - 046c: generate 2D true processes and noisy data, Tri-Wave and Wendland
