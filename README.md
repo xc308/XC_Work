@@ -42,8 +42,11 @@ This is the GitHub repository for the manuscript "_Highly Multivariate High-dime
 
 - 063: CAMS data processing <br><br>
 
-- 064a: CAMS data with 060, GPU parallel + optim on 1 CPU, Lon_Strip_1, **Table 8 in paper** <br><br>
+- 064a: CAMS data with 060, GPU parallel + optim on 1 CPU, Lon_Strip_1
 - 064b: CAMS data with 060, GPU parallel + optim on 1 CPU, Lon_Strip_4 <br><br>
+
+- 065a: 
+
 
 
 
