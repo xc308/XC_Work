@@ -1,5 +1,5 @@
-# XC_Work
-This is the GitHub repository for the manuscript "_Highly multivariate high-dimensional spatial stochastic processes -- a mixed conditional approach_."
+# HMHD_Sp
+This is the GitHub repository for the manuscript "_Highly Multivariate High-dimensionality Spatial Stochastic Processes -- A Mixed Conditional Approach_."
 
 
 ## Contents
