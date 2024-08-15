@@ -45,8 +45,8 @@ This is the GitHub repository for the manuscript "_Highly Multivariate High-dime
 - 064a: CAMS data with 060, GPU parallel + optim on 1 CPU, Lon_Strip_1
 - 064b: CAMS data with 060, GPU parallel + optim on 1 CPU, Lon_Strip_4 <br><br>
 
-- 065a: CAMS one complete construction time for SG, and SG_inv, with GPU off-loading, CAMS df_Lon_Strip_1_Sort_new.rds
-- 066a: CAMS one complete construction time for SG, and SG_inv, solo CPU, CAMS df_Lon_Strip_1_Sort_new.rds, **Table 6 or Table 11** <br><br>
+- 065a: CAMS one complete construction time for SG, and SG_inv, with GPU off-loading, df_Lon_Strip_1_Sort_new.rds
+- 066a: CAMS one complete construction time for SG, and SG_inv, solo CPU, df_Lon_Strip_1_Sort_new.rds, **Table 6 or Table 11 in paper** <br><br>
 
 
 
