@@ -6,11 +6,12 @@ This is the GitHub repository for the manuscript "_Highly Multivariate High-dime
 - GPU folder: **Figure 1, 2 in paper** <br><br>
 
 - 032c: Tst9c, 1D SG_inv construction, Matern, non-cross-MRF, SpN + Reg, thres = 1e-3, reg_num = 1e-9
-- 032d: 1D simulation plots functions for non-cross-MRF, **Sigma plots in Figure 7, 8 in the paper**, only C.I. among p <br><br>
+- 032d: 1D simulation plots functions for non-cross-MRF, **Sigma plots in Figure 7(a), 7(b) in the paper**, only C.I. among p <br><br>
 
-- 034b: SG_inv construction, sparse percentage comparison among cross-MRF and non-cross-MRF for Tri-Wave and Wendland, **Table 5 in paper**  
-- 034c: Tst10c, 1D SG_inv construction, cross-MRF, with SpNorm + Reg for b function, b can be chosen; **Sigma_inv plots in Figure 7, 8 in paper** <br><br>
+- 034b: SG_inv construction, sparse percentage comparison among cross-MRF and non-cross-MRF for Tri-Wave and Wendland, **Table 3 in paper**  
+- 034c: Tst10c, 1D SG_inv construction, cross-MRF, with SpNorm + Reg for b function, b can be chosen; **Sigma_inv plots in Figure 7(a), 7(b) in paper** <br><br>
 
+- 037: 100 randomly evaluated Sigma_inv generation microbenchmark; **Table 2** <br><br>
 
 - 046b: generate 1D true processes and noisy data, Tri-Wave and Wendland
 - 046c: generate 2D true processes and noisy data, Tri-Wave and Wendland
@@ -19,8 +20,8 @@ This is the GitHub repository for the manuscript "_Highly Multivariate High-dime
 - 047b: optimization, Tri-Wave, Tst10c (cross-MRF)
 - 047c: optimization, Wendland, Tst10c (cross-MRF) <br><br>
 
-- 048b: co-krig, Tri-Wave, 1 fold C.V. results, **Table 7 in paper**
-- 048d: co-krig, Wendland, 1 fold C.V. results, **Table 7 in paper** <br><br>
+- 048b: co-krig, Tri-Wave, 1 fold C.V. results, **Table 5 in paper**
+- 048d: co-krig, Wendland, 1 fold C.V. results, **Table 5 in paper** <br><br>
 
 - 049: neg_logL function of non-cross-MRF, TST9d
 - 049b: optimization using 049, Tri-Wave, Wendland <br><br>
@@ -33,9 +34,9 @@ This is the GitHub repository for the manuscript "_Highly Multivariate High-dime
 
 - 059: TST12 GPU version <br><br>
 
-- 060: GPU parallel + optim on 1 CPU, **Table 9 in paper** <br><br>
+- 060: GPU parallel + optim on 1 CPU <br><br>
 
-- 061: GPU parallel + optim on 4 CPUs, **Table 9 in paper** <br><br>
+- 061: GPU parallel + optim on 4 CPUs <br><br>
 
 - 062: pure optim parallel on 51 CPUs, no GPU parallelisation <br><br>
 
