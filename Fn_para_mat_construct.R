@@ -15,14 +15,15 @@ source("Fn_Check_par_node.R")
 Para_A_mat <- function(p, data){
   A <- matrix(0, p, p)
   for (r in 2 : p) {
-    PN = Check_par_node(r, data = data)
-    for (t in c(PN)){
-      #A[r, t] <- paste0("A", r, t)
-      A[r, t] <- NA
+      PN = Check_par_node(r, data = data)
+      for (t in c(PN)){
+        #A[r, t] <- paste0("A", r, t)
+        A[r, t] <- NA
+      }
     }
-  }
   A
 }
+  
 
 
 Para_Dlt_mat <- function(p, data){
@@ -144,7 +145,7 @@ All_paras_CAR_2D <- function(p, data){
 # Test
 #-----
 #hierarchy_data <- data.frame(
-  #node_id = c(1, 2, 3, 3, 4, 4, 5),
+ # node_id = c(1, 2, 3, 3, 4, 4, 5),
   #par_id = c(NA, 1, c(2, 1), c(2, 3), 4)
 #)
 
@@ -156,8 +157,8 @@ All_paras_CAR_2D <- function(p, data){
 
 
 #hierarchy_data2 <- data.frame(
-#  node_id = c(1, 2, 3, 3, 4, 4, 5, 6, 6),
- # par_id = c(NA, 1, c(2, 1), c(2, 3), 4, c(1, 5))
+ # node_id = c(1, 2, 3, 3, 4, 4, 5, 6, 6),
+  #par_id = c(NA, 1, c(2, 1), c(2, 3), 4, c(1, 5))
 #)
 
 #Para_Dlt_mat(p = 6, data = hierarchy_data2)
