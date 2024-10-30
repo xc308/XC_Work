@@ -44,14 +44,19 @@ Check_par_node <- function(Node, data = data) {
   #ifelse(is.na(par_index), return("The query node has no parent."), return(par_index))
   ifelse(is.na(par_index), return(NA), return(par_index))
   
-
 }
-
+  
+  
 
 #-----
 # Test
 #------
-Check_par_node(Node = 1, data = hierarchy_data) # [1] NA
+#Check_par_node(Node = 1, data = hierarchy_data) # [1] NA
+#length(Check_par_node(Node = 1, data = hierarchy_data))
+
+#PN <- Check_par_node(Node = 1, data = hierarchy_data)
+#length(is.na(PN))
+
 #Check_par_node(Node = 4, data = hierarchy_data) # [1] 1
 
 
