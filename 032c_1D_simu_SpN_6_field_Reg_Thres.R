@@ -188,18 +188,22 @@ ds <- 0.05 # for w/o SpN plts, esp. SIGMA; also try for plts with SpN
 s <- seq(-1 + ds/2, 1 - ds/2, by = ds)
 str(s) # num [1:20]; num [1:40]
 
+s <- seq(-10 + ds/2, 10 - ds/2, by = ds)
+str(s) # num [1:400]
+
+
 
 # displacements between pairs of points
 # a vector quantity has magnitude and direction
 H <- outer(s, s, FUN = "-")
 H <- t(H)  
-str(H) # num [1:20, 1:20]; num [1:40, 1:40]
+str(H) # num [1:20, 1:20]; num [1:40, 1:40]; num [1:400, 1:400]
 
 
 # distance
 # a scalar quantity
 D_vec <- as.double(c(abs(H))) 
-str(D_vec) # num [1:400]; num [1:1600]
+str(D_vec) # num [1:400]; num [1:1600]; num [1:160000]
 
 
 #----------------
@@ -243,7 +247,7 @@ kappa_mat_2 <- Fn_set_ini_vals(pars_mat = all_pars_lst_6[[4]], ini_vals = 2)
 SG_SG_inv_6_a01d05_Wend_SpNReg_Thres <- TST9c_SpNormPert_SG_SGInv(p = 6, data = hierarchy_data6, 
                                                            A_mat = A_mat_0.1, dlt_mat = dlt_mat_0.5, 
                                                            sig2_mat = sig2_mat_1, kappa_mat = kappa_mat_2,
-                                                           d_vec = D_vec, h = H, reg_ini = 1e-9, thres_ini = 1e-3)
+                                                           d_vec = D_vec, h = H, reg_ini = 1e-9, thres_ini = 1e-5)
 
 
 
@@ -253,6 +257,14 @@ SG_SG_inv_6_a01d05_Wend_SpNReg_Thres <- TST9c_SpNormPert_SG_SGInv(p = 6, data = 
 #[1] "p.d.: Yes"
 #final reg_num: 1e-09  
 #ini thres: 0.001 
+
+
+#r 6 
+#SG_inv 
+#[1] "Symmetric: Yes"
+#[1] "p.d.: Yes"
+#Final reg_num: 1e-09 
+#ini thres: 1e-06
 
 
 SG_SG_inv_6_a01d05_TriWave_SpNReg_Thres <- TST9c_SpNormPert_SG_SGInv(p = 6, data = hierarchy_data6, 
@@ -268,6 +280,27 @@ SG_SG_inv_6_a01d05_TriWave_SpNReg_Thres <- TST9c_SpNormPert_SG_SGInv(p = 6, data
 #[1] "p.d.: Yes"
 #ini thres: 0.001 
 
+
+#=============
+# 30 Oct. 2024
+#=============
+# Add comparison
+
+## Wendland
+
+length(which(SG_SG_inv_6_a01d05_Wend_SpNReg_Thres$SIGMA_inv == 0))
+# [1]  5346900
+
+length(SG_SG_inv_6_a01d05_Wend_SpNReg_Thres$SIGMA_inv)
+# 5760000
+
+5346900 / 5760000 * 100 # 55.63524
+
+## Tri-wave
+length(which(SG_SG_inv_6_a01d05_TriWave_SpNReg_Thres$SIGMA_inv == 0))
+# [1] 4951694
+
+4951694 /5760000 * 100 # 85.96691
 
 
 #------------------
