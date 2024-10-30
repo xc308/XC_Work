@@ -12,6 +12,12 @@
   # source("034_1D_simu_SG_SG_inv_UniCAR.R")
   # TST10_SpNormPert_SG_SGInv
 
+#=========
+# Settings
+#=========
+install.packages("Matrix")
+library(Matrix)
+
 
 
 TST10b_SpNReg_Thres_SG_SGInv <- function(p, data, A_mat, dlt_mat, sig2_mat,
@@ -211,23 +217,23 @@ hierarchy_data6 <- data.frame(
 # Location, displacements, distance
 #------------------------------------
 ds <- 0.05
-s <- seq(-1 + ds/2, 1 - ds/2, by = ds)
+#s <- seq(-1 + ds/2, 1 - ds/2, by = ds)
 str(s) # num [1:40]
 
-#s <- seq(-10 + ds/2, 10 - ds/2, by = ds)
-
+s <- seq(-10 + ds/2, 10 - ds/2, by = ds)
+str(s) # num [1:400]
 
 # displacements between pairs of points
 # a vector quantity has magnitude and direction
 H <- outer(s, s, FUN = "-")
 H <- t(H)  
-str(H) # num [1:40, 1:40]; 
+str(H) # num [1:40, 1:40]; num [1:400, 1:400]
 
 
 # distance
 # a scalar quantity
 D_vec <- as.double(c(abs(H))) 
-str(D_vec) # num [1:1600]
+str(D_vec) # num [1:1600]; num [1:160000]
 
 
 #--------------------------------------
@@ -239,9 +245,14 @@ abs(H)
 
 # radius for definition of neighbourhood
 abs(H) < 0.4 # 3-order
+abs(H) < 0.2 # lag-3 for str(s) num [1:400]
 
 as.numeric(abs(H) < 0.4) # vector
 H_adj <- matrix(as.numeric(abs(H) < 0.4), nrow(H), nrow(H))
+diag(H_adj) <- 0
+
+
+H_adj <- matrix(as.numeric(abs(H) < 0.2), nrow(H), nrow(H))
 diag(H_adj) <- 0
 
 
@@ -250,12 +261,14 @@ diag(H_adj) <- 0
 #---------------------
 
 eigen_Hadj <- eigen(H_adj, symmetric = T, only.values = T)$val
-1/ max(abs(eigen_Hadj)) # [1] 0.07236703
+1/ max(abs(eigen_Hadj)) # [1] 0.07236703 ; [1] 0.1319365
 
-phi = 0.07236703
+#phi = 0.07236703
+phi = 0.1319365
 phi = trunc(phi * 100)/100
 #phi = 0.15
 #phi = 0.14
+#[1] 0.13 
 
 
 #-----------
@@ -273,7 +286,6 @@ sig2_mat_1 <- Fn_set_ini_vals(pars_mat = all_pars_lst_6[[3]], ini_vals = 1)
 #------------------
 # SIGMA, SIGMA_inv
 #------------------
-
 SG_SGinv_CAR_SpNReg_thres_WL_a01d05 <- TST10b_SpNReg_Thres_SG_SGInv(p = 6, data = hierarchy_data6, A_mat = A_01,
                              dlt_mat = dlt_05, sig2_mat = sig2_mat_1, 
                              phi = phi, H_adj = H_adj, h = H, reg_ini = 1e-9,
@@ -285,6 +297,19 @@ SG_SGinv_CAR_SpNReg_thres_WL_a01d05 <- TST10b_SpNReg_Thres_SG_SGInv(p = 6, data 
 #[1] "p.d.: Yes"
 #Final reg_num: 1e-09 
 #ini thres: 0.001 
+
+## New result for str(s): 400
+# r 6 
+#SG_inv 
+#[1] "Symmetric: Yes"
+#[1] "p.d.: Yes"
+#Final reg_num: 1e-09 
+#ini thres: 0.001 
+#new thres: 1e-04 
+#[1] "Symmetric: Yes"
+#[1] "p.d.: Yes"
+
+
 
 
 SG_SGinv_CAR_SpNReg_thres_TW_a01d05 <- TST10b_SpNReg_Thres_SG_SGInv(p = 6, data = hierarchy_data6, A_mat = A_01,
@@ -300,6 +325,13 @@ SG_SGinv_CAR_SpNReg_thres_TW_a01d05 <- TST10b_SpNReg_Thres_SG_SGInv(p = 6, data 
 #Final reg_num: 1e-09 
 #ini thres: 0.001
 
+## New result for str(s): 400
+# r 6 
+#SG_inv 
+#[1] "Symmetric: Yes"
+#[1] "p.d.: Yes"
+#Final reg_num: 1e-09 
+#ini thres: 0.001 
 
 
 #========
@@ -319,21 +351,29 @@ plt_Sig(log(abs(SG_SGinv_CAR_SpNReg_thres_WL_a01d05$SIGMA_inv)), p = 6)
 ## Wendland
 length(which(SG_SGinv_CAR_SpNReg_thres_WL_a01d05$SIGMA_inv == 0))
 # [1] 32914
+# [1] 5446246 for str(s) 400
 
 length(SG_SGinv_CAR_SpNReg_thres_WL_a01d05$SIGMA_inv)
 # [1] 57600
+# [1] 5760000
+
 
 32914 / 57600 * 100
 # [1] 57.14236%
+
+5446246 / 5760000 * 100 # [1] 94.55288
 
 
 ## Tri-Wave
 length(which(SG_SGinv_CAR_SpNReg_thres_TW_a01d05$SIGMA_inv == 0))
 # [1] 24572
+# [1] 5355018
+
 
 24572 / 57600 * 100
 # 42.65972%
 
+5355018/ 5760000 * 100 # 92.96906
 
 #--------------------------------
 # compare with Uni Matern in 032c
