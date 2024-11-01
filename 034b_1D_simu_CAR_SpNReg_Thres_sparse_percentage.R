@@ -279,6 +279,8 @@ all_pars_lst_6 <- All_paras(p = 6, data = hierarchy_data6)
 
 source("Fn_set_ini_vals.R")
 A_01 <- Fn_set_ini_vals(pars_mat = all_pars_lst_6[[1]], ini_vals = 0.1)
+
+A_1 <- Fn_set_ini_vals(pars_mat = all_pars_lst_6[[1]], ini_vals = 1)
 dlt_05 <- Fn_set_ini_vals(pars_mat = all_pars_lst_6[[2]], ini_vals = 0.5)
 sig2_mat_1 <- Fn_set_ini_vals(pars_mat = all_pars_lst_6[[3]], ini_vals = 1)
 
@@ -333,6 +335,13 @@ SG_SGinv_CAR_SpNReg_thres_TW_a01d05 <- TST10b_SpNReg_Thres_SG_SGInv(p = 6, data 
 #Final reg_num: 1e-09 
 #ini thres: 0.001 
 
+SG_SGinv_CAR_SpNReg_thres_TW_a1d05 <- TST10b_SpNReg_Thres_SG_SGInv(p = 6, data = hierarchy_data6, A_mat = A_1,
+                                                                    dlt_mat = dlt_05, sig2_mat = sig2_mat_1, 
+                                                                    phi = phi, H_adj = H_adj, h = H, reg_ini = 1e-9,
+                                                                    thres_ini = 1e-3)
+
+
+
 
 #========
 # Plots
@@ -374,6 +383,10 @@ length(which(SG_SGinv_CAR_SpNReg_thres_TW_a01d05$SIGMA_inv == 0))
 # 42.65972%
 
 5355018/ 5760000 * 100 # 92.96906
+
+
+# A = 1
+length(which(SG_SGinv_CAR_SpNReg_thres_TW_a1d05$SIGMA_inv == 0))
 
 #--------------------------------
 # compare with Uni Matern in 032c
