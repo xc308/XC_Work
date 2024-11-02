@@ -85,6 +85,7 @@ all_pars_lst_6 <- All_paras(p = 6, data = hierarchy_data_full)
 
 source("Fn_set_ini_vals.R")
 A_01 <- Fn_set_ini_vals(pars_mat = all_pars_lst_6[[1]], ini_vals = 0.1)
+A_1 <- Fn_set_ini_vals(pars_mat = all_pars_lst_6[[1]], ini_vals = 1)
 dlt_05 <- Fn_set_ini_vals(pars_mat = all_pars_lst_6[[2]], ini_vals = 0.5)
 sig2_mat_1 <- Fn_set_ini_vals(pars_mat = all_pars_lst_6[[3]], ini_vals = 1)
 
@@ -109,4 +110,4 @@ length(SG_SGinv_CAR_SpNReg_thres_TW_a01d05_full$SIGMA_inv)
 
 #5183950 / 5760000 * 100
 
-#89.99913
+#89.09913
