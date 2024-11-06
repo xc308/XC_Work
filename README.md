@@ -1,5 +1,5 @@
 # HMHD_Sp
-This is the GitHub repository for the manuscript "_Highly Multivariate High-dimensionality Spatial Stochastic Processes -- A Mixed Conditional Approach_."
+This is the GitHub repository for the manuscript "_Highly Multivariate High-dimensionality Large-scale Spatial Stochastic Processes -- A Mixed Conditional Approach_."
 
 
 ## Contents
@@ -10,7 +10,7 @@ This is the GitHub repository for the manuscript "_Highly Multivariate High-dime
 
 - 034b: SG_inv construction, sparse percentage comparison among cross-MRF and non-cross-MRF for Tri-Wave and Wendland, **Table 3 in paper**  
 - 034c: Tst10c, 1D SG_inv construction, cross-MRF, with SpNorm + Reg for b function, b can be chosen; **Sigma_inv plots in Figure 7(a), 7(b) in paper**
-- 034e: CI among n only, Mardia 1988 <br><br>
+- 034e: CI among n only, Mardia 1988; p =10 <br><br>
 
 - 037: 100 randomly evaluated Sigma_inv generation microbenchmark; **Table 2 in paper** <br><br>
 
