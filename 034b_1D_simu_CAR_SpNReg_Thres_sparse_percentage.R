@@ -124,9 +124,9 @@ TST10b_SpNReg_Thres_SG_SGInv <- function(p, data, A_mat, dlt_mat, sig2_mat,
       #CDR_sym <- forceSymmetric(CDrr_in %*% R)
       
       #CDR_sym <- forceSymmetric(C %*% Drr_inv %*% R)
-      cat("condition number of C", kappa(C), "\n")
+      #cat("condition number of C", kappa(C), "\n")
       cat("condition number of CDinv", kappa(CDrr_in), "\n")
-      #cat("condition number of CDinvR", kappa(CDR_sym), "\n")
+      cat("condition number of CDinvR", kappa(CDR_sym), "\n")
       
       SGCD <- SG_inv %*% CDrr_in
       RSG <- R %*% SG_inv
@@ -213,6 +213,13 @@ hierarchy_data6 <- data.frame(
 )
 
 
+p = 10 
+hierarchy_data10 <- data.frame(
+  node_id = c(1, 2, 3, 4, 4, 5, 5, 6, 6, 7, 8, 9, 10),
+  par_id = c(NA, 1, 2, c(2, 3), c(1,4), c(1, 5), 3, 6, 6, 6)
+)
+
+
 #------------------------------------
 # Location, displacements, distance
 #------------------------------------
@@ -276,13 +283,22 @@ phi = trunc(phi * 100)/100
 #-----------
 source("Fn_para_mat_construct.R")
 all_pars_lst_6 <- All_paras(p = 6, data = hierarchy_data6)
+all_pars_lst_10 <- All_paras(p = 10, data = hierarchy_data10)
+
+
 
 source("Fn_set_ini_vals.R")
+## p = 6
 A_01 <- Fn_set_ini_vals(pars_mat = all_pars_lst_6[[1]], ini_vals = 0.1)
-
 A_1 <- Fn_set_ini_vals(pars_mat = all_pars_lst_6[[1]], ini_vals = 1)
 dlt_05 <- Fn_set_ini_vals(pars_mat = all_pars_lst_6[[2]], ini_vals = 0.5)
 sig2_mat_1 <- Fn_set_ini_vals(pars_mat = all_pars_lst_6[[3]], ini_vals = 1)
+
+
+## p = 10
+A_1 <- Fn_set_ini_vals(pars_mat = all_pars_lst_10[[1]], ini_vals = 1)
+dlt_05 <- Fn_set_ini_vals(pars_mat = all_pars_lst_10[[2]], ini_vals = 0.5)
+sig2_mat_1 <- Fn_set_ini_vals(pars_mat = all_pars_lst_10[[3]], ini_vals = 1)
 
 
 #------------------
@@ -343,6 +359,23 @@ SG_SGinv_CAR_SpNReg_thres_TW_a1d05 <- TST10b_SpNReg_Thres_SG_SGInv(p = 6, data =
 
 
 
+# p = 10, n = 400, Tri-wave
+
+SG_SGinv_CAR_SpNReg_thres_TW_a1d05_p10 <- TST10b_SpNReg_Thres_SG_SGInv(p = 10, data = hierarchy_data10, A_mat = A_1,
+                                                                   dlt_mat = dlt_05, sig2_mat = sig2_mat_1, 
+                                                                   phi = phi, H_adj = H_adj, h = H, reg_ini = 1e-9,
+                                                                   thres_ini = 1e-3)
+
+
+
+# r 10 
+#SG_inv 
+#[1] "Symmetric: Yes"
+#[1] "p.d.: Yes"
+#Final reg_num: 1e-09 
+#ini thres: 0.001 
+
+
 #========
 # Plots
 #========
@@ -388,6 +421,18 @@ length(which(SG_SGinv_CAR_SpNReg_thres_TW_a01d05$SIGMA_inv == 0))
 # A = 1
 length(which(SG_SGinv_CAR_SpNReg_thres_TW_a1d05$SIGMA_inv == 0))
 
+
+# p = 10, n = 400, A = 1, Tri-wave
+length(which(SG_SGinv_CAR_SpNReg_thres_TW_a1d05_p10$SIGMA_inv == 0))
+# [1] 15551776
+
+length(SG_SGinv_CAR_SpNReg_thres_TW_a1d05_p10$SIGMA_inv)
+# [1] 16000000
+
+15551776 / 16000000
+# [1] 0.971986
+
+
 #--------------------------------
 # compare with Uni Matern in 032c
 #--------------------------------
@@ -408,6 +453,9 @@ length(which(SG_SG_inv_6_a01d05_TriWave_SpNReg_Thres$SIGMA_inv == 0))
 # [1] 21250
 21250 / 57600 * 100
 # 36.89236%
+
+
+## p = 6, n=400 see 032c
 
 
 ##-----------
