@@ -23,6 +23,20 @@ hierarchy_data_full <- data.frame(
 )
 
 
+p = 10
+
+hierarchy_data_full_10 <- data.frame(
+  node_id = c(1, 2, rep(3, 2), rep(4,3), rep(5,4), rep(6, 5),
+              rep(7, 6), rep(8, 7), rep(9, 8), rep(10, 9)),
+  par_id = c(NA, 1, c(1, 2), c(1, 2, 3), 
+             c(1, 2, 3, 4), c(1, 2, 3, 4, 5), seq(1, 6), seq(1, 7),
+             seq(1, 8), seq(1, 9))
+)
+
+
+
+
+
 #------------------------------------
 # Location, displacements, distance
 #------------------------------------
@@ -55,7 +69,7 @@ abs(H)
 
 # radius for definition of neighbourhood
 #abs(H) < 0.4 # 3-order
-abs(H) < 0.3 # lag-3 for str(s) num [1:400]
+abs(H) < 0.2 # lag-3 for str(s) num [1:400]
 
 
 H_adj <- matrix(as.numeric(abs(H) < 0.2), nrow(H), nrow(H))
@@ -80,6 +94,7 @@ phi = trunc(phi * 100)/100
 #-----------
 # Parameters
 #-----------
+# p = 6
 source("Fn_para_mat_construct.R")
 all_pars_lst_6 <- All_paras(p = 6, data = hierarchy_data_full)
 
@@ -90,13 +105,22 @@ dlt_05 <- Fn_set_ini_vals(pars_mat = all_pars_lst_6[[2]], ini_vals = 0.5)
 sig2_mat_1 <- Fn_set_ini_vals(pars_mat = all_pars_lst_6[[3]], ini_vals = 1)
 
 
+#p = 10
+all_pars_lst_10 <- All_paras(p = 10, data = hierarchy_data_full_10)
+A_1 <- Fn_set_ini_vals(pars_mat = all_pars_lst_10[[1]], ini_vals = 1)
+dlt_05 <- Fn_set_ini_vals(pars_mat = all_pars_lst_10[[2]], ini_vals = 0.5)
+sig2_mat_1 <- Fn_set_ini_vals(pars_mat = all_pars_lst_10[[3]], ini_vals = 1)
+
+
+
 #------------------
 # SIGMA, SIGMA_inv
 #------------------
+# p =6
 SG_SGinv_CAR_SpNReg_thres_TW_a01d05_full <- TST10b_SpNReg_Thres_SG_SGInv(p = 6, data = hierarchy_data_full, A_mat = A_01,
                                                                     dlt_mat = dlt_05, sig2_mat = sig2_mat_1, 
                                                                     phi = phi, H_adj = H_adj, h = H, reg_ini = 1e-9,
-                                                                    thres_ini = 1e-4)
+                                                                    thres_ini = 1e-3)
 
 
 
@@ -111,3 +135,34 @@ length(SG_SGinv_CAR_SpNReg_thres_TW_a01d05_full$SIGMA_inv)
 #5183950 / 5760000 * 100
 
 #89.09913
+
+
+# p =10
+
+SG_SGinv_CAR_SpNReg_thres_TW_a01d05_full_10 <- TST10b_SpNReg_Thres_SG_SGInv(p = 10, data = hierarchy_data_full_10, A_mat = A_1,
+                                                                         dlt_mat = dlt_05, sig2_mat = sig2_mat_1, 
+                                                                         phi = phi, H_adj = H_adj, h = H, reg_ini = 1e-9,
+                                                                         thres_ini = 1e-3)
+
+
+# r 10 
+#SG_inv 
+#[1] "Symmetric: Yes"
+#[1] "p.d.: Yes"
+#Final reg_num: 1e-09 
+#ini thres: 0.001 
+#new thres: 1e-04 
+#[1] "Symmetric: Yes"
+#[1] "p.d.: Yes"
+
+length(which(SG_SGinv_CAR_SpNReg_thres_TW_a01d05_full_10$SIGMA_inv == 0))
+# [1] 14297510
+
+
+length(SG_SGinv_CAR_SpNReg_thres_TW_a01d05_full_10$SIGMA_inv)
+# [1] 16000000
+
+14297510 / 16000000
+# [1] 0.8935944
+
+
