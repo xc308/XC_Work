@@ -217,9 +217,17 @@ hierarchy_data6 <- data.frame(
 )
 
 
+p = 10 
+hierarchy_data10 <- data.frame(
+  node_id = c(1, 2, 3, 4, 4, 5, 5, 6, 6, 7, 8, 9, 10),
+  par_id = c(NA, 1, 2, c(2, 3), c(1,4), c(1, 5), 3, 6, 6, 6)
+)
+
+
 #-----------
 # Parameters
 #-----------
+# p = 6
 source("Fn_para_mat_construct.R")
 all_pars_lst_6 <- All_paras(p = 6, data = hierarchy_data6)
 
@@ -233,6 +241,17 @@ dlt_mat_0.8 <- Fn_set_ini_vals(pars_mat = all_pars_lst_6[[2]], ini_vals = 0.8)
 
 sig2_mat_1 <- Fn_set_ini_vals(pars_mat = all_pars_lst_6[[3]], ini_vals = 1)
 kappa_mat_2 <- Fn_set_ini_vals(pars_mat = all_pars_lst_6[[4]], ini_vals = 2)
+
+
+# p = 10
+all_pars_lst_10 <- All_paras(p = 10, data = hierarchy_data10)
+A_mat_1 <- Fn_set_ini_vals(pars_mat = all_pars_lst_10[[1]], ini_vals = 1)
+dlt_mat_0.5 <- Fn_set_ini_vals(pars_mat = all_pars_lst_10[[2]], ini_vals = 0.5)
+sig2_mat_1 <- Fn_set_ini_vals(pars_mat = all_pars_lst_10[[3]], ini_vals = 1)
+kappa_mat_2 <- Fn_set_ini_vals(pars_mat = all_pars_lst_10[[4]], ini_vals = 2)
+
+
+
 
 
 #========================
@@ -281,13 +300,34 @@ SG_SG_inv_6_a01d05_TriWave_SpNReg_Thres <- TST9c_SpNormPert_SG_SGInv(p = 6, data
 #ini thres: 0.001 
 
 
+
+#------
+# p = 10, n = 400, Tri-wave
+#-----
+SG_SG_inv_10_a01d05_TriWave_SpNReg_Thres <- TST9c_SpNormPert_SG_SGInv(p = 10, data = hierarchy_data10, 
+                                                                     A_mat = A_mat_1, dlt_mat = dlt_mat_0.5, 
+                                                                     sig2_mat = sig2_mat_1, kappa_mat = kappa_mat_2,
+                                                                     d_vec = D_vec, h = H, reg_ini = 1e-9, thres_ini = 1e-3)
+
+
+
+
+#r 10 
+#SG_inv 
+#[1] "Symmetric: Yes"
+#[1] "p.d.: Yes"
+#Final reg_num: 1e-09 
+#ini thres: 0.001 
+
+
 #=============
 # 30 Oct. 2024
 #=============
 # Add comparison
-
+#---------------
+#p = 6, n = 400
+#---------------
 ## Wendland
-
 length(which(SG_SG_inv_6_a01d05_Wend_SpNReg_Thres$SIGMA_inv == 0))
 # [1]  5346900
 
@@ -302,6 +342,23 @@ length(which(SG_SG_inv_6_a01d05_TriWave_SpNReg_Thres$SIGMA_inv == 0))
 
 4951694 /5760000 * 100 # 85.96691
 
+
+#============
+# 6 Nov. 2024
+#============
+
+#--------------------------
+# p =10, n = 400, Tri-wave 
+#---------------------------
+
+length(which(SG_SG_inv_10_a01d05_TriWave_SpNReg_Thres$SIGMA_inv == 0))
+# 13157108
+
+length(SG_SG_inv_10_a01d05_TriWave_SpNReg_Thres$SIGMA_inv)
+# 16000000
+
+13157108 / 16000000
+# [1] 0.8223192
 
 #------------------
 # Without SpN + Reg
