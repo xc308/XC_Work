@@ -225,16 +225,23 @@ hierarchy_data10 <- data.frame(
 #------------------------------------
 ds <- 0.05
 #s <- seq(-1 + ds/2, 1 - ds/2, by = ds)
-str(s) # num [1:40]
+#str(s) # num [1:40]
 
 s <- seq(-10 + ds/2, 10 - ds/2, by = ds)
 str(s) # num [1:400]
+
+s <- seq(-15 + ds/2, 15 - ds/2, by = ds)
+str(s) # num [1:600]
+
+s <- seq(-25 + ds/2, 25 - ds/2, by = ds)
+str(s) # num [1:1000]
+
 
 # displacements between pairs of points
 # a vector quantity has magnitude and direction
 H <- outer(s, s, FUN = "-")
 H <- t(H)  
-str(H) # num [1:40, 1:40]; num [1:400, 1:400]
+str(H) # num [1:40, 1:40]; num [1:400, 1:400]; num [1:600, 1:600]; num [1:1000, 1:1000]
 
 
 # distance
@@ -251,12 +258,12 @@ str(D_vec) # num [1:1600]; num [1:160000]
 abs(H)
 
 # radius for definition of neighbourhood
-abs(H) < 0.4 # 3-order
-abs(H) < 0.2 # lag-3 for str(s) num [1:400]
+#abs(H) < 0.4 # 3-order
+abs(H) < 0.2 # lag-3 for str(s) num [1:400]; num [1:1000, 1:1000]
 
-as.numeric(abs(H) < 0.4) # vector
-H_adj <- matrix(as.numeric(abs(H) < 0.4), nrow(H), nrow(H))
-diag(H_adj) <- 0
+#as.numeric(abs(H) < 0.4) # vector
+#H_adj <- matrix(as.numeric(abs(H) < 0.4), nrow(H), nrow(H))
+#diag(H_adj) <- 0
 
 
 H_adj <- matrix(as.numeric(abs(H) < 0.2), nrow(H), nrow(H))
@@ -376,6 +383,42 @@ SG_SGinv_CAR_SpNReg_thres_TW_a1d05_p10 <- TST10b_SpNReg_Thres_SG_SGInv(p = 10, d
 #ini thres: 0.001 
 
 
+
+# p =10, n = 600, Tri-wave
+SG_SGinv_CAR_SpNReg_thres_TW_a1d05_p10 <- TST10b_SpNReg_Thres_SG_SGInv(p = 10, data = hierarchy_data10, A_mat = A_1,
+                                                                       dlt_mat = dlt_05, sig2_mat = sig2_mat_1, 
+                                                                       phi = phi, H_adj = H_adj, h = H, reg_ini = 1e-9,
+                                                                       thres_ini = 1e-3)
+
+
+
+# r 10 
+#SG_inv 
+#[1] "Symmetric: Yes"
+#[1] "p.d.: Yes"
+#Final reg_num: 1e-09 
+#ini thres: 0.001 
+
+
+
+
+# p = 10, n = 1000, Tri-wave
+
+SG_SGinv_CAR_SpNReg_thres_TW_a1d05_p10 <- TST10b_SpNReg_Thres_SG_SGInv(p = 10, data = hierarchy_data10, A_mat = A_1,
+                                                                       dlt_mat = dlt_05, sig2_mat = sig2_mat_1, 
+                                                                       phi = phi, H_adj = H_adj, h = H, reg_ini = 1e-9,
+                                                                       thres_ini = 1e-3)
+
+
+
+# r 10 
+#SG_inv 
+#[1] "Symmetric: Yes"
+#[1] "p.d.: Yes"
+#Final reg_num: 1e-09 
+#ini thres: 0.001 
+
+
 #========
 # Plots
 #========
@@ -421,8 +464,9 @@ length(which(SG_SGinv_CAR_SpNReg_thres_TW_a01d05$SIGMA_inv == 0))
 # A = 1
 length(which(SG_SGinv_CAR_SpNReg_thres_TW_a1d05$SIGMA_inv == 0))
 
-
+#---------------------------------
 # p = 10, n = 400, A = 1, Tri-wave
+#---------------------------------
 length(which(SG_SGinv_CAR_SpNReg_thres_TW_a1d05_p10$SIGMA_inv == 0))
 # [1] 15551776
 
@@ -431,6 +475,31 @@ length(SG_SGinv_CAR_SpNReg_thres_TW_a1d05_p10$SIGMA_inv)
 
 15551776 / 16000000
 # [1] 0.971986
+
+#---------------------------------
+# p = 10, n = 600, A = 1, Tri-wave
+#---------------------------------
+
+length(which(SG_SGinv_CAR_SpNReg_thres_TW_a1d05_p10$SIGMA_inv == 0))
+# [1] 35311700
+
+length(SG_SGinv_CAR_SpNReg_thres_TW_a1d05_p10$SIGMA_inv)
+# [1] 36000000
+
+35311700 / 36000000
+#[1] 0.9808806
+
+#---------------------------------
+# p = 10, n = 1000, A = 1, Tri-wave
+#---------------------------------
+length(which(SG_SGinv_CAR_SpNReg_thres_TW_a1d05_p10$SIGMA_inv == 0))
+# [1] 98845436
+
+length(SG_SGinv_CAR_SpNReg_thres_TW_a1d05_p10$SIGMA_inv)
+# [1] 100000000
+
+98845436 / 100000000
+# [1] 0.9884544
 
 
 #--------------------------------
