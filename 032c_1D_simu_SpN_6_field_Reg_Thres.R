@@ -192,12 +192,19 @@ s <- seq(-10 + ds/2, 10 - ds/2, by = ds)
 str(s) # num [1:400]
 
 
+s <- seq(-15 + ds/2, 15 - ds/2, by = ds)
+str(s) # num [1:600]
+
+
+s <- seq(-25 + ds/2, 25 - ds/2, by = ds)
+str(s) # num [1:1000]
+
 
 # displacements between pairs of points
 # a vector quantity has magnitude and direction
 H <- outer(s, s, FUN = "-")
 H <- t(H)  
-str(H) # num [1:20, 1:20]; num [1:40, 1:40]; num [1:400, 1:400]
+str(H) # num [1:20, 1:20]; num [1:40, 1:40]; num [1:400, 1:400]; num [1:1000, 1:1000]
 
 
 # distance
@@ -320,6 +327,52 @@ SG_SG_inv_10_a01d05_TriWave_SpNReg_Thres <- TST9c_SpNormPert_SG_SGInv(p = 10, da
 #ini thres: 0.001 
 
 
+#------
+# p = 10, n = 600, Tri-wave
+#-----
+
+
+SG_SG_inv_10_a01d05_TriWave_SpNReg_Thres <- TST9c_SpNormPert_SG_SGInv(p = 10, data = hierarchy_data10, 
+                                                                      A_mat = A_mat_1, dlt_mat = dlt_mat_0.5, 
+                                                                      sig2_mat = sig2_mat_1, kappa_mat = kappa_mat_2,
+                                                                      d_vec = D_vec, h = H, reg_ini = 1e-9, thres_ini = 1e-3)
+
+
+
+
+
+# r 10 
+#SG_inv 
+#[1] "Symmetric: Yes"
+#[1] "p.d.: Yes"
+#Final reg_num: 1e-09 
+#ini thres: 0.001 
+
+
+
+#------
+# p = 10, n = 1000, Tri-wave
+#-----
+str(H) # num [1:1000, 1:1000]
+SG_SG_inv_10_a01d05_TriWave_SpNReg_Thres <- TST9c_SpNormPert_SG_SGInv(p = 10, data = hierarchy_data10, 
+                                                                      A_mat = A_mat_1, dlt_mat = dlt_mat_0.5, 
+                                                                      sig2_mat = sig2_mat_1, kappa_mat = kappa_mat_2,
+                                                                      d_vec = D_vec, h = H, reg_ini = 1e-9, thres_ini = 1e-3)
+
+
+
+# r 10 
+#SG_inv 
+#[1] "Symmetric: Yes"
+#[1] "p.d.: Yes"
+#Final reg_num: 1e-09 
+#ini thres: 0.001 
+
+
+
+
+
+
 #=============
 # 30 Oct. 2024
 #=============
@@ -359,6 +412,34 @@ length(SG_SG_inv_10_a01d05_TriWave_SpNReg_Thres$SIGMA_inv)
 
 13157108 / 16000000
 # [1] 0.8223192
+
+
+#--------------------------
+# p =10, n = 600, Tri-wave 
+#---------------------------
+
+length(which(SG_SG_inv_10_a01d05_TriWave_SpNReg_Thres$SIGMA_inv == 0))
+# [1] 32552334
+
+length(SG_SG_inv_10_a01d05_TriWave_SpNReg_Thres$SIGMA_inv)
+# [1] 36000000
+
+32552334 / 36000000
+# [1] 0.9042315
+
+
+#--------------------------
+# p =10, n = 1000, Tri-wave 
+#---------------------------
+
+length(which(SG_SG_inv_10_a01d05_TriWave_SpNReg_Thres$SIGMA_inv == 0))
+# [1] 96590182
+
+length(SG_SG_inv_10_a01d05_TriWave_SpNReg_Thres$SIGMA_inv)
+
+96590182 / 100000000
+
+
 
 #------------------
 # Without SpN + Reg
