@@ -47,6 +47,10 @@ ds <- 0.05
 s <- seq(-10 + ds/2, 10 - ds/2, by = ds)
 str(s) # num [1:400]
 
+s <- seq(-15 + ds/2, 15 - ds/2, by = ds)
+str(s) # num [1:600]
+
+
 s <- seq(-25 + ds/2, 25 - ds/2, by = ds)
 str(s) # num [1:1000]
 
@@ -120,7 +124,7 @@ sig2_mat_1 <- Fn_set_ini_vals(pars_mat = all_pars_lst_10[[3]], ini_vals = 1)
 #------------------
 # SIGMA, SIGMA_inv
 #------------------
-# p =6
+# p =6, n = 200
 SG_SGinv_CAR_SpNReg_thres_TW_a01d05_full <- TST10b_SpNReg_Thres_SG_SGInv(p = 6, data = hierarchy_data_full, A_mat = A_01,
                                                                     dlt_mat = dlt_05, sig2_mat = sig2_mat_1, 
                                                                     phi = phi, H_adj = H_adj, h = H, reg_ini = 1e-9,
@@ -142,7 +146,6 @@ length(SG_SGinv_CAR_SpNReg_thres_TW_a01d05_full$SIGMA_inv)
 
 
 # p =10, n = 400
-
 SG_SGinv_CAR_SpNReg_thres_TW_a01d05_full_10 <- TST10b_SpNReg_Thres_SG_SGInv(p = 10, data = hierarchy_data_full_10, A_mat = A_1,
                                                                          dlt_mat = dlt_05, sig2_mat = sig2_mat_1, 
                                                                          phi = phi, H_adj = H_adj, h = H, reg_ini = 1e-9,
@@ -168,6 +171,36 @@ length(SG_SGinv_CAR_SpNReg_thres_TW_a01d05_full_10$SIGMA_inv)
 
 14297510 / 16000000
 # [1] 0.8935944
+
+
+#p = 10, n = 600
+SG_SGinv_CAR_SpNReg_thres_TW_a01d05_full_10 <- TST10b_SpNReg_Thres_SG_SGInv(p = 10, data = hierarchy_data_full_10, A_mat = A_1,
+                                                                            dlt_mat = dlt_05, sig2_mat = sig2_mat_1, 
+                                                                            phi = phi, H_adj = H_adj, h = H, reg_ini = 1e-9,
+                                                                            thres_ini = 1e-3)
+
+
+
+
+
+# r 10 
+#SG_inv 
+#[1] "Symmetric: Yes"
+#[1] "p.d.: Yes"
+#Final reg_num: 1e-09 
+#ini thres: 0.001 
+#new thres: 1e-04 
+#[1] "Symmetric: Yes"
+#[1] "p.d.: Yes"
+
+length(which(SG_SGinv_CAR_SpNReg_thres_TW_a01d05_full_10$SIGMA_inv == 0))
+# [1] 33398422
+
+length(SG_SGinv_CAR_SpNReg_thres_TW_a01d05_full_10$SIGMA_inv)
+#[1] 36000000
+
+33398422 / 36000000
+#[1] 0.9277339
 
 
 # p = 10, n = 1000
