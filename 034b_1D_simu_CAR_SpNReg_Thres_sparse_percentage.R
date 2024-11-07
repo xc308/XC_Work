@@ -233,6 +233,9 @@ str(s) # num [1:400]
 s <- seq(-15 + ds/2, 15 - ds/2, by = ds)
 str(s) # num [1:600]
 
+s <- seq(-20 + ds/2, 20 - ds/2, by = ds)
+str(s) # num [1:800]
+
 s <- seq(-25 + ds/2, 25 - ds/2, by = ds)
 str(s) # num [1:1000]
 
@@ -400,6 +403,22 @@ SG_SGinv_CAR_SpNReg_thres_TW_a1d05_p10 <- TST10b_SpNReg_Thres_SG_SGInv(p = 10, d
 #ini thres: 0.001 
 
 
+#p=10, n = 800
+SG_SGinv_CAR_SpNReg_thres_TW_a1d05_p10 <- TST10b_SpNReg_Thres_SG_SGInv(p = 10, data = hierarchy_data10, A_mat = A_1,
+                                                                       dlt_mat = dlt_05, sig2_mat = sig2_mat_1, 
+                                                                       phi = phi, H_adj = H_adj, h = H, reg_ini = 1e-9,
+                                                                       thres_ini = 1e-3)
+
+
+# r 10 
+#SG_inv 
+#[1] "Symmetric: Yes"
+#[1] "p.d.: Yes"
+#Final reg_num: 1e-09 
+#ini thres: 0.001 
+
+
+
 
 
 # p = 10, n = 1000, Tri-wave
@@ -488,6 +507,19 @@ length(SG_SGinv_CAR_SpNReg_thres_TW_a1d05_p10$SIGMA_inv)
 
 35311700 / 36000000
 #[1] 0.9808806
+
+
+#---------------------------------
+# p = 10, n = 800, A = 1, Tri-wave
+#---------------------------------
+
+length(which(SG_SGinv_CAR_SpNReg_thres_TW_a1d05_p10$SIGMA_inv == 0))
+# [1] 63077944
+
+length(SG_SGinv_CAR_SpNReg_thres_TW_a1d05_p10$SIGMA_inv)
+# [1] 64000000
+
+63077944 / 64000000
 
 #---------------------------------
 # p = 10, n = 1000, A = 1, Tri-wave
