@@ -47,6 +47,10 @@ ds <- 0.05
 s <- seq(-10 + ds/2, 10 - ds/2, by = ds)
 str(s) # num [1:400]
 
+s <- seq(-25 + ds/2, 25 - ds/2, by = ds)
+str(s) # num [1:1000]
+
+
 # displacements between pairs of points
 # a vector quantity has magnitude and direction
 H <- outer(s, s, FUN = "-")
@@ -137,7 +141,7 @@ length(SG_SGinv_CAR_SpNReg_thres_TW_a01d05_full$SIGMA_inv)
 #89.09913
 
 
-# p =10
+# p =10, n = 400
 
 SG_SGinv_CAR_SpNReg_thres_TW_a01d05_full_10 <- TST10b_SpNReg_Thres_SG_SGInv(p = 10, data = hierarchy_data_full_10, A_mat = A_1,
                                                                          dlt_mat = dlt_05, sig2_mat = sig2_mat_1, 
@@ -164,5 +168,19 @@ length(SG_SGinv_CAR_SpNReg_thres_TW_a01d05_full_10$SIGMA_inv)
 
 14297510 / 16000000
 # [1] 0.8935944
+
+
+# p = 10, n = 1000
+SG_SGinv_CAR_SpNReg_thres_TW_a01d05_full_10 <- TST10b_SpNReg_Thres_SG_SGInv(p = 10, data = hierarchy_data_full_10, A_mat = A_1,
+                                                                            dlt_mat = dlt_05, sig2_mat = sig2_mat_1, 
+                                                                            phi = phi, H_adj = H_adj, h = H, reg_ini = 1e-9,
+                                                                            thres_ini = 1e-3)
+
+#r 10 
+#SG_inv 
+#[1] "Symmetric: Yes"
+#[1] "p.d.: Yes"
+#Final reg_num: 1e-09
+# vector memory limit of 16.0 Gb reached
 
 
