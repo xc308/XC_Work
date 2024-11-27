@@ -12,6 +12,8 @@
   # or check each run of SG_inv, whenever there is a non-p.d.
   # update regularization number by *10, e.g. to 1e-5
 
+  # 6 Nov. 2024: percentage of exact zero for CI among p only
+
 
 # Method:
   # source("032b_1D_simu_SpN_6_filds_Threshold.R")
@@ -195,6 +197,9 @@ str(s) # num [1:400]
 s <- seq(-15 + ds/2, 15 - ds/2, by = ds)
 str(s) # num [1:600]
 
+s <- seq(-20 + ds/2, 20 - ds/2, by = ds)
+str(s) # num [1:800]
+
 
 s <- seq(-25 + ds/2, 25 - ds/2, by = ds)
 str(s) # num [1:1000]
@@ -256,7 +261,6 @@ A_mat_1 <- Fn_set_ini_vals(pars_mat = all_pars_lst_10[[1]], ini_vals = 1)
 dlt_mat_0.5 <- Fn_set_ini_vals(pars_mat = all_pars_lst_10[[2]], ini_vals = 0.5)
 sig2_mat_1 <- Fn_set_ini_vals(pars_mat = all_pars_lst_10[[3]], ini_vals = 1)
 kappa_mat_2 <- Fn_set_ini_vals(pars_mat = all_pars_lst_10[[4]], ini_vals = 2)
-
 
 
 
@@ -351,6 +355,28 @@ SG_SG_inv_10_a01d05_TriWave_SpNReg_Thres <- TST9c_SpNormPert_SG_SGInv(p = 10, da
 
 
 #------
+# p = 10, n = 800, Tri-wave
+#-----
+
+
+SG_SG_inv_10_a01d05_TriWave_SpNReg_Thres <- TST9c_SpNormPert_SG_SGInv(p = 10, data = hierarchy_data10, 
+                                                                      A_mat = A_mat_1, dlt_mat = dlt_mat_0.5, 
+                                                                      sig2_mat = sig2_mat_1, kappa_mat = kappa_mat_2,
+                                                                      d_vec = D_vec, h = H, reg_ini = 1e-9, thres_ini = 1e-3)
+
+
+
+
+# r 10 
+#SG_inv 
+#[1] "Symmetric: Yes"
+#[1] "p.d.: Yes"
+#Final reg_num: 1e-09 
+#ini thres: 0.001
+
+
+
+#------
 # p = 10, n = 1000, Tri-wave
 #-----
 str(H) # num [1:1000, 1:1000]
@@ -427,6 +453,20 @@ length(SG_SG_inv_10_a01d05_TriWave_SpNReg_Thres$SIGMA_inv)
 32552334 / 36000000
 # [1] 0.9042315
 
+
+
+#--------------------------
+# p =10, n = 800, Tri-wave 
+#---------------------------
+
+length(which(SG_SG_inv_10_a01d05_TriWave_SpNReg_Thres$SIGMA_inv == 0))
+# [1] 60755488
+
+length(SG_SG_inv_10_a01d05_TriWave_SpNReg_Thres$SIGMA_inv)
+# [1] 64000000
+
+60755488 / 64000000
+# [1] 0.9493045
 
 #--------------------------
 # p =10, n = 1000, Tri-wave 
