@@ -1,5 +1,4 @@
-# HMHD_Sp
-This is the GitHub repository for the manuscript "_Highly Multivariate High-dimensionality Large-scale Spatial Stochastic Processes -- A Mixed Conditional Approach_."
+# Highly Multivariate Large-scale High-dimensional Spatial Stochastic Processes
 
 
 ## Contents
