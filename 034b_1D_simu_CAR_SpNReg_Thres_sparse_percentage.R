@@ -7,6 +7,8 @@
   # add parts that will tune the Regularization number
   # and there will be thresholding part at the final SIGMA_inv
 
+  # 6 Nov. 2024 percentage of exact zero for CI of cross-MRF
+
 
 # Method:
   # source("034_1D_simu_SG_SG_inv_UniCAR.R")
@@ -445,6 +447,7 @@ plt_Sig(SG_SGinv_CAR_SpNReg_thres_WL_a01d05$SIGMA, p = 6)
 plt_Sig(SG_SGinv_CAR_SpNReg_thres_WL_a01d05$SIGMA_inv, p = 6)
 plt_Sig(log(SG_SGinv_CAR_SpNReg_thres_WL_a01d05$SIGMA_inv), p = 6)
 plt_Sig(log(abs(SG_SGinv_CAR_SpNReg_thres_WL_a01d05$SIGMA_inv)), p = 6)
+
 
 
 #===================================
