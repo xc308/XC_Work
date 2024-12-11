@@ -24,7 +24,7 @@
 
 # Aim:
   # calculate percent of exact zero for CI among p only
-  # p = 10, n = 400, 600, 
+  # p = 10, n = 400, 600, 800
   # A = 1, dlt = 0.5, sig2 = 1, kappa = 2
 
 
@@ -406,35 +406,11 @@ SG_SG_inv_10_a01d05_TriWave_SpNReg_Thres <- TST9c_SpNormPert_SG_SGInv(p = 10, da
 
 
 
-
-
-
-#=============
-# 30 Oct. 2024
-#=============
-# Add comparison
-#---------------
-#p = 6, n = 400
-#---------------
-## Wendland
-length(which(SG_SG_inv_6_a01d05_Wend_SpNReg_Thres$SIGMA_inv == 0))
-# [1]  5346900
-
-length(SG_SG_inv_6_a01d05_Wend_SpNReg_Thres$SIGMA_inv)
-# 5760000
-
-5346900 / 5760000 * 100 # 55.63524
-
-## Tri-wave
-length(which(SG_SG_inv_6_a01d05_TriWave_SpNReg_Thres$SIGMA_inv == 0))
-# [1] 4951694
-
-4951694 /5760000 * 100 # 85.96691
-
-
 #============
 # 6 Nov. 2024
 #============
+# Aim: Calculate the percentage of exact-zero entries
+
 
 #--------------------------
 # p =10, n = 400, Tri-wave 
@@ -491,9 +467,39 @@ length(SG_SG_inv_10_a01d05_TriWave_SpNReg_Thres$SIGMA_inv)
 
 
 
-#------------------
+
+
+
+#------------------------old-------------------
+
+#=============
+# 30 Oct. 2024
+#=============
+# Add comparison
+#---------------
+#p = 6, n = 400
+#---------------
+## Wendland
+length(which(SG_SG_inv_6_a01d05_Wend_SpNReg_Thres$SIGMA_inv == 0))
+# [1]  5346900
+
+length(SG_SG_inv_6_a01d05_Wend_SpNReg_Thres$SIGMA_inv)
+# 5760000
+
+5346900 / 5760000 * 100 # 55.63524
+
+## Tri-wave
+length(which(SG_SG_inv_6_a01d05_TriWave_SpNReg_Thres$SIGMA_inv == 0))
+# [1] 4951694
+
+4951694 /5760000 * 100 # 85.96691
+
+
+
+
+#==================
 # Without SpN + Reg
-#------------------
+#==================
 # 
 SG_SG_inv_6_a01d05_TriWave_Orig_Thres <- TST9c_SpNormPert_SG_SGInv(p = 6, data = hierarchy_data6, 
                                                                      A_mat = A_mat_0.1, dlt_mat = dlt_mat_0.5, 
