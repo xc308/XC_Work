@@ -23,7 +23,7 @@ hierarchy_data_full <- data.frame(
 )
 
 
-p = 10
+p = 10 # fully connected graph
 
 hierarchy_data_full_10 <- data.frame(
   node_id = c(1, 2, rep(3, 2), rep(4,3), rep(5,4), rep(6, 5),
