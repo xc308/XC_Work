@@ -12,12 +12,22 @@
   # or check each run of SG_inv, whenever there is a non-p.d.
   # update regularization number by *10, e.g. to 1e-5
 
-  # 6 Nov. 2024: percentage of exact zero for CI among p only
-
 
 # Method:
   # source("032b_1D_simu_SpN_6_filds_Threshold.R")
   # modify TST9b to allow initial start and update of the regularization number
+
+
+#=============
+# 6 Nov. 2024
+#=============
+
+# Aim:
+  # calculate percent of exact zero for CI among p only
+  # p = 10, n = 400, 600, 
+  # A = 1, dlt = 0.5, sig2 = 1, kappa = 2
+
+
 
 
 TST9c_SpNormPert_SG_SGInv <- function(p, data, A_mat, dlt_mat, sig2_mat, kappa_mat,
