@@ -7,12 +7,23 @@
   # add parts that will tune the Regularization number
   # and there will be thresholding part at the final SIGMA_inv
 
-  # 6 Nov. 2024 percentage of exact zero for CI of cross-MRF
-
+  # percentage of exact zero for CI of cross-MRF, p = 6, n = 40
 
 # Method:
   # source("034_1D_simu_SG_SG_inv_UniCAR.R")
   # TST10_SpNormPert_SG_SGInv
+
+
+
+#============
+# 6 Nov. 2024
+#============
+
+# Aim:
+  # calculate perctage of exact-zero entries under cross-MRF
+  # p = 10, n = 400, 600
+
+
 
 #=========
 # Settings
@@ -455,34 +466,6 @@ plt_Sig(log(abs(SG_SGinv_CAR_SpNReg_thres_WL_a01d05$SIGMA_inv)), p = 6)
 #===================================
 
 
-## Wendland
-length(which(SG_SGinv_CAR_SpNReg_thres_WL_a01d05$SIGMA_inv == 0))
-# [1] 32914
-# [1] 5446246 for str(s) 400
-
-length(SG_SGinv_CAR_SpNReg_thres_WL_a01d05$SIGMA_inv)
-# [1] 57600
-# [1] 5760000
-
-
-32914 / 57600 * 100
-# [1] 57.14236%
-
-5446246 / 5760000 * 100 # [1] 94.55288
-
-
-## Tri-Wave
-length(which(SG_SGinv_CAR_SpNReg_thres_TW_a01d05$SIGMA_inv == 0))
-# [1] 24572
-# [1] 5355018
-
-
-24572 / 57600 * 100
-# 42.65972%
-
-5355018/ 5760000 * 100 # 92.96906
-
-
 # A = 1
 length(which(SG_SGinv_CAR_SpNReg_thres_TW_a1d05$SIGMA_inv == 0))
 
@@ -535,6 +518,40 @@ length(SG_SGinv_CAR_SpNReg_thres_TW_a1d05_p10$SIGMA_inv)
 
 98845436 / 100000000
 # [1] 0.9884544
+
+
+
+
+#==================================
+# Exact-zeor perct: p = 6, n = 40
+#==================================
+## Wendland
+length(which(SG_SGinv_CAR_SpNReg_thres_WL_a01d05$SIGMA_inv == 0))
+# [1] 32914
+# [1] 5446246 for str(s) 400
+
+length(SG_SGinv_CAR_SpNReg_thres_WL_a01d05$SIGMA_inv)
+# [1] 57600
+# [1] 5760000
+
+
+32914 / 57600 * 100
+# [1] 57.14236%
+
+#5446246 / 5760000 * 100 # [1] 94.55288 (n = 400)
+
+
+## Tri-Wave
+length(which(SG_SGinv_CAR_SpNReg_thres_TW_a01d05$SIGMA_inv == 0))
+# [1] 24572
+# [1] 5355018
+
+
+24572 / 57600 * 100
+# 42.65972%
+
+#5355018/ 5760000 * 100 # 92.96906 (n = 400)
+
 
 
 #--------------------------------
