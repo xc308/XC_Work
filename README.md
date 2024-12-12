@@ -4,12 +4,15 @@
 - GPU folder: auto-correlation matrix and cross-correlation matrix plots 
 - Figure folder: Sigma, Sigma_inv plots, p = 10, CI among p only <br><br>
 
-- 032c: Tst9c, 1D SG and SG_inv construction, Matern, CI among p only (non-cross-MRF), SpN + Reg, thres = 1e-3, reg_num = 1e-9 (**construction joint Sigma and Sigma_inv; p = 6, n = 40; p = 10, n = 400, 600, 800**)
-- 032d: 1D simulation plots functions for non-cross-MRF, C.I. among p only; (**Plot joint Sigma and Sigma_inv; p = 6, n = 40**) <br><br>
+- 032c: Tst9c, 1D SG and SG_inv construction, Matern, CI among p only (non-cross-MRF), SpN + Reg, thres = 1e-3, reg_num = 1e-9 (**Test construction joint Sigma and Sigma_inv; p = 6, n = 40; p = 10, n = 400, 600, 800**)
+- 032d: 1D simulation plots functions for non-cross-MRF, C.I. among p only; (**Plot joint Sigma and Sigma_inv; p = 6, n = 40**) 
+- 032e: 1D SG, SG_inv construction, CI among p only (**p = 10, n = 40, 400, 600, 800**)
+- 032f: SG, SG_inv plots (**p = 10**) <br><br>
 
 - 034b: SG_inv construction, sparse percentage comparison among cross-MRF and non-cross-MRF for Tri-Wave and Wendland; (**Percentage of exact-zero entries**)  
 - 034c: Tst10c, 1D SG_inv construction, cross-MRF, with SpNorm + Reg for b function, b can be chosen; (**Joint Sigma_inv plots, p = 6**)
 - 034e: CI among n only, Mardia 1988; p =10, n = 400, 600, 800, 1000 (**fully-connected graph reach memory limit**) <br><br>
+  
 
 - 037: 100 randomly evaluated Sigma_inv generation microbenchmark; (**Sigam_inv generation time**) <br><br>
 
