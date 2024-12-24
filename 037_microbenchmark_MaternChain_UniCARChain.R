@@ -4,7 +4,7 @@
 # Aim:
   # Want to compare the computational speed between
   # Matern + Chain and Uni-CAR + Chain
-  # for High dimensional situation 
+  
 
 # Method:
   # microbenchmark the SIGMA, SIGMA_inv generation time
