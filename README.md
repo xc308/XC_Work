@@ -6,7 +6,7 @@
 
 - 032c: Tst9c, 1D SG and SG_inv construction, Matern, CI among p only (non-cross-MRF), SpN + Reg, thres = 1e-3, reg_num = 1e-9 (**Test construction joint Sigma and Sigma_inv; p = 6, n = 40; p = 10, n = 400, 600, 800**)
 - 032d: 1D simulation plots functions for non-cross-MRF, C.I. among p only; (**Plot joint Sigma and Sigma_inv; p = 6, n = 40**) 
-- 032e: 1D SG, SG_inv construction, CI among p only (**p = 10, n = 40, 400, 600, 800**)
+- 032e: 1D SG, SG_inv construction, CI among p only (**p = 10, n = 40, 400, 600, 800; elapsed system wall time, CI among p only**)
 - 032f: SG, SG_inv plots (**p = 10**) <br><br>
 
 - 034b: SG_inv construction, sparse percentage comparison among cross-MRF and non-cross-MRF for Tri-Wave and Wendland; (**Percentage of exact-zero entries; elapsed system wall time cross-MRF**)  
