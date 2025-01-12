@@ -23,6 +23,8 @@
   # calculate perctage of exact-zero entries under cross-MRF
   # p = 10, n = 400, 600
 
+  # calculate elapsed system wall time
+
 
 
 #=========
@@ -401,12 +403,12 @@ SG_SGinv_CAR_SpNReg_thres_TW_a1d05_p10 <- TST10b_SpNReg_Thres_SG_SGInv(p = 10, d
 
 
 # p =10, n = 600, Tri-wave
+system.time(
 SG_SGinv_CAR_SpNReg_thres_TW_a1d05_p10 <- TST10b_SpNReg_Thres_SG_SGInv(p = 10, data = hierarchy_data10, A_mat = A_1,
                                                                        dlt_mat = dlt_05, sig2_mat = sig2_mat_1, 
                                                                        phi = phi, H_adj = H_adj, h = H, reg_ini = 1e-9,
                                                                        thres_ini = 1e-3)
-
-
+  )
 
 # r 10 
 #SG_inv 
@@ -414,6 +416,11 @@ SG_SGinv_CAR_SpNReg_thres_TW_a1d05_p10 <- TST10b_SpNReg_Thres_SG_SGInv(p = 10, d
 #[1] "p.d.: Yes"
 #Final reg_num: 1e-09 
 #ini thres: 0.001 
+
+############################
+#     user   system  elapsed 
+# 1075.441   19.871 1121.440
+############################
 
 
 #p=10, n = 800
