@@ -2,8 +2,8 @@
 # 11 Dec. 2024
 #==============
 # Aim: 
-# Generate joint Sigma and Sigma_inv for 1st-stage plots
-# CI among p only
+# 1. Generate joint Sigma and Sigma_inv for 1st-stage plots, CI among p only
+# 2. Calculate elapsed system wall time
 
 
 # Settings:
@@ -274,6 +274,7 @@ SG_SG_inv_TriWave_p10_n400 <- readRDS("SG_SG_inv_TriWave_p10_n400.rds")
 #------
 # p = 10, n = 600, Tri-wave
 #-----
+system.time(
 SG_SG_inv_TriWave_p10_n600 <- TST9c_SpNormPert_SG_SGInv(p = 10, 
                                                         data = hierarchy_data10, 
                                                         A_mat = A_mat_0.1, 
@@ -283,6 +284,7 @@ SG_SG_inv_TriWave_p10_n600 <- TST9c_SpNormPert_SG_SGInv(p = 10,
                                                         d_vec = D_vec, h = H, 
                                                         reg_ini = 1e-9, 
                                                         thres_ini = 1e-3)
+  )
 
 
 #saveRDS(SG_SG_inv_TriWave_p10_n600, file = "SG_SG_inv_TriWave_p10_n600.rds")
@@ -290,6 +292,18 @@ SG_SG_inv_TriWave_p10_n600 <- TST9c_SpNormPert_SG_SGInv(p = 10,
 #file_info <- file.info("SG_SG_inv_TriWave_p10_n600.rds")
 #file_info$size
 # [1] 268662749 = 268.7MB
+
+# r 10 
+#SG_inv 
+#[1] "Symmetric: Yes"
+#[1] "p.d.: Yes"
+#Final reg_num: 1e-09 
+#ini thres: 0.001 
+
+##############################
+#user       system  elapsed 
+#2883.046   23.923 5231.029 
+##############################
 
 
 #------
