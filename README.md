@@ -11,7 +11,7 @@
 
 - 034b: SG_inv construction, sparse percentage comparison among cross-MRF and non-cross-MRF for Tri-Wave and Wendland; (**Percentage of exact-zero entries; elapsed system wall time cross-MRF**)  
 - 034c: Tst10c, 1D SG_inv construction, cross-MRF, with SpNorm + Reg for b function, b can be chosen; (**Joint Sigma_inv plots, p = 6**)
-- 034e: CI among n only, Mardia 1988; p =10, n = 400, 600, 800, 1000 (**fully-connected graph reach memory limit**) <br><br>
+- 034e: CI among n only, Mardia 1988; p =10, n = 400, 600, 800, 1000 (**Exact-zero percentage; fully-connected graph reach memory limit**) <br><br>
   
 
 - 037: 100 randomly evaluated Sigma_inv generation microbenchmark; (**Sigma and Sigma_inv generation time**) <br><br>
