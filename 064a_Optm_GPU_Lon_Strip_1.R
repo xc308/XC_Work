@@ -341,7 +341,7 @@ optm_Lon_Strip_1_GPU <- optim(par = all_ini_Vals, # ini guess
                                  df = df_Lon_Strp_1_Srt,
                                  method = "L-BFGS-B",
                                  lower = lower_bound,
-                                 control = list(maxit = 1,
+                                 control = list(maxit = 300,
                                                 ndeps = rep(1e-3, length(all_ini_Vals)),
                                                 factr=.01/.Machine$double.eps))
 
