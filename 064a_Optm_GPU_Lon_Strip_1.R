@@ -343,7 +343,7 @@ optm_Lon_Strip_1_GPU_pars <- optim(par = all_ini_Vals, # ini guess
                                  lower = lower_bound,
                                  control = list(trace = 1, 
                                                 pgtol = 1e-3,
-                                                maxit = 200))$par
+                                                maxit = 300))$par
 
 
 optm_Lon_Strip_1_GPU_pars
