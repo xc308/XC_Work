@@ -330,7 +330,7 @@ lower_bound <- c(rep(NA, sum(is.na(all_pars_lst[[1]]))),  # A
 # Tri-Wave 
 #---------
 
-optm_Lon_Strip_1_GPU <- optim(par = all_ini_Vals, # ini guess
+optm_Lon_Strip_1_GPU_pars <- optim(par = all_ini_Vals, # ini guess
                                  fn = neg_logL_CAR_2D_GPU,
                                  p = p, data_str = hierarchy_data_CAMS, 
                                  all_pars_lst = all_pars_lst_CAR_2D_CMS, 
@@ -341,12 +341,12 @@ optm_Lon_Strip_1_GPU <- optim(par = all_ini_Vals, # ini guess
                                  df = df_Lon_Strp_1_Srt,
                                  method = "L-BFGS-B",
                                  lower = lower_bound,
-                                 control = list(maxit = 300,
-                                                ndeps = rep(1e-3, length(all_ini_Vals)),
-                                                factr=.01/.Machine$double.eps))
+                                 control = list(trace = 1, 
+                                                pgtol = 1e-3,
+                                                maxit = 200))$par
 
 
-optm_Lon_Strip_1_GPU
+optm_Lon_Strip_1_GPU_pars
 
 #-----
 # Save
@@ -354,7 +354,7 @@ optm_Lon_Strip_1_GPU
 # Aim:
   # scp back from HPC to local repo
 
-saveRDS(optm_Lon_Strip_1_GPU, file = "optm_Lon_Strip_1_GPU.rds")
+saveRDS(optm_Lon_Strip_1_GPU_pars, file = "optm_Lon_Strip_1_GPU_pars.rds")
 
 
 
