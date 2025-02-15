@@ -139,6 +139,18 @@ All_paras_CAR_2D <- function(p, data){
 
 
 
+All_paras_no_dlt <- function(p, data){
+  
+  #All_pars_mat <- rbind(Para_A_mat(p, data), Para_Dlt_mat(p, data), 
+        #Para_sig2_mat(p), Para_kappa_mat(p))
+  
+  All_pars_lst <- list(Para_A_mat(p, data), 
+       Para_sig2_mat(p), Para_kappa_mat(p))
+  
+  names(All_pars_lst) <- c("A_mat", "sig2_mat", "kappa_mat")
+  
+  return(All_pars_lst)
+}
 
 
 #-----
