@@ -354,7 +354,6 @@ optm_Lon_Strip_1_GPU_pars
 # Aim:
   # scp back from HPC to local repo
 
-saveRDS(optm_Lon_Strip_1_GPU_pars, file = "optm_Lon_Strip_1_GPU_pars.rds")
 
 
 
