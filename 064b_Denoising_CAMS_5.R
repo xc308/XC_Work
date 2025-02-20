@@ -197,6 +197,7 @@ head(df_cokrig_2D_CAMS)
 
 
 
+saveRDS(df_cokrig_2D_CAMS, "df_cokrig_2D_CAMS.rds")
 
 
 
