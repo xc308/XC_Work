@@ -1,0 +1,88 @@
+#============
+# 22 May 2024
+#============
+
+# Aim:
+  # Plot denoised CAMS data
+
+# Method:
+  # ggplot; 064b
+
+# Data: 
+  # 064b: df_cokrig_2D_CAMS.rds
+
+
+#==========
+# Settings
+#==========
+library(ggplot2)
+library(tidyr)
+
+df_cokrig_2D_CAMS <- readRDS("df_cokrig_2D_CAMS.rds")
+
+head(df_cokrig_2D_CAMS)
+
+
+#======
+# Plot
+#======
+# long format
+df_cokrig_2D_CAMS_sub <- df_cokrig_2D_CAMS %>% select(1:2, 11:15)
+head(df_cokrig_2D_CAMS_sub)
+
+# A data.frame: 6 × 7
+# Lon	Lat	true_mu1	true_mu2	true_mu3	true_mu4	true_mu5
+#<dbl>	<dbl>	<dbl>	<dbl>	<dbl>	<dbl>	<dbl>
+#  1	-179.25	66.75	-0.7989188	-0.03317636	0.13852287	-0.01409495	-0.9705909
+
+
+
+df_cokrig_2D_CAMS_sub_long = df_cokrig_2D_CAMS_sub %>%
+  pivot_longer(cols = starts_with("true_mu"), names_to = "True_Mu", values_to = "Vals")
+
+head(df_cokrig_2D_CAMS_sub_long)
+# A tibble: 6 × 4
+# Lon	Lat	True_Mu	Vals
+# <dbl>	<dbl>	<chr>	<dbl>
+#   -179.25	66.75	true_mu1	-0.79891882
+
+
+custom_labels <- c(
+  true_mu1 = "DU",
+  true_mu2 = "SU",
+  true_mu3 = "BC",
+  true_mu4 = "OM",
+  true_mu5 = "SS"
+)
+
+
+ggplot(df_cokrig_2D_CAMS_sub_long, aes(x = Lon, y = Lat, fill = Vals)) +
+  geom_tile() +
+  facet_wrap(~True_Mu, ncol = 3, labeller = as_labeller(custom_labels)) + 
+  scale_fill_viridis_c(name = NULL) +  
+  theme_minimal() +
+  coord_fixed() +
+  theme(strip.text = element_text(size = 20),
+        # Adjust axis label sizes
+        axis.title.x = element_text(size = 16),  # X-axis title size (Lon)
+        axis.title.y = element_text(size = 16),  # Y-axis title size (Lat)
+        
+        # Adjust axis tick label sizes (numbers on the axes)
+        axis.text.x = element_text(size = 12),   # X-axis ticks
+        axis.text.y = element_text(size = 12),    # Y-axis ticks
+        
+        plot.background = element_rect(fill = "white"),
+        panel.background = element_rect(fill = "white")
+  )
+
+
+
+ggsave("cams5.png",
+       plot = last_plot(),
+       device = "png",
+       width = 8,
+       height = 6, 
+       units = "in",
+       dpi = 350
+)
+
