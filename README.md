@@ -11,6 +11,9 @@ Specifically, we achieved:
   - asymmetric cross-correlation in the joint covariance matrix
   - scientific interpretability
 
+
+[[Comparative study results]](Assets/Tables.png) 
+[[Model comparison]](Assets/4CI.png)
     
 
 ## Contents
