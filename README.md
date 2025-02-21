@@ -5,7 +5,9 @@ This repo contains the code for the manuscript, entitled "Highly Multivariate La
 
 We propose a cross-MRF model class, consisting of a mixed spatial graphical model framework and a cross-MRF theory to address various challenges of highly multivariate large-scale spatial data collectively within one unified framework. 
 
-Specifically, we achieved:
+The core contribution of the cross-MRF theory is that it realises *doubly* conditional independence (CI) among both p variates and n spatial locations. See [Figure](Assets/) 
+
+We achieved:
   - utmost sparsity in the joint precision matrix
   - lowest generation order of the joint precision matrix
   - asymmetric cross-correlation in the joint covariance matrix
@@ -13,7 +15,7 @@ Specifically, we achieved:
 
 
 [[Comparative study results]](Assets/Tables.png) 
-[[Model comparison]](Assets/4CI.png)
+[[Model comparison]](Assets/Tab5.png)
     
 
 ## Contents
