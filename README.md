@@ -1,4 +1,17 @@
+## Highly Multivariate Large-scale Spatial Stochastic Processes -- A Cross-Markov Random Field Approach
 
+This repo contains the code for the manuscript, entitled "Highly Multivariate Large-scale Spatial Stochastic Processes -- A Cross-Markov Random Field Approach", by [Xiaoqing Chen](https://sites.google.com/view/xiaoqingchen/home), [Peter Diggle](https://www.lancaster.ac.uk/staff/diggle/), [James.V.Zideck](https://www.stat.ubc.ca/users/james-v-zidek-frsc-oc), [Gavin Shaddick](https://scholar.google.com/citations?user=O8brpOcAAAAJ&hl=en).
+
+
+We propose a cross-MRF model class, consisting of a mixed spatial graphical model framework and a cross-MRF theory to address various challenges of highly multivariate large-scale spatial data collectively within one unified framework. 
+
+Specifically, we achieved:
+  - utmost sparsity in the joint precision matrix
+  - lowest generation order of the joint precision matrix
+  - asymmetric cross-correlation in the joint covariance matrix
+  - scientific interpretability
+
+    
 
 ## Contents
 - GPU folder: **auto-correlation matrix and cross-correlation matrix plots** 
@@ -49,6 +62,9 @@
 - 064b: CAMS data with 060, GPU parallel + optim on 1 CPU, Lon_Strip_4 <br><br>
 
 - 065a: CAMS one complete construction time for SG, and SG_inv, with GPU off-loading, df_Lon_Strip_1_Sort_new.rds;(**real-world data illustration**)
+- 065b: CAMS data denoising
+- 065c: Plot of CAMS 5
+  
 - 066a: CAMS one complete construction time for SG, and SG_inv, solo CPU, df_Lon_Strip_1_Sort_new.rds;(**real-world data illustration**) <br><br>
 
 
