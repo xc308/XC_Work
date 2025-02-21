@@ -17,9 +17,9 @@ We achieved:
 [[Comparative study results]](Assets/Tables.png) 
 [[Models comparison]](Assets/Tab5.png)
 [[Asymmetry and sparsity]](Assets/SG_SG_inv.png)
-    
 
-## Contents
+
+## Scripts Contents
 - GPU folder: **auto-correlation matrix and cross-correlation matrix plots** 
 - Figure folder: **Sigma, Sigma_inv plots, p = 10, CI among p only**; **CAMS denoising plot** <br><br>
 
