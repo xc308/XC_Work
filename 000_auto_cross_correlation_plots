@@ -1,0 +1,177 @@
+#=======
+# Aim
+#=======
+# Plot of auto-/cross-correlations. 
+
+df_Cmpts_Res_long_log = readRDS("/content/df_Cmpts_Res_long_log.rds")
+
+head(df_Cmpts_Res_long_log)
+
+data <- df_Cmpts_Res_long_log
+
+take <- which((data$Year==2016)&(data$Cmpts=="DU"))
+
+xyDU2016 <- data[take,c(1,2,5,6)]
+
+take <- which((data$Year==2016)&(data$Cmpts=="SU"))
+
+xySU2016 <- data[take,c(1,2,5,6)]
+
+xyDUSU2016 <- cbind(xyDU2016[,c(1,2,4)],xySU2016[,4])
+
+head(xyDUSU2016)
+
+row.names(xyDUSU2016) <- NULL
+
+names(xyDUSU2016)<-c("Lon","Lat","DU","SU")
+
+install.packages("geoR")
+library(geoR)
+
+install.packages("fields")
+library("fields")
+
+install.packages("splancs")
+library(splancs)
+
+
+apply(xyDUSU2016,2,is.numeric)
+
+N<-dim(xyDUSU2016)[1]
+
+DU.fit<-lm(DU~Lon+Lat+I(Lon^2)+I(Lat^2)+I(Lon*Lat),
+           data=xyDUSU2016)
+set.seed(89763)
+take<-sample(1:N,1000)
+
+
+xyDUSU2016$DUresid <- DU.fit$resid
+
+SU.fit <- lm(SU~Lon+Lat+I(Lon^2)+I(Lat^2)+I(Lon*Lat),
+           data=xyDUSU2016)
+
+xyDUSU2016$SUresid <- SU.fit$resid
+
+
+h<-1; nh<-20
+
+xyuv <- xyDUSU2016[,c(1,2,5,6)]
+
+lags <- h*(1:nh)
+lags
+
+h <- 1
+nh <- 20
+xyuv <- xyDUSU2016[, c(1, 2, 5, 6)]
+lags <- h * (1:nh)
+mean.u <- mean(xyuv[, 3])
+mean.v <- mean(xyuv[, 4])
+
+# Initialize matrices
+autocov.u <- autocov.v <- crosscov.uv <- count <- matrix(0, 1 + 2 * nh, 1 + 2 * nh)
+N <- dim(xyuv)[1]
+x <- xyuv[, 1]
+y <- xyuv[, 2]
+
+# Loop through the data
+for (i in 1:N) {
+  if ((i / 100) == round(i / 100)) print(i)
+  for (j in 1:N) {
+    diffx <- round((x[i] - x[j]) / h) + nh + 1
+    diffy <- round((y[i] - y[j]) / h) + nh + 1
+    if ((diffx <= (1 + 2 * nh)) & (diffy <= (1 + 2 * nh)) & (diffx > 0) & (diffy > 0)) {
+      autocov.u[diffx, diffy] <- autocov.u[diffx, diffy] + xyuv[i, 3] * xyuv[j, 3]
+      autocov.v[diffx, diffy] <- autocov.v[diffx, diffy] + xyuv[i, 4] * xyuv[j, 4]
+      crosscov.uv[diffx, diffy] <- crosscov.uv[diffx, diffy] + xyuv[i, 3] * xyuv[j, 4]
+      count[diffx, diffy] <- count[diffx, diffy] + 1
+    }
+  }
+}
+
+# Handle division by zero: replace counts of zero with NA
+autocov.u[count == 0] <- NA
+autocov.v[count == 0] <- NA
+crosscov.uv[count == 0] <- NA
+
+# Normalize the autocovariances and cross-covariance
+autocov.u <- (autocov.u - count * mean.u * mean.u) / count
+autocov.v <- (autocov.v - count * mean.v * mean.v) / count
+crosscov.uv <- (crosscov.uv - count * mean.u * mean.v) / count
+
+# Calculate autocorrelations and cross-correlation
+autocorr.u <- autocov.u / autocov.u[1 + nh, 1 + nh]
+autocorr.v <- autocov.v / autocov.v[1 + nh, 1 + nh]
+crosscorr.uv <- crosscov.uv / sqrt(autocov.u[1 + nh, 1 + nh] * autocov.v[1 + nh, 1 + nh])
+
+# Create result list
+result <- list(
+  autocov.u = autocov.u,
+  autocov.v = autocov.v,
+  crosscov.uv = crosscov.uv,
+  autocorr.u = autocorr.u,
+  autocorr.v = autocorr.v,
+  crosscorr.uv = crosscorr.uv
+)
+
+saveRDS(result, "result.rds")
+
+
+par(family = "serif", mar = c(5, 5, 4, 2))  # Increase left margin (2nd value)
+
+image.plot(result$autocorr.u[6:36,6:36], asp=1,
+           xaxt="n", yaxt="n",
+           xlab="lag (longitude)", ylab="lag (latitude)",
+           cex.lab=2)  
+
+lines(rep(0.5,2), c(0,1))
+lines(c(0,1), rep(0.5,2))
+
+
+
+png("corr_DU.png", height=1800, width=1800, pointsize=16, res=350)  
+
+par(family = "serif")  # Increase left margin (2nd value)
+
+image.plot(result$autocorr.u[6:36,6:36], asp=1,
+           xaxt="n", yaxt="n",
+           xlab="Lag (lon)", ylab="Lag (lat)",
+           cex.lab=1.5)  
+
+lines(rep(0.5,2), c(0,1))
+lines(c(0,1), rep(0.5,2))
+
+dev.off() 
+
+
+png("corr_SU.png", height=1800, width=1800, pointsize=16, res=350)  
+
+par(family = "serif")  # Increase left margin (2nd value)
+
+image.plot(result$autocorr.v[6:36,6:36], asp=1,
+           xaxt="n", yaxt="n",
+           xlab="Lag (lon)", ylab="Lag (lat)",
+           cex.lab=1.5)  
+
+lines(rep(0.5,2), c(0,1))
+lines(c(0,1), rep(0.5,2))
+
+dev.off()  
+
+
+png("crosscorr_SUDU.png", height=1800, width=1800, pointsize=16, res=350)  
+
+par(family = "serif")  # Increase left margin (2nd value)
+
+image.plot(result$crosscorr.uv[6:36,6:36], asp=1,
+           xaxt="n", yaxt="n",
+           xlab="Lag (lon)", ylab="Lag (lat)",
+           cex.lab=1.5)  
+
+lines(rep(0.5,2), c(0,1))
+lines(c(0,1), rep(0.5,2))
+
+dev.off()  
+
+
+
+
